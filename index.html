@@ -227,8 +227,7 @@
 
         // Chờ cho toàn bộ trang web được tải xong rồi mới chạy mã JavaScript
         document.addEventListener('DOMContentLoaded', function() {
-            // --- THÊM DÒNG NÀY VÀO ---
-        console.log("Sự kiện DOMContentLoaded đã kích hoạt. Trang đã tải xong!");
+   
             
             // Biến toàn cục
             let currentForm = '';
@@ -240,8 +239,7 @@
 
             // Gắn các hàm vào đối tượng window để HTML có thể gọi được
             window.showForm = function(formType) {
-                // --- VÀ THÊM DÒNG NÀY VÀO ---
-            console.log("Hàm showForm được gọi với loại: " + formType);
+          
                 currentForm = formType;
                 document.getElementById('main-selection').style.display = 'none';
                 document.getElementById('reporter-name-section').style.display = 'block';
@@ -316,7 +314,7 @@
             }
 
             async function postData(action, payload) {
-                if (SCRIPT_URL === "DÁN_URL_APPS_SCRIPT_CỦA_BẠN_VÀO_ĐÂY") {
+                if (SCRIPT_URL === "https://script.google.com/macros/s/AKfycbwNnf9QiTIbZFyROSy6tQFrPaQeMhXuSttmf8tCXt5VYHUWE115uhURyEGn_buciPRRwQ/exec") {
                     alert("LỖI CẤU HÌNH: Bạn chưa dán URL của Google Apps Script vào file index.html!");
                     toggleLoader(false);
                     return;
