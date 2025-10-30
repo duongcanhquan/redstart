@@ -227,6 +227,9 @@
 
         // Chờ cho toàn bộ trang web được tải xong rồi mới chạy mã JavaScript
         document.addEventListener('DOMContentLoaded', function() {
+            // --- THÊM DÒNG NÀY VÀO ---
+        console.log("Sự kiện DOMContentLoaded đã kích hoạt. Trang đã tải xong!");
+            
             // Biến toàn cục
             let currentForm = '';
             let reporterName = '';
@@ -237,6 +240,8 @@
 
             // Gắn các hàm vào đối tượng window để HTML có thể gọi được
             window.showForm = function(formType) {
+                // --- VÀ THÊM DÒNG NÀY VÀO ---
+            console.log("Hàm showForm được gọi với loại: " + formType);
                 currentForm = formType;
                 document.getElementById('main-selection').style.display = 'none';
                 document.getElementById('reporter-name-section').style.display = 'block';
