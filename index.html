@@ -175,8 +175,21 @@
 
             document.getElementById('saodo-form').addEventListener('submit', async function(e) {
                 e.preventDefault();
-                const [p1, p2, p3] = await Promise.all([ fileToBase64(this.querySelector('#saodo-photo1').files[0]), fileToBase64(this.querySelector('#saodo-photo2').files[0]), fileToBase64(this.querySelector('#saodo-photo3').files[0]) ]);
-                const payload = { name: this.querySelector('#saodo-name').value, class: this.querySelector('#saodo-class').value, problems: this.querySelector('#saodo-problems').value, session: this.querySelector('#saodo-session').value, redstart: reporterName, photo1_base64: p1.base64, photo1_name: p1.name, photo2_base64: p2.base64, photo2_name: p2.name, photo3_base64: p3.base64, photo3_name: p3.name };
+                const [p1, p2, p3] = await Promise.all([ 
+                    fileToBase64(document.getElementById('saodo-photo1').files[0]), 
+                    fileToBase64(document.getElementById('saodo-photo2').files[0]), 
+                    fileToBase64(document.getElementById('saodo-photo3').files[0]) 
+                ]);
+                const payload = { 
+                    name: document.getElementById('saodo-name').value, 
+                    class: document.getElementById('saodo-class').value, 
+                    problems: document.getElementById('saodo-problems').value, 
+                    session: document.getElementById('saodo-session').value, 
+                    redstart: reporterName, 
+                    photo1_base64: p1.base64, photo1_name: p1.name, 
+                    photo2_base64: p2.base64, photo2_name: p2.name, 
+                    photo3_base64: p3.base64, photo3_name: p3.name 
+                };
                 postData('submitHoatdongsaodo', payload);
             });
 
@@ -185,9 +198,26 @@
                 const entries = this.querySelectorAll('.violation-entry');
                 if (entries.length === 0) { alert('Vui lòng thêm ít nhất một vi phạm.'); return; }
                 
+                toggleLoader(true);
                 const allViolationsData = await Promise.all(Array.from(entries).map(async entry => {
-                    const [p1, p2, p3, doc] = await Promise.all([ fileToBase64(entry.querySelector('.canhan-photo1').files[0]), fileToBase64(entry.querySelector('.canhan-photo2').files[0]), fileToBase64(entry.querySelector('.canhan-photo3').files[0]), fileToBase64(entry.querySelector('.canhan-doc').files[0]) ]);
-                    return { name: entry.querySelector('.canhan-name').value, class: entry.querySelector('.canhan-class').value, problems: entry.querySelector('.canhan-problems').value, session: entry.querySelector('.canhan-session').value, responsive: entry.querySelector('.canhan-responsive').value, redstart: reporterName, photo1_base64: p1.base64, photo1_name: p1.name, photo2_base64: p2.base64, photo2_name: p2.name, photo3_base64: p3.base64, photo3_name: p3.name, doc_base64: doc.base64, doc_name: doc.name };
+                    const [p1, p2, p3, doc] = await Promise.all([ 
+                        fileToBase64(entry.querySelector('.canhan-photo1').files[0]), 
+                        fileToBase64(entry.querySelector('.canhan-photo2').files[0]), 
+                        fileToBase64(entry.querySelector('.canhan-photo3').files[0]), 
+                        fileToBase64(entry.querySelector('.canhan-doc').files[0]) 
+                    ]);
+                    return { 
+                        name: entry.querySelector('.canhan-name').value, 
+                        class: entry.querySelector('.canhan-class').value, 
+                        problems: entry.querySelector('.canhan-problems').value, 
+                        session: entry.querySelector('.canhan-session').value, 
+                        responsive: entry.querySelector('.canhan-responsive').value, 
+                        redstart: reporterName, 
+                        photo1_base64: p1.base64, photo1_name: p1.name, 
+                        photo2_base64: p2.base64, photo2_name: p2.name, 
+                        photo3_base64: p3.base64, photo3_name: p3.name, 
+                        doc_base64: doc.base64, doc_name: doc.name 
+                    };
                 }));
                 postData('submitViphamcanhan', allViolationsData);
             });
@@ -196,10 +226,27 @@
                 e.preventDefault();
                 const entries = this.querySelectorAll('.violation-entry');
                 if (entries.length === 0) { alert('Vui lòng thêm ít nhất một vi phạm.'); return; }
-
+                
+                toggleLoader(true);
                 const allViolationsData = await Promise.all(Array.from(entries).map(async entry => {
-                    const [p1, p2, p3, doc] = await Promise.all([ fileToBase64(entry.querySelector('.tapthe-photo1').files[0]), fileToBase64(entry.querySelector('.tapthe-photo2').files[0]), fileToBase64(entry.querySelector('.tapthe-photo3').files[0]), fileToBase64(entry.querySelector('.tapthe-doc').files[0]) ]);
-                    return { class: entry.querySelector('.tapthe-class').value, room: entry.querySelector('.tapthe-room').value, problems: entry.querySelector('.tapthe-problems').value, session: entry.querySelector('.tapthe-session').value, responsive: entry.querySelector('.tapthe-responsive').value, redstart: reporterName, photo1_base64: p1.base64, photo1_name: p1.name, photo2_base64: p2.base64, photo2_name: p2.name, photo3_base64: p3.base64, photo3_name: p3.name, doc_base64: doc.base64, doc_name: doc.name };
+                    const [p1, p2, p3, doc] = await Promise.all([ 
+                        fileToBase64(entry.querySelector('.tapthe-photo1').files[0]), 
+                        fileToBase64(entry.querySelector('.tapthe-photo2').files[0]), 
+                        fileToBase64(entry.querySelector('.tapthe-photo3').files[0]), 
+                        fileToBase64(entry.querySelector('.tapthe-doc').files[0]) 
+                    ]);
+                    return { 
+                        class: entry.querySelector('.tapthe-class').value, 
+                        room: entry.querySelector('.tapthe-room').value, 
+                        problems: entry.querySelector('.tapthe-problems').value, 
+                        session: entry.querySelector('.tapthe-session').value, 
+                        responsive: entry.querySelector('.tapthe-responsive').value, 
+                        redstart: reporterName, 
+                        photo1_base64: p1.base64, photo1_name: p1.name, 
+                        photo2_base64: p2.base64, photo2_name: p2.name, 
+                        photo3_base64: p3.base64, photo3_name: p3.name, 
+                        doc_base64: doc.base64, doc_name: doc.name 
+                    };
                 }));
                 postData('submitBaoloitapthe', allViolationsData);
             });
