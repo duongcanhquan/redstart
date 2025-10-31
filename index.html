@@ -10,32 +10,36 @@
       --surface: #ffffff;
       --ink:#0f172a; --muted:#64748b; --border:#e5e7eb;
       --accent:#7c3aed; --accent2:#0ea5e9;
-      --ok:#16a34a; --err:#dc2626;
       --radius:16px; --shadow:0 18px 40px rgba(0,0,0,.12);
-      --fs-base: clamp(16px, 2.2vw, 18px);
-      --fs-sm: clamp(13px, 1.9vw, 15px);
-      --fs-lg: clamp(18px, 2.6vw, 22px);
-      --fs-xl: clamp(22px, 3.4vw, 30px);
+      --fs-base: clamp(16px, 2.4vw, 18px);
+      --fs-sm: clamp(13px, 2.0vw, 15px);
+      --fs-lg: clamp(18px, 2.8vw, 22px);
+      --fs-xl: clamp(22px, 3.6vw, 30px);
+      --sticky-h-banner: 86px;
+      --sticky-h-nav: 56px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue";
-      color:var(--ink); background:var(--bg);
-      display:flex; justify-content:center;
+      color:var(--ink); background:var(--bg); font-size:var(--fs-base);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
+    /* KHÔNG dùng display:flex/overflow hidden ở body/app để tránh khóa cuộn */
     .app{
-      width:100%; max-width:1080px; background:linear-gradient(180deg,#ffffffee,#ffffff);
-      border-radius:24px; box-shadow:var(--shadow); overflow:hidden; margin:12px; border:1px solid #ffffffaa;
+      width:100%; max-width:1080px; margin: 12px auto;
+      background:linear-gradient(180deg,#ffffffee,#ffffff);
+      border-radius:24px; box-shadow:var(--shadow); border:1px solid #ffffffaa;
     }
 
-    /* Banner (sticky) */
+    /* Banner (sticky, nhưng container không khóa overflow, nên vẫn cuộn) */
     header{
-      position: sticky; top: 0; z-index: 50; padding:0; color:#fff; background:#0b1020;
+      position: sticky; top: 0; z-index: 50; color:#fff; background:#0b1020;
       border-bottom:1px solid #ffffff22;
     }
     .banner{
       display:flex; align-items:center; gap:18px; padding:14px 16px;
+      min-height: var(--sticky-h-banner);
       background: radial-gradient(1200px 400px at -10% -60%, #5b21b6 0%, transparent 60%),
                   radial-gradient(1200px 400px at 120% 160%, #0284c7 0%, transparent 60%),
                   #0b1020;
@@ -45,9 +49,9 @@
     .title h1{margin:0; font-size:var(--fs-xl)}
     .title p{margin:2px 0 0; font-size:var(--fs-sm); color:#cbd5e1}
 
-    /* Tabs (sticky) */
+    /* Tabs (sticky dưới banner) */
     nav{
-      position: sticky; top: 86px; z-index: 40;  /* dưới banner */
+      position: sticky; top: var(--sticky-h-banner); z-index: 40;
       display:flex; gap:10px; padding:10px 12px; background:#f1f5f9; border-bottom:1px solid #e2e8f0; flex-wrap:wrap
     }
     .tab{
@@ -57,23 +61,27 @@
     .tab:hover{transform: translateY(-1px); box-shadow:0 8px 18px rgba(0,0,0,.06)}
     .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent; box-shadow:0 10px 24px rgba(124,58,237,.28)}
 
-    main{padding:16px}
-    .card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:12px}
-    /* Lưới: desktop 2 cột, mobile 1 cột */
-    .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
-    @media (max-width: 720px){ .grid{grid-template-columns:1fr} } /* MỖI TRƯỜNG 1 DÒNG TRÊN ĐIỆN THOẠI */
+    main{padding:16px 16px 24px}
+    .card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:14px}
 
-    label{font-size:var(--fs-sm); color:#475569; font-weight:800; letter-spacing:.3px; display:block; margin-bottom:6px}
-    input[type="text"], select, textarea{
-      width:100%; padding:14px; border-radius:14px; border:1px solid #cbd5e1; font-size:var(--fs-base); background:#fff; outline:none; transition:.2s
+    /* Lưới: desktop 2 cột, mobile 1 cột thực thụ */
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+    @media (max-width: 768px){
+      .grid{grid-template-columns:1fr; gap:14px}
     }
-    textarea{min-height:110px}
+
+    /* Form */
+    label{font-size:var(--fs-sm); color:#475569; font-weight:800; letter-spacing:.3px; display:block; margin-bottom:8px}
+    input[type="text"], select, textarea{
+      width:100%; padding:15px 14px; border-radius:14px; border:1px solid #cbd5e1; font-size:var(--fs-base); background:#fff; outline:none; transition:.2s
+    }
+    textarea{min-height:120px}
     input:focus, select:focus, textarea:focus{border-color:#7c3aed; box-shadow:0 0 0 3px rgba(124,58,237,.15)}
 
     .row{display:flex; gap:10px; flex-wrap:wrap}
     .muted{color:var(--muted); font-size:var(--fs-sm)}
     .hidden{display:none}
-    .hr{height:1px; background:#e2e8f0; margin:14px 0}
+    .hr{height:1px; background:#e2e8f0; margin:16px 0}
     .chip{background:#f1f5f9; border:1px dashed #cbd5e1; padding:8px 10px; border-radius:999px; font-size:var(--fs-sm)}
 
     .btn{
@@ -85,9 +93,8 @@
     .btn.secondary{background:linear-gradient(135deg,#0284c7,#06b6d4)}
     .btn.ghost{background:#fff; color:#334155; border:1px solid var(--border); box-shadow:none}
 
-    /* Khu xác nhận dưới cùng */
     #confirm{
-      margin: 12px 16px 22px; padding:14px 16px; border-radius:14px; border:1px solid #bbf7d0;
+      margin: 12px 0 0; padding:14px 16px; border-radius:14px; border:1px solid #bbf7d0;
       background:#ecfdf5; color:#065f46; font-weight:700; display:none;
     }
 
@@ -100,7 +107,7 @@
     <header>
       <div class="banner">
         <div class="logo">
-          <img src="https://github.com/duongcanhquan/image/blob/main/logo%20vietmy.webp?raw=1" alt="Logo trường">
+          <img src="https://script.google.com/macros/s/AKfycbzK-Nya_PjYVWA0QKJYPB_K-aAQy-IL1wj6oITHh8s5RULIETHgisxRdhfYjGhjbB3Qvw/exec" alt="Logo trường">
         </div>
         <div class="title">
           <h1>THÔNG TIN SAO ĐỎ</h1>
@@ -230,9 +237,9 @@
 
   <script>
     /* ========= THAY BẰNG URL /exec CỦA BẠN ========= */
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzK-Nya_PjYVWA0QKJYPB_K-aAQy-IL1wj6oITHh8s5RULIETHgisxRdhfYjGhjbB3Qvw/exec';
+    const API_URL = 'https://script.google.com/macros/s/DEPLOYMENT_ID/exec';
 
-    /* ===== Helper DOM & UI ===== */
+    /* ===== Helpers ===== */
     const $  = (s, r=document)=>r.querySelector(s);
     const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
 
@@ -244,20 +251,20 @@
         const target = 'tab-' + btn.dataset.tab;
         $$('main section').forEach(sec => sec.classList.add('hidden'));
         $('#'+target).classList.remove('hidden');
+        // sau khi đổi tab, đảm bảo có thể cuộn
+        setTimeout(()=>{ window.scrollBy({top:1}); }, 0);
       });
     });
 
-    // Confirmation bar
+    // Xác nhận cuối trang
     function showConfirm(){
       const c = $('#confirm');
       c.style.display = 'block';
-      // auto-hide sau 6s (nếu muốn giữ luôn thì bỏ dòng dưới)
-      setTimeout(()=>{ c.style.display='none'; }, 6000);
-      // cuộn xuống cuối để người dùng thấy
       c.scrollIntoView({behavior:'smooth', block:'end'});
+      setTimeout(()=>{ c.style.display='none'; }, 6000);
     }
 
-    // Fixed responsive list (không đọc từ sheet)
+    // Danh sách người phụ trách (fixed)
     const RESPONSIVE_LIST = [
       'Đinh Thị Phương Hà','Dung Nguyễn','Lê Thị Quỳnh Mai','Đinh Thị Hiền',
       'Phùng Khánh Ly','Ngô Thị Nhã Uyên','Đinh Thị Hà','Trần Hồng Hạnh'
@@ -265,7 +272,7 @@
     $('#cn-responsive').innerHTML = RESPONSIVE_LIST.map(n=>`<option>${n}</option>`).join('');
     $('#tt-responsive').innerHTML = RESPONSIVE_LIST.map(n=>`<option>${n}</option>`).join('');
 
-    // File -> base64 payload
+    // Files -> base64
     async function filesToPayload(fileList, limit=3){
       const files=[...(fileList||[])].slice(0,limit);
       const jobs=files.map(file=>new Promise((res,rej)=>{
@@ -276,7 +283,7 @@
       return Promise.all(jobs);
     }
 
-    // API helpers (FormData để tránh CORS)
+    // API (FormData để tránh CORS)
     async function apiPost(action, payload){
       if(!API_URL || API_URL.includes('DEPLOYMENT_ID')) throw new Error('API_URL chưa cấu hình.');
       const fd=new FormData();
@@ -287,12 +294,13 @@
       return r.json();
     }
 
-    // ===== Chống bấm liên tục (mỗi tab 1 cờ bận) =====
+    // ===== Chống bấm liên tục (cờ bận cho từng tab) =====
     const busy = { hd:false, cn:false, tt:false };
 
     /* ================= TAB 1: Hoạt động sao đỏ ================= */
     $('#hd-submit').addEventListener('click', async ()=>{
       if(busy.hd) return; busy.hd = true; $('#hd-submit').disabled = true;
+
       const data = {
         Redstart: $('#hd-redstart').value.trim(),
         Name:     $('#hd-name').value.trim(),
@@ -302,7 +310,8 @@
         files:    await filesToPayload($('#hd-photos').files, 3)
       };
       if(!data.Redstart || !data.Name || !data.Class || !data.Problems){
-        alert('Vui lòng điền đủ Redstart, Name, Class, Problems.'); busy.hd=false; $('#hd-submit').disabled=false; return;
+        alert('Vui lòng điền đủ Redstart, Name, Class, Problems.');
+        busy.hd=false; $('#hd-submit').disabled=false; return;
       }
       try{
         const r = await apiPost('saveHoatDongSaodo', data);
@@ -311,13 +320,10 @@
           ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$('#'+id).value='');
           $('#hd-photos').value=''; $('#hd-session').selectedIndex=0;
           showConfirm();
-        } else {
-          alert(r.error || 'Không thể lưu.');
-        }
-      } catch(e){ alert('API lỗi: '+e.message); }
+        } else { alert(r.error || 'Không thể lưu.'); }
+      }catch(e){ alert('API lỗi: '+e.message); }
       busy.hd = false; $('#hd-submit').disabled = false;
     });
-
     $('#hd-reset').addEventListener('click', ()=>{
       ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$('#'+id).value='');
       $('#hd-photos').value=''; $('#hd-session').selectedIndex=0;
@@ -331,27 +337,32 @@
         <div class="grid">
           <div><label>Người vi phạm (Name) *</label><input type="text" class="cn-name" required /></div>
           <div><label>Lớp (Class) *</label><input type="text" class="cn-class" required /></div>
-          <div style="grid-column:1 / -1"><label>Vấn đề vi phạm (Problems) *</label><textarea class="cn-problems" required></textarea></div>
-          <div style="grid-column:1 / -1"><label>Ảnh vi phạm (tối đa 3)</label><input type="file" class="cn-photos" multiple accept="image/*" capture="environment" /></div>
-          <div style="grid-column:1 / -1"><label>Biên bản (1 file)</label><input type="file" class="cn-doc" accept="image/*,application/pdf" /></div>
-          <div style="grid-column:1 / -1" class="row"><span class="chip">Dòng #${i+1}</span><button class="btn ghost cn-remove" type="button">Xóa dòng</button></div>
+          <div><label>Vấn đề vi phạm (Problems) *</label><textarea class="cn-problems" required></textarea></div>
+          <div><label>Ảnh vi phạm (tối đa 3)</label><input type="file" class="cn-photos" multiple accept="image/*" capture="environment" /></div>
+          <div><label>Biên bản (1 file)</label><input type="file" class="cn-doc" accept="image/*,application/pdf" /></div>
+          <div class="row"><span class="chip">Dòng #${i+1}</span><button class="btn ghost cn-remove" type="button">Xóa dòng</button></div>
         </div>
       </div>`;
     }
     function addCnItem(){
       const i=cnCount++; const wrap=document.createElement('div'); wrap.innerHTML=cnItemTemplate(i);
-      cnList.appendChild(wrap.firstElementChild);
-      $$('.cn-remove', cnList).forEach(btn=>{
+      const el = wrap.firstElementChild;
+      cnList.appendChild(el);
+      // nút xóa
+      $$('.cn-remove', el).forEach(btn=>{
         btn.onclick = (e)=> e.currentTarget.closest('[data-cn]').remove();
       });
+      // tự cuộn tới dòng mới
+      setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'start'}); },0);
     }
     $('#cn-add').addEventListener('click', addCnItem);
-    // Bắt đầu với 1 dòng trống
+    // Một dòng mặc định
     addCnItem();
 
     $('#cn-reset').addEventListener('click', ()=>{
       $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
       cnList.innerHTML=''; cnCount=0; addCnItem();
+      window.scrollBy({top:1}); // kích hoạt reflow cho iOS
     });
 
     $('#cn-submit').addEventListener('click', async ()=>{
@@ -379,7 +390,6 @@
       try{
         const r = await apiPost('saveViphamCanhan', { Redstart, entries });
         if(r.success){
-          // reset
           $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
           cnList.innerHTML=''; cnCount=0; addCnItem();
           showConfirm();
@@ -397,27 +407,30 @@
         <div class="grid">
           <div><label>Lớp (Class) *</label><input type="text" class="tt-class" required /></div>
           <div><label>Phòng học (Room)</label><input type="text" class="tt-room" placeholder="VD: P201" /></div>
-          <div style="grid-column:1 / -1"><label>Vấn đề vi phạm (Problems) *</label><textarea class="tt-problems" required></textarea></div>
-          <div style="grid-column:1 / -1"><label>Ảnh vi phạm (tối đa 3)</label><input type="file" class="tt-photos" multiple accept="image/*" capture="environment" /></div>
-          <div style="grid-column:1 / -1"><label>Biên bản (1 file)</label><input type="file" class="tt-doc" accept="image/*,application/pdf" /></div>
-          <div style="grid-column:1 / -1" class="row"><span class="chip">Dòng #${i+1}</span><button class="btn ghost tt-remove" type="button">Xóa dòng</button></div>
+          <div><label>Vấn đề vi phạm (Problems) *</label><textarea class="tt-problems" required></textarea></div>
+          <div><label>Ảnh vi phạm (tối đa 3)</label><input type="file" class="tt-photos" multiple accept="image/*" capture="environment" /></div>
+          <div><label>Biên bản (1 file)</label><input type="file" class="tt-doc" accept="image/*,application/pdf" /></div>
+          <div class="row"><span class="chip">Dòng #${i+1}</span><button class="btn ghost tt-remove" type="button">Xóa dòng</button></div>
         </div>
       </div>`;
     }
     function addTtItem(){
       const i=ttCount++; const wrap=document.createElement('div'); wrap.innerHTML=ttItemTemplate(i);
-      ttList.appendChild(wrap.firstElementChild);
-      $$('.tt-remove', ttList).forEach(btn=>{
+      const el = wrap.firstElementChild;
+      ttList.appendChild(el);
+      $$('.tt-remove', el).forEach(btn=>{
         btn.onclick = (e)=> e.currentTarget.closest('[data-tt]').remove();
       });
+      setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'start'}); },0);
     }
     $('#tt-add').addEventListener('click', addTtItem);
-    // Bắt đầu với 1 dòng trống
+    // Một dòng mặc định
     addTtItem();
 
     $('#tt-reset').addEventListener('click', ()=>{
       $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0;
       ttList.innerHTML=''; ttCount=0; addTtItem();
+      window.scrollBy({top:1});
     });
 
     $('#tt-submit').addEventListener('click', async ()=>{
@@ -445,7 +458,6 @@
       try{
         const r = await apiPost('saveBaoloiTapthe', { Redstart, entries });
         if(r.success){
-          // reset
           $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0;
           ttList.innerHTML=''; ttCount=0; addTtItem();
           showConfirm();
@@ -455,6 +467,8 @@
       busy.tt=false; $('#tt-submit').disabled=false;
     });
 
+    // iOS smooth scroll tweak
+    document.addEventListener('touchmove', ()=>{}, {passive:true});
   </script>
 </body>
 </html>
