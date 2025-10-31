@@ -7,74 +7,49 @@
   <style>
     :root{
       --bg: linear-gradient(135deg,#0ea5e9,#7c3aed);
-      --surface: #ffffff;
-      --ink:#0f172a; --muted:#64748b; --border:#e5e7eb;
+      --surface:#ffffff; --ink:#0f172a; --muted:#64748b; --border:#e5e7eb;
       --accent:#7c3aed; --accent2:#0ea5e9;
       --radius:16px; --shadow:0 18px 40px rgba(0,0,0,.12);
       --fs-base: clamp(16px, 2.4vw, 18px);
       --fs-sm: clamp(13px, 2.0vw, 15px);
-      --fs-lg: clamp(18px, 2.8vw, 22px);
       --fs-xl: clamp(22px, 3.6vw, 30px);
-      --sticky-h-banner: 86px;
-      --sticky-h-nav: 56px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue";
-      color:var(--ink); background:var(--bg); font-size:var(--fs-base);
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-    }
-    /* KHÔNG dùng display:flex/overflow hidden ở body/app để tránh khóa cuộn */
-    .app{
-      width:100%; max-width:1080px; margin: 12px auto;
-      background:linear-gradient(180deg,#ffffffee,#ffffff);
-      border-radius:24px; box-shadow:var(--shadow); border:1px solid #ffffffaa;
-    }
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans","Helvetica Neue";
+      color:var(--ink); background:var(--bg); font-size:var(--fs-base)}
+    .app{width:100%; max-width:1080px; margin:12px auto; background:linear-gradient(180deg,#ffffffee,#ffffff);
+      border-radius:24px; box-shadow:var(--shadow); border:1px solid #ffffffaa}
 
-    /* Banner (sticky, nhưng container không khóa overflow, nên vẫn cuộn) */
-    header{
-      position: sticky; top: 0; z-index: 50; color:#fff; background:#0b1020;
-      border-bottom:1px solid #ffffff22;
-    }
-    .banner{
-      display:flex; align-items:center; gap:18px; padding:14px 16px;
-      min-height: var(--sticky-h-banner);
+    header{position:sticky; top:0; z-index:50; color:#fff; background:#0b1020; border-bottom:1px solid #ffffff22}
+    .banner{display:flex; align-items:center; gap:18px; padding:14px 16px;
       background: radial-gradient(1200px 400px at -10% -60%, #5b21b6 0%, transparent 60%),
                   radial-gradient(1200px 400px at 120% 160%, #0284c7 0%, transparent 60%),
-                  #0b1020;
-    }
-    .logo{width:56px; height:56px; border-radius:14px; overflow:hidden; flex:0 0 auto; background:#ffffff10; border:1px solid #ffffff25; display:grid; place-items:center}
+                  #0b1020;}
+    .logo{width:56px; height:56px; border-radius:14px; overflow:hidden; flex:0 0 auto;
+      background:#ffffff10; border:1px solid #ffffff25; display:grid; place-items:center}
     .logo img{width:100%; height:100%; object-fit:cover}
     .title h1{margin:0; font-size:var(--fs-xl)}
     .title p{margin:2px 0 0; font-size:var(--fs-sm); color:#cbd5e1}
 
-    /* Tabs (sticky dưới banner) */
-    nav{
-      position: sticky; top: var(--sticky-h-banner); z-index: 40;
-      display:flex; gap:10px; padding:10px 12px; background:#f1f5f9; border-bottom:1px solid #e2e8f0; flex-wrap:wrap
-    }
-    .tab{
-      padding:12px 16px; border-radius:999px; background:#fff; border:1px solid var(--border);
-      cursor:pointer; font-weight:800; color:#334155; transition:.2s ease; font-size:var(--fs-base)
-    }
-    .tab:hover{transform: translateY(-1px); box-shadow:0 8px 18px rgba(0,0,0,.06)}
-    .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent; box-shadow:0 10px 24px rgba(124,58,237,.28)}
+    nav{position:sticky; top:86px; z-index:40; display:flex; gap:10px; padding:10px 12px;
+      background:#f1f5f9; border-bottom:1px solid #e2e8f0; flex-wrap:wrap}
+    .tab{padding:12px 16px; border-radius:999px; background:#fff; border:1px solid var(--border);
+      cursor:pointer; font-weight:800; color:#334155; transition:.2s}
+    .tab:hover{transform:translateY(-1px); box-shadow:0 8px 18px rgba(0,0,0,.06)}
+    .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent;
+      box-shadow:0 10px 24px rgba(124,58,237,.28)}
 
     main{padding:16px 16px 24px}
-    .card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:14px}
+    .card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:16px; margin-bottom:14px}
 
-    /* Lưới: desktop 2 cột, mobile 1 cột thực thụ */
+    /* Grid: desktop 2 cột, mobile 1 cột */
     .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
-    @media (max-width: 768px){
-      .grid{grid-template-columns:1fr; gap:14px}
-    }
+    @media (max-width: 768px){ .grid{grid-template-columns:1fr; gap:14px} }
 
-    /* Form */
     label{font-size:var(--fs-sm); color:#475569; font-weight:800; letter-spacing:.3px; display:block; margin-bottom:8px}
-    input[type="text"], select, textarea{
-      width:100%; padding:15px 14px; border-radius:14px; border:1px solid #cbd5e1; font-size:var(--fs-base); background:#fff; outline:none; transition:.2s
-    }
+    input[type="text"], select, textarea{width:100%; padding:15px 14px; border-radius:14px; border:1px solid #cbd5e1;
+      font-size:var(--fs-base); background:#fff; outline:none; transition:.2s}
     textarea{min-height:120px}
     input:focus, select:focus, textarea:focus{border-color:#7c3aed; box-shadow:0 0 0 3px rgba(124,58,237,.15)}
 
@@ -82,32 +57,31 @@
     .muted{color:var(--muted); font-size:var(--fs-sm)}
     .hidden{display:none}
     .hr{height:1px; background:#e2e8f0; margin:16px 0}
-    .chip{background:#f1f5f9; border:1px dashed #cbd5e1; padding:8px 10px; border-radius:999px; font-size:var(--fs-sm)}
 
-    .btn{
-      padding:14px 18px; border-radius:14px; border:0; cursor:pointer; font-weight:800; font-size:var(--fs-base);
-      background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; transition:.2s; box-shadow:0 10px 24px rgba(124,58,237,.18)
-    }
-    .btn:hover{transform: translateY(-1px)}
+    /* Khối tách bạch: Ảnh / Biên bản */
+    .fieldset{border:1px dashed #d1d5db; border-radius:14px; padding:14px}
+    .fieldset h4{margin:0 0 10px; font-size:18px; color:#334155}
+
+    .btn{padding:14px 18px; border-radius:14px; border:0; cursor:pointer; font-weight:800; font-size:var(--fs-base);
+      background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; transition:.2s; box-shadow:0 10px 24px rgba(124,58,237,.18)}
+    .btn:hover{transform:translateY(-1px)}
     .btn:disabled{opacity:.6; cursor:not-allowed; transform:none; box-shadow:none}
     .btn.secondary{background:linear-gradient(135deg,#0284c7,#06b6d4)}
     .btn.ghost{background:#fff; color:#334155; border:1px solid var(--border); box-shadow:none}
 
-    #confirm{
-      margin: 12px 0 0; padding:14px 16px; border-radius:14px; border:1px solid #bbf7d0;
-      background:#ecfdf5; color:#065f46; font-weight:700; display:none;
-    }
+    #confirm{margin:12px 0 0; padding:14px 16px; border-radius:14px; border:1px solid #bbf7d0;
+      background:#ecfdf5; color:#065f46; font-weight:700; display:none}
 
     footer{padding:16px; background:#f8fafc; border-top:1px solid #e2e8f0; text-align:center; color:#475569; font-size:var(--fs-sm)}
   </style>
 </head>
 <body>
   <div class="app">
-    <!-- BANNER (CỐ ĐỊNH) -->
+    <!-- Banner -->
     <header>
       <div class="banner">
         <div class="logo">
-          <img src="https://script.google.com/macros/s/AKfycbzK-Nya_PjYVWA0QKJYPB_K-aAQy-IL1wj6oITHh8s5RULIETHgisxRdhfYjGhjbB3Qvw/exec" alt="Logo trường">
+          <img src="https://raw.githubusercontent.com/duongcanhquan/image/refs/heads/main/logo%20vietmy.webp" alt="Logo trường">
         </div>
         <div class="title">
           <h1>THÔNG TIN SAO ĐỎ</h1>
@@ -116,7 +90,7 @@
       </div>
     </header>
 
-    <!-- TABS (CỐ ĐỊNH) -->
+    <!-- Tabs -->
     <nav>
       <button class="tab active" data-tab="hoatdong">Hoạt động sao đỏ</button>
       <button class="tab" data-tab="canhan">Vi phạm cá nhân</button>
@@ -124,111 +98,72 @@
     </nav>
 
     <main>
-      <!-- ====== TAB 1: Hoạt động sao đỏ ====== -->
+      <!-- TAB 1 -->
       <section id="tab-hoatdong" class="card">
         <div class="grid">
-          <div>
-            <label>Người khai báo (Redstart) *</label>
-            <input id="hd-redstart" type="text" placeholder="Nhập tên của bạn" required />
-          </div>
-          <div>
-            <label>Ca học *</label>
-            <select id="hd-session"><option>Ca sáng</option><option>Ca chiều</option></select>
-          </div>
+          <div><label>Người khai báo (Redstart) *</label><input id="hd-redstart" type="text" placeholder="Nhập tên của bạn" required /></div>
+          <div><label>Ca học *</label><select id="hd-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
+          <div><label>Người vi phạm (Name) *</label><input id="hd-name" type="text" required /></div>
+          <div><label>Lớp (Class) *</label><input id="hd-class" type="text" required /></div>
+          <div style="grid-column:1/-1"><label>Vấn đề vi phạm (Problems) *</label><textarea id="hd-problems" required></textarea></div>
 
-          <div>
-            <label>Người vi phạm (Name) *</label>
-            <input id="hd-name" type="text" required />
-          </div>
-          <div>
-            <label>Lớp (Class) *</label>
-            <input id="hd-class" type="text" required />
-          </div>
-
-          <div style="grid-column:1 / -1">
-            <label>Vấn đề vi phạm (Problems) *</label>
-            <textarea id="hd-problems" required></textarea>
-          </div>
-
-          <div style="grid-column:1 / -1">
-            <label>Ảnh vi phạm (tối đa 3, tùy chọn)</label>
+          <div style="grid-column:1/-1" class="fieldset">
+            <h4>Ảnh vi phạm (tối đa 3 – tùy chọn)</h4>
             <input id="hd-photos" type="file" multiple accept="image/*" capture="environment" />
           </div>
 
-          <div style="grid-column:1 / -1" class="row">
+          <div style="grid-column:1/-1" class="row">
             <button class="btn" id="hd-submit">Gửi</button>
             <button class="btn ghost" id="hd-reset">Làm mới</button>
           </div>
         </div>
       </section>
 
-      <!-- ====== TAB 2: Vi phạm cá nhân ====== -->
+      <!-- TAB 2 -->
       <section id="tab-canhan" class="card hidden">
         <div class="grid">
-          <div>
-            <label>Người khai báo (Redstart) *</label>
-            <input id="cn-redstart" type="text" required />
-          </div>
-          <div>
-            <label>Ca học *</label>
-            <select id="cn-session"><option>Ca sáng</option><option>Ca chiều</option></select>
-          </div>
-          <div style="grid-column:1 / -1">
-            <label>Người phụ trách (Responsive) *</label>
-            <select id="cn-responsive"></select>
-          </div>
+          <div><label>Người khai báo (Redstart) *</label><input id="cn-redstart" type="text" required /></div>
+          <div><label>Ca học *</label><select id="cn-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
+          <div style="grid-column:1/-1"><label>Người phụ trách (Responsive) *</label><select id="cn-responsive"></select></div>
         </div>
 
         <div class="hr"></div>
 
         <div id="cn-list" style="margin-top:10px"></div>
 
-        <!-- Nút THÊM đặt BÊN DƯỚI danh sách -->
+        <!-- Nút THÊM đặt dưới danh sách -->
         <div class="row" style="margin-top:10px">
           <button class="btn secondary" id="cn-add">+ Thêm cá nhân</button>
           <button class="btn ghost" id="cn-reset">Làm mới</button>
         </div>
 
         <div class="hr"></div>
-        <div class="row">
-          <button class="btn" id="cn-submit">Gửi tất cả</button>
-        </div>
+        <div class="row"><button class="btn" id="cn-submit">Gửi tất cả</button></div>
       </section>
 
-      <!-- ====== TAB 3: Vi phạm tập thể ====== -->
+      <!-- TAB 3 -->
       <section id="tab-tapthe" class="card hidden">
         <div class="grid">
-          <div>
-            <label>Người khai báo (Redstart) *</label>
-            <input id="tt-redstart" type="text" required />
-          </div>
-          <div>
-            <label>Ca học *</label>
-            <select id="tt-session"><option>Ca sáng</option><option>Ca chiều</option></select>
-          </div>
-          <div style="grid-column:1 / -1">
-            <label>Người phụ trách (Responsive) *</label>
-            <select id="tt-responsive"></select>
-          </div>
+          <div><label>Người khai báo (Redstart) *</label><input id="tt-redstart" type="text" required /></div>
+          <div><label>Ca học *</label><select id="tt-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
+          <div style="grid-column:1/-1"><label>Người phụ trách (Responsive) *</label><select id="tt-responsive"></select></div>
         </div>
 
         <div class="hr"></div>
 
         <div id="tt-list" style="margin-top:10px"></div>
 
-        <!-- Nút THÊM đặt BÊN DƯỚI danh sách -->
+        <!-- Nút THÊM đặt dưới danh sách -->
         <div class="row" style="margin-top:10px">
           <button class="btn secondary" id="tt-add">+ Thêm báo lỗi tập thể</button>
           <button class="btn ghost" id="tt-reset">Làm mới</button>
         </div>
 
         <div class="hr"></div>
-        <div class="row">
-          <button class="btn" id="tt-submit">Gửi tất cả</button>
-        </div>
+        <div class="row"><button class="btn" id="tt-submit">Gửi tất cả</button></div>
       </section>
 
-      <!-- Thông báo xác nhận (đặt dưới cùng) -->
+      <!-- Thông báo cuối trang -->
       <div id="confirm">Cảm ơn bạn, hệ thống đã ghi nhận thông tin.</div>
     </main>
 
@@ -236,14 +171,13 @@
   </div>
 
   <script>
-    /* ========= THAY BẰNG URL /exec CỦA BẠN ========= */
-    const API_URL = 'https://script.google.com/macros/s/DEPLOYMENT_ID/exec';
+    /* ====== THAY CHUỖI NÀY BẰNG URL /exec THẬT CỦA BẠN ====== */
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzK-Nya_PjYVWA0QKJYPB_K-aAQy-IL1wj6oITHh8s5RULIETHgisxRdhfYjGhjbB3Qvw/exec';
 
-    /* ===== Helpers ===== */
     const $  = (s, r=document)=>r.querySelector(s);
     const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
 
-    // Tabs show/hide
+    // Tabs
     $$('.tab').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         $$('.tab').forEach(b=>b.classList.remove('active'));
@@ -251,12 +185,11 @@
         const target = 'tab-' + btn.dataset.tab;
         $$('main section').forEach(sec => sec.classList.add('hidden'));
         $('#'+target).classList.remove('hidden');
-        // sau khi đổi tab, đảm bảo có thể cuộn
         setTimeout(()=>{ window.scrollBy({top:1}); }, 0);
       });
     });
 
-    // Xác nhận cuối trang
+    // Xác nhận
     function showConfirm(){
       const c = $('#confirm');
       c.style.display = 'block';
@@ -264,7 +197,7 @@
       setTimeout(()=>{ c.style.display='none'; }, 6000);
     }
 
-    // Danh sách người phụ trách (fixed)
+    // Người phụ trách (fixed list)
     const RESPONSIVE_LIST = [
       'Đinh Thị Phương Hà','Dung Nguyễn','Lê Thị Quỳnh Mai','Đinh Thị Hiền',
       'Phùng Khánh Ly','Ngô Thị Nhã Uyên','Đinh Thị Hà','Trần Hồng Hạnh'
@@ -294,13 +227,12 @@
       return r.json();
     }
 
-    // ===== Chống bấm liên tục (cờ bận cho từng tab) =====
+    // Chống bấm liên tục
     const busy = { hd:false, cn:false, tt:false };
 
-    /* ================= TAB 1: Hoạt động sao đỏ ================= */
+    /* TAB 1 */
     $('#hd-submit').addEventListener('click', async ()=>{
       if(busy.hd) return; busy.hd = true; $('#hd-submit').disabled = true;
-
       const data = {
         Redstart: $('#hd-redstart').value.trim(),
         Name:     $('#hd-name').value.trim(),
@@ -316,20 +248,19 @@
       try{
         const r = await apiPost('saveHoatDongSaodo', data);
         if(r.success){
-          // reset form
           ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$('#'+id).value='');
           $('#hd-photos').value=''; $('#hd-session').selectedIndex=0;
           showConfirm();
         } else { alert(r.error || 'Không thể lưu.'); }
       }catch(e){ alert('API lỗi: '+e.message); }
-      busy.hd = false; $('#hd-submit').disabled = false;
+      busy.hd=false; $('#hd-submit').disabled=false;
     });
     $('#hd-reset').addEventListener('click', ()=>{
       ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$('#'+id).value='');
       $('#hd-photos').value=''; $('#hd-session').selectedIndex=0;
     });
 
-    /* ================= TAB 2: Vi phạm cá nhân ================= */
+    /* TAB 2 */
     const cnList = $('#cn-list'); let cnCount = 0;
     function cnItemTemplate(i){
       return `
@@ -337,32 +268,37 @@
         <div class="grid">
           <div><label>Người vi phạm (Name) *</label><input type="text" class="cn-name" required /></div>
           <div><label>Lớp (Class) *</label><input type="text" class="cn-class" required /></div>
-          <div><label>Vấn đề vi phạm (Problems) *</label><textarea class="cn-problems" required></textarea></div>
-          <div><label>Ảnh vi phạm (tối đa 3)</label><input type="file" class="cn-photos" multiple accept="image/*" capture="environment" /></div>
-          <div><label>Biên bản (1 file)</label><input type="file" class="cn-doc" accept="image/*,application/pdf" /></div>
-          <div class="row"><span class="chip">Dòng #${i+1}</span><button class="btn ghost cn-remove" type="button">Xóa dòng</button></div>
+          <div style="grid-column:1/-1"><label>Vấn đề vi phạm (Problems) *</label><textarea class="cn-problems" required></textarea></div>
+
+          <div style="grid-column:1/-1" class="fieldset">
+            <h4>Ảnh vi phạm (tối đa 3)</h4>
+            <input type="file" class="cn-photos" multiple accept="image/*" capture="environment" />
+          </div>
+
+          <div style="grid-column:1/-1" class="fieldset">
+            <h4>Biên bản (tối đa 1 file)</h4>
+            <input type="file" class="cn-doc" accept="image/*,application/pdf" />
+          </div>
+
+          <div style="grid-column:1/-1" class="row">
+            <button class="btn ghost cn-remove" type="button">Xóa dòng</button>
+          </div>
         </div>
       </div>`;
     }
     function addCnItem(){
       const i=cnCount++; const wrap=document.createElement('div'); wrap.innerHTML=cnItemTemplate(i);
-      const el = wrap.firstElementChild;
-      cnList.appendChild(el);
-      // nút xóa
-      $$('.cn-remove', el).forEach(btn=>{
-        btn.onclick = (e)=> e.currentTarget.closest('[data-cn]').remove();
-      });
-      // tự cuộn tới dòng mới
+      const el=wrap.firstElementChild; cnList.appendChild(el);
+      $$('.cn-remove', el).forEach(btn=>{ btn.onclick=(e)=> e.currentTarget.closest('[data-cn]').remove(); });
       setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'start'}); },0);
     }
     $('#cn-add').addEventListener('click', addCnItem);
-    // Một dòng mặc định
     addCnItem();
 
     $('#cn-reset').addEventListener('click', ()=>{
       $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
       cnList.innerHTML=''; cnCount=0; addCnItem();
-      window.scrollBy({top:1}); // kích hoạt reflow cho iOS
+      window.scrollBy({top:1});
     });
 
     $('#cn-submit').addEventListener('click', async ()=>{
@@ -399,7 +335,7 @@
       busy.cn=false; $('#cn-submit').disabled=false;
     });
 
-    /* ================= TAB 3: Vi phạm tập thể ================= */
+    /* TAB 3 */
     const ttList = $('#tt-list'); let ttCount = 0;
     function ttItemTemplate(i){
       return `
@@ -407,24 +343,31 @@
         <div class="grid">
           <div><label>Lớp (Class) *</label><input type="text" class="tt-class" required /></div>
           <div><label>Phòng học (Room)</label><input type="text" class="tt-room" placeholder="VD: P201" /></div>
-          <div><label>Vấn đề vi phạm (Problems) *</label><textarea class="tt-problems" required></textarea></div>
-          <div><label>Ảnh vi phạm (tối đa 3)</label><input type="file" class="tt-photos" multiple accept="image/*" capture="environment" /></div>
-          <div><label>Biên bản (1 file)</label><input type="file" class="tt-doc" accept="image/*,application/pdf" /></div>
-          <div class="row"><span class="chip">Dòng #${i+1}</span><button class="btn ghost tt-remove" type="button">Xóa dòng</button></div>
+          <div style="grid-column:1/-1"><label>Vấn đề vi phạm (Problems) *</label><textarea class="tt-problems" required></textarea></div>
+
+          <div style="grid-column:1/-1" class="fieldset">
+            <h4>Ảnh vi phạm (tối đa 3)</h4>
+            <input type="file" class="tt-photos" multiple accept="image/*" capture="environment" />
+          </div>
+
+          <div style="grid-column:1/-1" class="fieldset">
+            <h4>Biên bản (tối đa 1 file)</h4>
+            <input type="file" class="tt-doc" accept="image/*,application/pdf" />
+          </div>
+
+          <div style="grid-column:1/-1" class="row">
+            <button class="btn ghost tt-remove" type="button">Xóa dòng</button>
+          </div>
         </div>
       </div>`;
     }
     function addTtItem(){
       const i=ttCount++; const wrap=document.createElement('div'); wrap.innerHTML=ttItemTemplate(i);
-      const el = wrap.firstElementChild;
-      ttList.appendChild(el);
-      $$('.tt-remove', el).forEach(btn=>{
-        btn.onclick = (e)=> e.currentTarget.closest('[data-tt]').remove();
-      });
+      const el=wrap.firstElementChild; ttList.appendChild(el);
+      $$('.tt-remove', el).forEach(btn=>{ btn.onclick=(e)=> e.currentTarget.closest('[data-tt]').remove(); });
       setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'start'}); },0);
     }
     $('#tt-add').addEventListener('click', addTtItem);
-    // Một dòng mặc định
     addTtItem();
 
     $('#tt-reset').addEventListener('click', ()=>{
@@ -466,9 +409,6 @@
 
       busy.tt=false; $('#tt-submit').disabled=false;
     });
-
-    // iOS smooth scroll tweak
-    document.addEventListener('touchmove', ()=>{}, {passive:true});
   </script>
 </body>
 </html>
