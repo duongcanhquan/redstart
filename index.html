@@ -1,256 +1,406 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Báo Cáo Vi Phạm</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/duongcanhquan/image/main/logo%20vietmy.webp">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Be Vietnam Pro', sans-serif; background-color: #f0f2f5; }
-        .main-container { max-width: 800px; margin: 2rem auto; padding: 2rem; }
-        .header { text-align: center; margin-bottom: 2rem; }
-        .header img { max-width: 150px; margin-bottom: 1rem; }
-        .header h1 { color: #1a237e; font-weight: 700; }
-        .card-selector { transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; border: none; border-radius: 15px; }
-        .card-selector:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .card-title { color: #1a237e; font-weight: 700; }
-        .form-section { display: none; background-color: white; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .form-label { font-weight: 500; }
-        .btn-primary { background-color: #283593; border-color: #283593; font-weight: 500; padding: 10px 20px; border-radius: 8px; }
-        .btn-primary:hover { background-color: #1a237e; border-color: #1a237e; }
-        .btn-secondary { border-radius: 8px; }
-        #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.8); z-index: 9999; }
-        .violation-entry { border: 1px solid #ddd; border-radius: 10px; padding: 15px; margin-bottom: 15px; position: relative; }
-        .remove-entry { position: absolute; top: 10px; right: 10px; cursor: pointer; color: red; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THÔNG TIN SAO ĐỎ</title>
+  <style>
+    :root{
+      --bg: linear-gradient(135deg,#0ea5e9,#9333ea);
+      --card: #ffffff;
+      --ink: #0f172a;
+      --muted:#64748b;
+      --ok:#16a34a;--err:#dc2626;
+      --accent:#7c3aed;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue";
+      color:var(--ink);
+      background: var(--bg);
+      min-height:100vh;
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .app{
+      width:100%; max-width:1100px;
+      background: linear-gradient(180deg,#ffffffee,#ffffff);
+      border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,.15);
+      overflow:hidden;
+    }
+    header{
+      display:flex; align-items:center; gap:16px;
+      padding:20px 24px; background:#0f172a; color:#fff;
+    }
+    .logo{
+      width:44px; height:44px; border-radius:12px; background:#fff1; display:grid; place-items:center; font-weight:700;
+      border:1px solid #fff3;
+    }
+    .title h1{margin:0; font-size:20px; letter-spacing:.5px}
+    .title p{margin:2px 0 0; font-size:12px; color:#cbd5e1}
+    nav{display:flex; gap:8px; padding:12px; background:#f1f5f9; flex-wrap:wrap}
+    .tab{
+      padding:10px 14px; border-radius:999px; background:#fff; border:1px solid #e2e8f0; cursor:pointer;
+      font-weight:600; color:#334155; transition:.2s;
+    }
+    .tab.active{background:var(--accent); color:#fff; border-color:transparent}
+    main{padding:20px}
+    .card{background:var(--card); border:1px solid #e5e7eb; border-radius:16px; padding:16px; margin-bottom:16px}
+    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:12px}
+    @media (max-width: 900px){ .grid{grid-template-columns: repeat(6, 1fr)} }
+    @media (max-width: 600px){ .grid{grid-template-columns: repeat(2, 1fr)} }
+    .col-12{grid-column: span 12}
+    .col-6{grid-column: span 6}
+    .col-4{grid-column: span 4}
+    .col-3{grid-column: span 3}
+    label{font-size:12px; color:#475569; font-weight:700; letter-spacing:.3px}
+    input[type="text"], input[type="email"], select, textarea{
+      width:100%; padding:12px 12px; border-radius:12px; border:1px solid #cbd5e1; font-size:14px;
+      background:#fff;
+    }
+    textarea{min-height:90px}
+    .pill{display:inline-flex; gap:8px; align-items:center}
+    .btn{
+      padding:12px 16px; border-radius:12px; border:0; cursor:pointer; font-weight:700; font-size:14px;
+      background:var(--accent); color:#fff; box-shadow: 0 6px 14px rgba(124,58,237,.25);
+    }
+    .btn.secondary{background:#0ea5e9}
+    .btn.ghost{background:#fff; color:#334155; border:1px solid #e2e8f0}
+    .muted{color:var(--muted); font-size:12px}
+    .row{display:flex; gap:8px; flex-wrap:wrap}
+    .files{display:flex; gap:8px; flex-wrap:wrap}
+    .chip{background:#f1f5f9; border:1px dashed #cbd5e1; padding:8px 10px; border-radius:999px; font-size:12px}
+    .success{color:var(--ok); font-weight:700}
+    .error{color:var(--err); font-weight:700}
+    footer{padding:14px 20px; background:#f8fafc; font-size:12px; color:#475569}
+    .hidden{display:none}
+    .split{display:flex; gap:12px; align-items:center; justify-content:space-between}
+    .hr{height:1px; background:#e2e8f0; margin:12px 0}
+  </style>
 </head>
 <body>
+  <div class="app">
+    <header>
+      <div class="logo">⭐</div>
+      <div class="title">
+        <h1>THÔNG TIN SAO ĐỎ</h1>
+        <p>Nhập liệu nhanh • Lưu ảnh Drive • Ghi Google Sheets</p>
+      </div>
+    </header>
 
-    <div id="loader" class="d-flex justify-content-center align-items-center">
-        <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
-    </div>
+    <nav>
+      <button class="tab active" data-tab="hoatdong">Hoạt động sao đỏ</button>
+      <button class="tab" data-tab="canhan">Vi phạm cá nhân</button>
+      <button class="tab" data-tab="tapthe">Vi phạm tập thể</button>
+    </nav>
 
-    <div class="main-container">
-        <div class="header">
-            <img src="https://raw.githubusercontent.com/duongcanhquan/image/main/logo%20vietmy.webp" alt="Logo Trường">
-            <h1 id="main-title">Hệ Thống Báo Cáo Vi Phạm</h1>
-        </div>
+    <main>
+      <!-- Phản hồi -->
+      <div id="toast" class="card hidden"></div>
 
-        <div id="main-selection">
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-12 mb-3"><div class="card card-selector h-100" onclick="showForm('saodo')"><div class="card-body text-center"><h5 class="card-title">Hoạt động Sao Đỏ</h5><p class="card-text text-muted">Ghi nhận các hoạt động thường nhật của đội Sao Đỏ.</p></div></div></div>
-                <div class="col-lg-4 col-md-12 mb-3"><div class="card card-selector h-100" onclick="showForm('canhan')"><div class="card-body text-center"><h5 class="card-title">Vi phạm Cá nhân</h5><p class="card-text text-muted">Lập biên bản các vi phạm của từng học sinh.</p></div></div></div>
-                <div class="col-lg-4 col-md-12 mb-3"><div class="card card-selector h-100" onclick="showForm('tapthe')"><div class="card-body text-center"><h5 class="card-title">Vi phạm Tập thể</h5><p class="card-text text-muted">Lập biên bản các vi phạm của cả lớp học.</p></div></div></div>
+      <!-- ====== TAB 1: Hoạt động sao đỏ ====== -->
+      <section id="tab-hoatdong" class="card">
+        <div class="grid">
+          <div class="col-6">
+            <label>Người khai báo (Redstart) *</label>
+            <input id="hd-redstart" type="text" placeholder="Nhập tên của bạn" required />
+          </div>
+          <div class="col-6">
+            <label>Ca học *</label>
+            <select id="hd-session">
+              <option>Ca sáng</option>
+              <option>Ca chiều</option>
+            </select>
+          </div>
+
+          <div class="col-6">
+            <label>Người vi phạm (Name) *</label>
+            <input id="hd-name" type="text" required />
+          </div>
+          <div class="col-6">
+            <label>Lớp (Class) *</label>
+            <input id="hd-class" type="text" required />
+          </div>
+          <div class="col-12">
+            <label>Vấn đề vi phạm (Problems) *</label>
+            <textarea id="hd-problems" required></textarea>
+          </div>
+
+          <div class="col-12">
+            <label>Ảnh vi phạm (tối đa 3, tùy chọn)</label>
+            <input id="hd-photos" type="file" multiple accept="image/*" capture="environment" />
+            <p class="muted">Bạn có thể tải từ máy hoặc chụp trực tiếp. Không bắt buộc.</p>
+          </div>
+
+          <div class="col-12 split">
+            <div class="row">
+              <button class="btn" id="hd-submit">Gửi</button>
+              <button class="btn ghost" id="hd-reset">Làm mới</button>
             </div>
+            <div class="muted">Khi gửi, hệ thống sẽ lưu ảnh vào Drive và ghi link vào Sheet.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== TAB 2: Vi phạm cá nhân ====== -->
+      <section id="tab-canhan" class="card hidden">
+        <div class="grid">
+          <div class="col-6">
+            <label>Người khai báo (Redstart) *</label>
+            <input id="cn-redstart" type="text" required />
+          </div>
+          <div class="col-6">
+            <label>Ca học *</label>
+            <select id="cn-session">
+              <option>Ca sáng</option>
+              <option>Ca chiều</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label>Người phụ trách (Responsive) *</label>
+            <select id="cn-responsive"></select>
+            <p class="muted">Danh sách lấy từ sheet <b>thongtinthayco</b> (cột Name). Nếu trống sẽ dùng danh sách mặc định.</p>
+          </div>
         </div>
 
-        <div id="reporter-name-section" class="form-section">
-             <h2 class="mb-4 text-center">Thông tin người báo cáo</h2>
-             <div class="mb-3">
-                <label for="reporterName" class="form-label">Tên của bạn (Sao đỏ/Giám thị):</label>
-                <input type="text" class="form-control" id="reporterName" placeholder="Ví dụ: Nguyễn Văn A" required>
-            </div>
-            <button type="button" class="btn btn-primary w-100" onclick="startReporting()">Bắt đầu báo cáo</button>
+        <div class="hr"></div>
+
+        <div class="row">
+          <button class="btn secondary" id="cn-add">+ Thêm cá nhân</button>
+          <span class="muted">Bạn có thể thêm nhiều cá nhân và gửi một lần.</span>
         </div>
 
-        <div id="form-saodo" class="form-section">
-            <h2 class="mb-4 text-center">Ghi nhận Hoạt động Sao Đỏ</h2>
-            <form id="saodo-form">
-                <div class="mb-3"><label for="saodo-name" class="form-label">Người vi phạm <span class="text-danger">*</span></label><input type="text" class="form-control" id="saodo-name" required></div>
-                <div class="mb-3"><label for="saodo-class" class="form-label">Lớp <span class="text-danger">*</span></label><input type="text" class="form-control" id="saodo-class" required></div>
-                <div class="mb-3"><label for="saodo-problems" class="form-label">Vấn đề vi phạm <span class="text-danger">*</span></label><textarea class="form-control" id="saodo-problems" rows="3" required></textarea></div>
-                <div class="mb-3"><label for="saodo-session" class="form-label">Buổi học <span class="text-danger">*</span></label><select class="form-select" id="saodo-session" required><option selected disabled value="">Chọn buổi học</option><option>Buổi sáng</option><option>Buổi chiều</option></select></div>
-                <div class="mb-3"><label class="form-label">Ảnh vi phạm (Tối đa 3 ảnh)</label><input class="form-control" type="file" id="saodo-photo1" accept="image/*" capture="camera"><input class="form-control mt-2" type="file" id="saodo-photo2" accept="image/*" capture="camera"><input class="form-control mt-2" type="file" id="saodo-photo3" accept="image/*" capture="camera"></div>
-                <div class="d-flex justify-content-between mt-4"><button type="button" class="btn btn-secondary" onclick="goBack()">Quay lại</button><button type="submit" class="btn btn-primary">Gửi báo cáo</button></div>
-            </form>
+        <div id="cn-list"></div>
+
+        <div class="hr"></div>
+        <div class="split">
+          <div class="row">
+            <button class="btn" id="cn-submit">Gửi tất cả</button>
+            <button class="btn ghost" id="cn-reset">Làm mới</button>
+          </div>
+          <div class="muted">Ảnh & biên bản sẽ lưu vào Drive; link ghi vào Sheet.</div>
         </div>
-        
-        <div id="form-canhan" class="form-section">
-            <h2 class="mb-4 text-center">Lập biên bản Vi phạm Cá nhân</h2>
-            <form id="canhan-form"><div id="canhan-entries"></div><button type="button" class="btn btn-outline-primary mt-2" onclick="addCanhanEntry()">+ Thêm vi phạm</button><div class="d-flex justify-content-between mt-4"><button type="button" class="btn btn-secondary" onclick="goBack()">Quay lại</button><button type="submit" class="btn btn-primary">Gửi tất cả</button></div></form>
+      </section>
+
+      <!-- ====== TAB 3: Vi phạm tập thể ====== -->
+      <section id="tab-tapthe" class="card hidden">
+        <div class="grid">
+          <div class="col-6">
+            <label>Người khai báo (Redstart) *</label>
+            <input id="tt-redstart" type="text" required />
+          </div>
+          <div class="col-6">
+            <label>Ca học *</label>
+            <select id="tt-session">
+              <option>Ca sáng</option>
+              <option>Ca chiều</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label>Người phụ trách (Responsive) *</label>
+            <select id="tt-responsive"></select>
+          </div>
         </div>
 
-        <div id="form-tapthe" class="form-section">
-            <h2 class="mb-4 text-center">Lập biên bản Vi phạm Tập thể</h2>
-            <form id="tapthe-form"><div id="tapthe-entries"></div><button type="button" class="btn btn-outline-primary mt-2" onclick="addTaptheEntry()">+ Thêm vi phạm</button><div class="d-flex justify-content-between mt-4"><button type="button" class="btn btn-secondary" onclick="goBack()">Quay lại</button><button type="submit" class="btn btn-primary">Gửi tất cả</button></div></form>
+        <div class="hr"></div>
+
+        <div class="row">
+          <button class="btn secondary" id="tt-add">+ Thêm báo lỗi tập thể</button>
+          <span class="muted">Bạn có thể thêm nhiều dòng và gửi một lần.</span>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <div id="tt-list"></div>
 
-    <script>
-        // =========================================================================
-        // // =========================================================================
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5mnwO3kmGE1WJyUl-C6nC2y4osOihcRs3JbTvK1NrrombpsmCCGSv-mkYK0we9llQoQ/exec"; 
-        // =========================================================================
+        <div class="hr"></div>
+        <div class="split">
+          <div class="row">
+            <button class="btn" id="tt-submit">Gửi tất cả</button>
+            <button class="btn ghost" id="tt-reset">Làm mới</button>
+          </div>
+          <div class="muted">Ảnh & biên bản sẽ lưu vào Drive; link ghi vào Sheet.</div>
+        </div>
+      </section>
+    </main>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            let currentForm = '';
-            let reporterName = '';
-            const responsiveList = [ 'Đinh Thị Phương Hà', 'Dung Nguyễn', 'Lê Thị Quỳnh Mai', 'Đinh Thị Hiền', 'Phùng Khánh Ly', 'Ngô Thị Nhã Uyên', 'Đinh Thị Hà', 'Trần Hồng Hạnh' ];
+    <footer>
+      © SAO ĐỎ • Giao diện hiện đại, tương thích desktop / tablet / mobile. Thời gian lưu theo Asia/Bangkok.
+    </footer>
+  </div>
 
-            // --- Gán các hàm vào đối tượng window để HTML có thể gọi được ---
-            window.showForm = function(formType) {
-                currentForm = formType;
-                document.getElementById('main-selection').style.display = 'none';
-                document.getElementById('reporter-name-section').style.display = 'block';
-                document.getElementById('main-title').textContent = 'Xác nhận thông tin';
-            }
-            
-            window.startReporting = function() {
-                reporterName = document.getElementById('reporterName').value.trim();
-                if (!reporterName) { alert('Vui lòng nhập tên của bạn!'); return; }
-                document.getElementById('reporter-name-section').style.display = 'none';
-                const formElement = document.getElementById('form-' + currentForm);
-                formElement.style.display = 'block';
-                document.getElementById('main-title').textContent = formElement.querySelector('h2').textContent;
-                if (currentForm === 'canhan' && document.getElementById('canhan-entries').childElementCount === 0) { addCanhanEntry(); }
-                if (currentForm === 'tapthe' && document.getElementById('tapthe-entries').childElementCount === 0) { addTaptheEntry(); }
-            }
+  <script>
+    // ====== CẦN ĐỔI: URL Web App của Apps Script (Deploy → Web app) ======
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwE_gwyBdPODIv-lpsmhOwF8PUzRuXKH0-b-dMBJAGuVA68iqw-PYecZmt-M9zXY_HLsw/exec';
 
-            window.goBack = function() {
-                document.getElementById('canhan-entries').innerHTML = '';
-                document.getElementById('tapthe-entries').innerHTML = '';
-                document.getElementById('saodo-form').reset();
-                document.getElementById('reporterName').value = '';
-                ['form-saodo', 'form-canhan', 'form-tapthe', 'reporter-name-section'].forEach(id => document.getElementById(id).style.display = 'none');
-                document.getElementById('main-selection').style.display = 'block';
-                document.getElementById('main-title').textContent = 'Hệ Thống Báo Cáo Vi Phạm';
-                currentForm = ''; reporterName = '';
-            }
+    // ====== Helpers chọn DOM ======
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+    const toast = $('#toast');
 
-            let canhanCounter = 0;
-            window.addCanhanEntry = function() {
-                canhanCounter++;
-                const responsiveOptions = responsiveList.map(name => `<option value="${name}">${name}</option>`).join('');
-                const html = `<div class="violation-entry" id="canhan-entry-${canhanCounter}">${canhanCounter > 1 ? `<span class="remove-entry" onclick="removeEntry('canhan-entry-${canhanCounter}')">✖</span>` : ''}<h5>Vi phạm #${canhanCounter}</h5><div class="mb-3"><label class="form-label">Người vi phạm <span class="text-danger">*</span></label><input type="text" class="form-control canhan-name" required></div><div class="mb-3"><label class="form-label">Lớp <span class="text-danger">*</span></label><input type="text" class="form-control canhan-class" required></div><div class="mb-3"><label class="form-label">Vấn đề vi phạm <span class="text-danger">*</span></label><textarea class="form-control canhan-problems" rows="3" required></textarea></div><div class="row"><div class="col-md-6 mb-3"><label class="form-label">Ca học <span class="text-danger">*</span></label><select class="form-select canhan-session" required><option selected disabled value="">Chọn ca</option><option>Ca sáng</option><option>Ca chiều</option></select></div><div class="col-md-6 mb-3"><label class="form-label">Người phụ trách <span class="text-danger">*</span></label><select class="form-select canhan-responsive" required><option selected disabled value="">Chọn người</option>${responsiveOptions}</select></div></div><div class="mb-3"><label class="form-label">Ảnh vi phạm (Tối đa 3)</label><input class="form-control canhan-photo1" type="file" accept="image/*" capture="camera"><input class="form-control mt-2 canhan-photo2" type="file" accept="image/*" capture="camera"><input class="form-control mt-2 canhan-photo3" type="file" accept="image/*" capture="camera"></div><div class="mb-3"><label class="form-label">Biên bản</label><input class="form-control canhan-doc" type="file" accept="image/*,application/pdf"></div></div>`;
-                document.getElementById('canhan-entries').insertAdjacentHTML('beforeend', html);
-            }
+    // ---- Tabs ----
+    $$('.tab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        $$('.tab').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const target = 'tab-' + btn.dataset.tab;
+        $$('main section').forEach(sec => sec.classList.add('hidden'));
+        $('#' + target).classList.remove('hidden');
+      });
+    });
 
-            let taptheCounter = 0;
-            window.addTaptheEntry = function() {
-                taptheCounter++;
-                const responsiveOptions = responsiveList.map(name => `<option value="${name}">${name}</option>`).join('');
-                const html = `<div class="violation-entry" id="tapthe-entry-${taptheCounter}">${taptheCounter > 1 ? `<span class="remove-entry" onclick="removeEntry('tapthe-entry-${taptheCounter}')">✖</span>` : ''}<h5>Vi phạm #${taptheCounter}</h5><div class="row"><div class="col-md-6 mb-3"><label class="form-label">Lớp vi phạm <span class="text-danger">*</span></label><input type="text" class="form-control tapthe-class" required></div><div class="col-md-6 mb-3"><label class="form-label">Phòng học</label><input type="text" class="form-control tapthe-room"></div></div><div class="mb-3"><label class="form-label">Vấn đề vi phạm <span class="text-danger">*</span></label><textarea class="form-control tapthe-problems" rows="3" required></textarea></div><div class="row"><div class="col-md-6 mb-3"><label class="form-label">Ca học <span class="text-danger">*</span></label><select class="form-select tapthe-session" required><option selected disabled value="">Chọn ca</option><option>Ca sáng</option><option>Ca chiều</option></select></div><div class="col-md-6 mb-3"><label class="form-label">Người phụ trách <span class="text-danger">*</span></label><select class="form-select tapthe-responsive" required><option selected disabled value="">Chọn người</option>${responsiveOptions}</select></div></div><div class="mb-3"><label class="form-label">Ảnh vi phạm (Tối đa 3)</label><input class="form-control tapthe-photo1" type="file" accept="image/*" capture="camera"><input class="form-control mt-2 tapthe-photo2" type="file" accept="image/*" capture="camera"><input class="form-control mt-2 tapthe-photo3" type="file" accept="image/*" capture="camera"></div><div class="mb-3"><label class="form-label">Biên bản</label><input class="form-control tapthe-doc" type="file" accept="image/*,application/pdf"></div></div>`;
-                document.getElementById('tapthe-entries').insertAdjacentHTML('beforeend', html);
-            }
-            
-            window.removeEntry = function(id) { document.getElementById(id)?.remove(); }
+    // ---- Toast ----
+    function showToast(html, ok=true){
+      toast.classList.remove('hidden');
+      toast.innerHTML = `<span class="${ok?'success':'error'}">${ok?'✔':''}${ok?' Thành công':' Lỗi'}</span> • ${html}`;
+      setTimeout(()=>toast.classList.add('hidden'), 6000);
+    }
 
-            const fileToBase64 = file => new Promise(resolve => {
-                if (!file) return resolve({ base64: null, name: null });
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve({ base64: reader.result, name: file.name });
-                reader.onerror = () => resolve({ base64: null, name: null });
-            });
-            
-            const toggleLoader = show => { document.getElementById('loader').style.display = show ? 'flex' : 'none'; }
-
-            async function postData(action, payload) {
-                if (!SCRIPT_URL || SCRIPT_URL === "DÁN_URL_APPS_SCRIPT_CỦA_BẠN_VÀO_ĐÂY") {
-                    alert("LỖI CẤU HÌNH: Bạn chưa dán URL của Google Apps Script vào file index.html!");
-                    return;
-                }
-                toggleLoader(true);
-                try {
-                    const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action, payload }), headers: { 'Content-Type': 'application/json' }, mode: 'cors' });
-                    if (!response.ok) throw new Error(`Lỗi mạng: ${response.status} ${response.statusText}`);
-                    const result = await response.json();
-                    if (result.status === 'success') {
-                        alert(result.data.message);
-                        goBack();
-                    } else {
-                        throw new Error(result.message || 'Lỗi không xác định từ backend.');
-                    }
-                } catch (error) {
-                    alert("Đã có lỗi nghiêm trọng xảy ra: " + error.message);
-                    console.error('Chi tiết lỗi:', error);
-                } finally {
-                    toggleLoader(false);
-                }
-            }
-
-            document.getElementById('saodo-form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const [p1, p2, p3] = await Promise.all([ 
-                    fileToBase64(document.getElementById('saodo-photo1').files[0]), 
-                    fileToBase64(document.getElementById('saodo-photo2').files[0]), 
-                    fileToBase64(document.getElementById('saodo-photo3').files[0]) 
-                ]);
-                const payload = { 
-                    name: document.getElementById('saodo-name').value, 
-                    class: document.getElementById('saodo-class').value, 
-                    problems: document.getElementById('saodo-problems').value, 
-                    session: document.getElementById('saodo-session').value, 
-                    redstart: reporterName, 
-                    photo1_base64: p1.base64, photo1_name: p1.name, 
-                    photo2_base64: p2.base64, photo2_name: p2.name, 
-                    photo3_base64: p3.base64, photo3_name: p3.name 
-                };
-                postData('submitHoatdongsaodo', payload);
-            });
-
-            document.getElementById('canhan-form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const entries = this.querySelectorAll('.violation-entry');
-                if (entries.length === 0) { alert('Vui lòng thêm ít nhất một vi phạm.'); return; }
-                
-                toggleLoader(true);
-                const allViolationsData = await Promise.all(Array.from(entries).map(async entry => {
-                    const [p1, p2, p3, doc] = await Promise.all([ 
-                        fileToBase64(entry.querySelector('.canhan-photo1').files[0]), 
-                        fileToBase64(entry.querySelector('.canhan-photo2').files[0]), 
-                        fileToBase64(entry.querySelector('.canhan-photo3').files[0]), 
-                        fileToBase64(entry.querySelector('.canhan-doc').files[0]) 
-                    ]);
-                    return { 
-                        name: entry.querySelector('.canhan-name').value, 
-                        class: entry.querySelector('.canhan-class').value, 
-                        problems: entry.querySelector('.canhan-problems').value, 
-                        session: entry.querySelector('.canhan-session').value, 
-                        responsive: entry.querySelector('.canhan-responsive').value, 
-                        redstart: reporterName, 
-                        photo1_base64: p1.base64, photo1_name: p1.name, 
-                        photo2_base64: p2.base64, photo2_name: p2.name, 
-                        photo3_base64: p3.base64, photo3_name: p3.name, 
-                        doc_base64: doc.base64, doc_name: doc.name 
-                    };
-                }));
-                postData('submitViphamcanhan', allViolationsData);
-            });
-            
-            document.getElementById('tapthe-form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const entries = this.querySelectorAll('.violation-entry');
-                if (entries.length === 0) { alert('Vui lòng thêm ít nhất một vi phạm.'); return; }
-                
-                toggleLoader(true);
-                const allViolationsData = await Promise.all(Array.from(entries).map(async entry => {
-                    const [p1, p2, p3, doc] = await Promise.all([ 
-                        fileToBase64(entry.querySelector('.tapthe-photo1').files[0]), 
-                        fileToBase64(entry.querySelector('.tapthe-photo2').files[0]), 
-                        fileToBase64(entry.querySelector('.tapthe-photo3').files[0]), 
-                        fileToBase64(entry.querySelector('.tapthe-doc').files[0]) 
-                    ]);
-                    return { 
-                        class: entry.querySelector('.tapthe-class').value, 
-                        room: entry.querySelector('.tapthe-room').value, 
-                        problems: entry.querySelector('.tapthe-problems').value, 
-                        session: entry.querySelector('.tapthe-session').value, 
-                        responsive: entry.querySelector('.tapthe-responsive').value, 
-                        redstart: reporterName, 
-                        photo1_base64: p1.base64, photo1_name: p1.name, 
-                        photo2_base64: p2.base64, photo2_name: p2.name, 
-                        photo3_base64: p3.base64, photo3_name: p3.name, 
-                        doc_base64: doc.base64, doc_name: doc.name 
-                    };
-                }));
-                postData('submitBaoloitapthe', allViolationsData);
-            });
+    // ---- Files -> base64 ----
+    async function filesToPayload(fileList, limit=3){
+      const files = [...(fileList || [])].slice(0, limit);
+      const readers = files.map(file => new Promise((resolve,reject)=>{
+        const fr = new FileReader();
+        fr.onload = () => resolve({
+          name: file.name,
+          type: file.type,
+          data: fr.result.split(',')[1],
         });
-    </script>
-</body>
-</html>
+        fr.onerror = reject;
+        fr.readAsDataURL(file);
+      }));
+      return Promise.all(readers);
+    }
+
+    // ---- API helpers ----
+    async function apiGet(params={}) {
+      const qs = new URLSearchParams({...params});
+      const res = await fetch(`${API_URL}?${qs.toString()}`, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' }
+      });
+      return res.json();
+    }
+    async function apiPost(action, payload) {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept':'application/json' },
+        body: JSON.stringify({ action, payload })
+      });
+      return res.json();
+    }
+
+    // ---- Load responsive list from API ----
+    async function loadResponsiveOptions() {
+      try{
+        const r = await apiGet({ action: 'responsive' });
+        const list = (r && r.success && r.data) ? r.data : [];
+        const options = (list || []).map(n => `<option>${n}</option>`).join('');
+        $('#cn-responsive').innerHTML = options;
+        $('#tt-responsive').innerHTML = options;
+      }catch(e){ /* ignore */ }
+    }
+    loadResponsiveOptions();
+
+    /** ================= TAB 1: HOẠT ĐỘNG SAO ĐỎ ================= */
+    $('#hd-submit').addEventListener('click', async ()=>{
+      const data = {
+        Redstart: $('#hd-redstart').value.trim(),
+        Name: $('#hd-name').value.trim(),
+        Class: $('#hd-class').value.trim(),
+        Problems: $('#hd-problems').value.trim(),
+        Session: $('#hd-session').value,
+        files: await filesToPayload($('#hd-photos').files, 3),
+      };
+      if(!data.Redstart || !data.Name || !data.Class || !data.Problems){
+        showToast('Vui lòng điền đủ Redstart, Name, Class, Problems.', false); return;
+      }
+      try{
+        const r = await apiPost('saveHoatDongSaodo', data);
+        if(r.success){ showToast(`Đã ghi vào sheet Hoatdongsaodo.`); $('#hd-reset').click(); }
+        else{ showToast(r.error || 'Không thể lưu.', false); }
+      }catch(e){ showToast(String(e), false); }
+    });
+
+    $('#hd-reset').addEventListener('click', ()=>{
+      ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$( '#' + id ).value='');
+      $('#hd-photos').value = '';
+      $('#hd-session').selectedIndex = 0;
+    });
+
+    /** ================= TAB 2: VI PHẠM CÁ NHÂN ================= */
+    const cnList = $('#cn-list');
+    let cnCount = 0;
+    function cnItemTemplate(idx){
+      return `
+        <div class="card" data-cn="${idx}">
+          <div class="grid">
+            <div class="col-6">
+              <label>Người vi phạm (Name) *</label>
+              <input type="text" class="cn-name" required />
+            </div>
+            <div class="col-6">
+              <label>Lớp (Class) *</label>
+              <input type="text" class="cn-class" required />
+            </div>
+            <div class="col-12">
+              <label>Vấn đề vi phạm (Problems) *</label>
+              <textarea class="cn-problems" required></textarea>
+            </div>
+            <div class="col-12">
+              <label>Ảnh vi phạm (tối đa 3, tùy chọn)</label>
+              <input type="file" class="cn-photos" multiple accept="image/*" capture="environment" />
+            </div>
+            <div class="col-12">
+              <label>Biên bản (1 file, tùy chọn)</label>
+              <input type="file" class="cn-doc" accept="image/*,application/pdf" />
+            </div>
+            <div class="col-12 row">
+              <span class="chip">Dòng #${idx+1}</span>
+              <button class="btn ghost cn-remove" type="button">Xóa dòng</button>
+            </div>
+          </div>
+        </div>`;
+    }
+    function addCnItem(){
+      const idx = cnCount++;
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = cnItemTemplate(idx);
+      cnList.appendChild(wrapper.firstElementChild);
+      $$('.cn-remove', cnList).forEach(btn=>{
+        btn.onclick = (e)=> e.currentTarget.closest('[data-cn]').remove();
+      });
+    }
+    $('#cn-add').addEventListener('click', addCnItem);
+    addCnItem();
+
+    $('#cn-submit').addEventListener('click', async ()=>{
+      const Redstart = $('#cn-redstart').value.trim();
+      const Session  = $('#cn-session').value;
+      const Responsive = $('#cn-responsive').value;
+      if(!Redstart){ showToast('Vui lòng nhập Redstart.', false); return; }
+
+      const cards = $$('[data-cn]', cnList);
+      if(cards.length === 0){ showToast('Chưa có dòng nào.', false); return; }
+
+      const entries = [];
+      for (const card of cards){
+        const name = $('.cn-name', card).value.trim();
+        const cls  = $('.cn-class', card).value.trim();
+        const prob = $('.cn-problems', card).value.trim();
+        if(!name || !cls || !prob){
+          showToast('Mỗi dòng cần đủ Name, Class, Problems.', false); return;
+        }
+        const files = await filesToPayload($('.cn-photos', card).files, 3);
+        const doc   = await filesToPayload($('.cn-doc', card).files, 1);
+        entries.push({ Name: name, Class: cls, Problems: prob, Session, Responsive, files, doc });
+      }
+
+      try{
+        const r = await apiPost('saveViphamCanhan', { Redstart, entries });
+        if(r.success){ showToast(`Đã ghi ${entries.length} dòng vào sheet Viphamcanhan.`); $('#cn-reset').click(); }
+        else{ showToast(r.error || 'Không thể lưu.', false); }
+      }catch(e){ showToast(String(e), false); }
+    });
+
+    $('#cn-reset').addEventListener('click', ()=>{
+      $('#
