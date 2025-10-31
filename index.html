@@ -4,10 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>THÔNG TIN SAO ĐỎ</title>
+
+  <!-- Font Nunito (tròn, rõ ràng) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --bg: linear-gradient(135deg,#0ea5e9,#7c3aed);
-      --surface:#ffffff; --ink:#0f172a; --muted:#64748b; --border:#e5e7eb;
+      --surface:#ffffff; --ink:#0f172a; --muted:#637081; --border:#e5e7eb;
       --accent:#7c3aed; --accent2:#0ea5e9;
       --radius:16px; --shadow:0 18px 40px rgba(0,0,0,.12);
       --fs-base: clamp(16px, 2.4vw, 18px);
@@ -18,8 +24,10 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans","Helvetica Neue";
-      color:var(--ink); background:var(--bg); font-size:var(--fs-base)
+      margin:0;
+      font-family: "Nunito", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue";
+      color:var(--ink); background:var(--bg); font-size:var(--fs-base);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     }
     .app{
       width:100%; max-width:1080px; margin:12px auto;
@@ -27,7 +35,7 @@
       border-radius:24px; box-shadow:var(--shadow); border:1px solid #ffffffaa
     }
 
-    /* Banner – sang trọng, logo rõ */
+    /* Banner */
     header{
       position:sticky; top:0; z-index:50; color:#fff; border-bottom:1px solid #ffffff22;
       background: linear-gradient(180deg,#0b1020,#121826);
@@ -43,10 +51,10 @@
       background:#fff; border:1px solid #e2e8f0; box-shadow:0 8px 20px rgba(0,0,0,.18); overflow:hidden
     }
     .logo img{width:100%; height:100%; object-fit:cover}
-    .title h1{margin:0; font-size:var(--fs-xl); letter-spacing:.2px}
-    .title p{margin:2px 0 0; font-size:var(--fs-sm); color:#cbd5e1}
+    .title h1{margin:0; font-size:var(--fs-xl); letter-spacing:.2px; font-weight:800}
+    .title p{margin:2px 0 0; font-size:var(--fs-sm); color:#cbd5e1; font-weight:600}
 
-    /* Thanh chọn phần – nhỏ gọn hơn, trong ô chữ nhật */
+    /* Tabbar */
     .tabbar-wrap{
       position:sticky; top:72px; z-index:40; background:#f5f7fb;
       padding:10px 12px; border-top:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;
@@ -57,19 +65,19 @@
       box-shadow:0 8px 20px rgba(15,23,42,.06);
     }
     .tab{
-      padding:10px 12px; border-radius:10px; background:#f8fafc; border:1px solid #e2e8f0;
+      padding:10px 12px; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0;
       cursor:pointer; font-weight:800; color:#0f172a; transition:.15s; font-size:var(--fs-lg); text-align:center;
-      line-height:1.1;
+      line-height:1.15;
     }
     .tab:hover{transform: translateY(-1px)}
     .tab.active{
       background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent;
       box-shadow:0 6px 14px rgba(124,58,237,.22)
     }
-    /* Mobile: nút gọn hơn, không chiếm nhiều chiều cao */
+    /* Mobile */
     @media (max-width: 720px){
       .tabbar{grid-template-columns:1fr; gap:6px; padding:6px}
-      .tab{font-size:16px; padding:9px 12px; border-radius:9px}
+      .tab{font-size:16px; padding:9px 12px; border-radius:10px}
       .title h1{font-size:22px}
       .banner{min-height:64px}
       .logo{width:50px;height:50px;border-radius:12px}
@@ -79,11 +87,11 @@
     main{padding:14px 14px 22px}
     .card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:14px; margin-bottom:12px}
 
-    /* Lưới: desktop 2 cột, mobile 1 cột */
+    /* Grid: desktop 2 cột, mobile 1 cột */
     .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
     @media (max-width: 768px){ .grid{grid-template-columns:1fr; gap:12px} }
 
-    label{font-size:var(--fs-sm); color:#475569; font-weight:800; letter-spacing:.3px; display:block; margin-bottom:6px}
+    label{font-size:var(--fs-sm); color:#475569; font-weight:800; letter-spacing:.2px; display:block; margin-bottom:6px}
     input[type="text"], input[type="number"], select, textarea{
       width:100%; padding:13px 12px; border-radius:12px; border:1px solid #cbd5e1;
       font-size:var(--fs-base); background:#fff; outline:none; transition:.15s
@@ -96,12 +104,12 @@
     .hidden{display:none}
     .hr{height:1px; background:#e2e8f0; margin:14px 0}
 
-    /* Khối tách bạch: Ảnh / Biên bản */
+    /* Fieldset tách bạch */
     .fieldset{border:1px dashed #d1d5db; border-radius:12px; padding:12px; background:#fcfcff}
-    .fieldset h4{margin:0 0 8px; font-size:18px; color:#0f172a}
+    .fieldset h4{margin:0 0 8px; font-size:18px; color:#0f172a; font-weight:800}
 
     .btn{
-      padding:12px 14px; border-radius:12px; border:0; cursor:pointer; font-weight:900; font-size:var(--fs-base);
+      padding:12px 14px; border-radius:12px; border:0; cursor:pointer; font-weight:800; font-size:var(--fs-base);
       background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; transition:.12s; box-shadow:0 8px 18px rgba(124,58,237,.16)
     }
     .btn:hover{transform: translateY(-1px)}
@@ -112,7 +120,7 @@
     .status{margin-top:6px; font-size:var(--fs-sm)}
     .status.ok{color:#065f46}
 
-    /* THÔNG BÁO nổi (không phải alert trình duyệt) */
+    /* THÔNG BÁO nổi */
     #notice{
       position:fixed; left:50%; bottom:12px; transform:translateX(-50%);
       max-width:1080px; width:calc(100% - 24px);
@@ -152,14 +160,13 @@
       </div>
     </header>
 
-    <!-- Tabbar gọn hơn -->
+    <!-- Tabbar + Nút QR -->
     <div class="tabbar-wrap">
       <div class="tabbar">
         <button class="tab active" data-tab="hoatdong">Hoạt động sao đỏ</button>
         <button class="tab" data-tab="canhan">Vi phạm cá nhân</button>
         <button class="tab" data-tab="tapthe">Vi phạm tập thể</button>
       </div>
-      <!-- Nút Mức phạt & Chuyển khoản -->
       <div style="margin-top:8px; text-align:center;">
         <button id="btn-fee-info" class="btn ghost" type="button">Mức phạt & Chuyển khoản</button>
       </div>
@@ -206,18 +213,6 @@
 
         <div class="hr"></div>
 
-        <!-- Mức phạt & Minh chứng (áp dụng cho cả batch) -->
-        <div class="grid" style="margin-top:8px">
-          <div>
-            <label>Mức nộp phạt (VNĐ)</label>
-            <input id="cn-fine-amount" type="number" min="0" placeholder="VD: 50000" />
-          </div>
-          <div class="fieldset" style="grid-column:1/-1">
-            <h4>Minh chứng nộp phạt (1 file)</h4>
-            <input id="cn-fine-proof" type="file" accept="image/*,application/pdf" />
-          </div>
-        </div>
-
         <div class="row"><button class="btn" id="cn-submit">Gửi tất cả</button></div>
         <div id="cn-status" class="status"></div>
       </section>
@@ -239,18 +234,6 @@
         </div>
 
         <div class="hr"></div>
-
-        <!-- Mức phạt & Minh chứng (áp dụng cho cả batch) -->
-        <div class="grid" style="margin-top:8px">
-          <div>
-            <label>Mức nộp phạt (VNĐ)</label>
-            <input id="tt-fine-amount" type="number" min="0" placeholder="VD: 200000" />
-          </div>
-          <div class="fieldset" style="grid-column:1/-1">
-            <h4>Minh chứng nộp phạt (1 file)</h4>
-            <input id="tt-fine-proof" type="file" accept="image/*,application/pdf" />
-          </div>
-        </div>
 
         <div class="row"><button class="btn" id="tt-submit">Gửi tất cả</button></div>
         <div id="tt-status" class="status"></div>
@@ -278,7 +261,6 @@
         <ul style="margin-top:6px;">
           <li>Vệ sinh lớp học: <strong>50.000 VNĐ</strong></li>
           <li>Hút thuốc: <strong>200.000 VNĐ</strong></li>
-          <!-- Có thể bổ sung thêm tại đây -->
         </ul>
         <div class="hr"></div>
         <p><strong>QR chuyển khoản:</strong></p>
@@ -290,7 +272,7 @@
 
   <script>
     /* ĐỔI CHUỖI NÀY THÀNH URL /exec THẬT CỦA BẠN */
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyPUORaHKsW0YTmS4F_uhlmy34PL0GaozHMxuOjPDnIi34oiQ7licJfr4Qv2Fucw2YYUA/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyWRKiYilceoOyMFVmU7pqAegCvCMHgMDXMK8CJQZ1A4EpmUK-oyrYP508STaajQNwvAg/exec';
 
     const $  = (s, r=document)=>r.querySelector(s);
     const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
@@ -425,11 +407,11 @@
       unlockForEditing('hd', $('#hd-submit'), $('#hd-status'));
     });
 
-    /* TAB 2 */
+    /* TAB 2: Vi phạm cá nhân */
     const cnList = $('#cn-list'); let cnCount = 0;
     function cnItemTemplate(i){
       return `
-      <div class="card" data-cn="${i}">
+      <div class="card" data-cn="\${i}">
         <div class="grid">
           <div><label>Người vi phạm *</label><input type="text" class="cn-name" /></div>
           <div><label>Lớp *</label><input type="text" class="cn-class" /></div>
@@ -443,6 +425,18 @@
           <div style="grid-column:1/-1" class="fieldset">
             <h4>Biên bản (tối đa 1 file)</h4>
             <input type="file" class="cn-doc" accept="image/*,application/pdf" />
+          </div>
+
+          <!-- Mức phạt & Minh chứng (THEO DÒNG) -->
+          <div class="grid" style="grid-column:1/-1">
+            <div>
+              <label>Mức nộp phạt (VNĐ)</label>
+              <input type="number" class="cn-fine-amount" min="0" placeholder="VD: 50000" />
+            </div>
+            <div class="fieldset" style="grid-column:1/-1">
+              <h4>Minh chứng nộp phạt (1 file)</h4>
+              <input type="file" class="cn-fine-proof" accept="image/*,application/pdf" />
+            </div>
           </div>
 
           <div style="grid-column:1/-1" class="row">
@@ -465,7 +459,6 @@
     $('#cn-reset').addEventListener('click', ()=>{
       $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
       cnList.innerHTML=''; cnCount=0; addCnItem();
-      $('#cn-fine-amount').value=''; $('#cn-fine-proof').value='';
       unlockForEditing('cn', $('#cn-submit'), $('#cn-status'));
       window.scrollBy({top:1});
     });
@@ -477,10 +470,8 @@
       const Redstart = $('#cn-redstart').value.trim();
       const Session  = $('#cn-session').value;
       const Responsive = $('#cn-responsive').value;
-      const FineAmount = Number($('#cn-fine-amount').value || 0) || 0;
-      const fineProofFiles = await filesToPayload($('#cn-fine-proof').files, 1);
-
       const cards = $$('[data-cn]', cnList);
+
       if(!Redstart || cards.length===0){
         showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
         busy.cn=false; $('#cn-submit').disabled=false; return;
@@ -497,16 +488,23 @@
         }
         const files = await filesToPayload($('.cn-photos', card).files, 3);
         const doc   = await filesToPayload($('.cn-doc', card).files, 1);
-        entries.push({ Name:name, Class:cls, Problems:prob, Session, Responsive, files, doc });
+
+        const fineAmount = Number($('.cn-fine-amount', card)?.value || 0) || 0;
+        const fineProof  = await filesToPayload($('.cn-fine-proof',  card)?.files || [], 1);
+
+        entries.push({
+          Name: name, Class: cls, Problems: prob, Session, Responsive,
+          files, doc,
+          FineAmount: fineAmount,
+          FineProof:  fineProof
+        });
       }
 
       try{
-        const payload = { Redstart, entries, FineAmount, FineProof: fineProofFiles };
-        const r = await apiPost('saveViphamCanhan', payload);
+        const r = await apiPost('saveViphamCanhan', { Redstart, entries });
         if(r.success){
           $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
           cnList.innerHTML=''; cnCount=0; addCnItem();
-          $('#cn-fine-amount').value=''; $('#cn-fine-proof').value='';
           showConfirm();
           lockAfterSuccess('cn', $('#cn-submit'), statusEl);
           showNotice('THÔNG BÁO: Hệ thống đã ghi nhận thông tin.', true);
@@ -520,11 +518,11 @@
       }
     });
 
-    /* TAB 3 */
+    /* TAB 3: Vi phạm tập thể */
     const ttList = $('#tt-list'); let ttCount = 0;
     function ttItemTemplate(i){
       return `
-      <div class="card" data-tt="${i}">
+      <div class="card" data-tt="\${i}">
         <div class="grid">
           <div><label>Lớp *</label><input type="text" class="tt-class" /></div>
           <div><label>Phòng học</label><input type="text" class="tt-room" placeholder="VD: P201" /></div>
@@ -538,6 +536,18 @@
           <div style="grid-column:1/-1" class="fieldset">
             <h4>Biên bản (tối đa 1 file)</h4>
             <input type="file" class="tt-doc" accept="image/*,application/pdf" />
+          </div>
+
+          <!-- Mức phạt & Minh chứng (THEO DÒNG) -->
+          <div class="grid" style="grid-column:1/-1">
+            <div>
+              <label>Mức nộp phạt (VNĐ)</label>
+              <input type="number" class="tt-fine-amount" min="0" placeholder="VD: 200000" />
+            </div>
+            <div class="fieldset" style="grid-column:1/-1">
+              <h4>Minh chứng nộp phạt (1 file)</h4>
+              <input type="file" class="tt-fine-proof" accept="image/*,application/pdf" />
+            </div>
           </div>
 
           <div style="grid-column:1/-1" class="row">
@@ -560,7 +570,6 @@
     $('#tt-reset').addEventListener('click', ()=>{
       $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0;
       ttList.innerHTML=''; ttCount=0; addTtItem();
-      $('#tt-fine-amount').value=''; $('#tt-fine-proof').value='';
       unlockForEditing('tt', $('#tt-submit'), $('#tt-status'));
       window.scrollBy({top:1});
     });
@@ -572,9 +581,6 @@
       const Redstart = $('#tt-redstart').value.trim();
       const Session  = $('#tt-session').value;
       const Responsive = $('#tt-responsive').value;
-      const FineAmount = Number($('#tt-fine-amount').value || 0) || 0;
-      const fineProofFiles = await filesToPayload($('#tt-fine-proof').files, 1);
-
       const cards = $$('[data-tt]', ttList);
 
       if(!Redstart || cards.length===0){
@@ -593,16 +599,23 @@
         }
         const files = await filesToPayload($('.tt-photos', card).files, 3);
         const doc   = await filesToPayload($('.tt-doc', card).files, 1);
-        entries.push({ Class:cls, Room:room, Problems:prob, Session, Responsive, files, doc });
+
+        const fineAmount = Number($('.tt-fine-amount', card)?.value || 0) || 0;
+        const fineProof  = await filesToPayload($('.tt-fine-proof',  card)?.files || [], 1);
+
+        entries.push({
+          Class: cls, Room: room, Problems: prob, Session, Responsive,
+          files, doc,
+          FineAmount: fineAmount,
+          FineProof:  fineProof
+        });
       }
 
       try{
-        const payload = { Redstart, entries, FineAmount, FineProof: fineProofFiles };
-        const r = await apiPost('saveBaoloiTapthe', payload);
+        const r = await apiPost('saveBaoloiTapthe', { Redstart, entries });
         if(r.success){
           $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0;
           ttList.innerHTML=''; ttCount=0; addTtItem();
-          $('#tt-fine-amount').value=''; $('#tt-fine-proof').value='';
           showConfirm();
           lockAfterSuccess('tt', $('#tt-submit'), statusEl);
           showNotice('THÔNG BÁO: Hệ thống đã ghi nhận thông tin.', true);
