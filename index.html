@@ -6,71 +6,158 @@
   <title>THÔNG TIN SAO ĐỎ</title>
   <style>
     :root{
-      --bg: linear-gradient(135deg,#0ea5e9,#9333ea);
-      --card: #ffffff; --ink:#0f172a; --muted:#64748b;
-      --ok:#16a34a; --err:#dc2626; --accent:#7c3aed; --warn:#b45309;
+      --bg: linear-gradient(135deg,#0ea5e9,#7c3aed);
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --border: #e5e7eb;
+      --accent: #7c3aed;
+      --accent-2:#0ea5e9;
+      --ok:#16a34a; --err:#dc2626;
+      --radius: 16px;
+      --shadow: 0 18px 40px rgba(0,0,0,.12);
+      --fs-base: clamp(16px, 2.2vw, 18px);
+      --fs-sm: clamp(13px, 1.8vw, 14px);
+      --fs-lg: clamp(18px, 2.4vw, 20px);
+      --fs-xl: clamp(22px, 3.4vw, 28px);
     }
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans","Helvetica Neue";
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue";
       color:var(--ink);
       background:var(--bg);
-      min-height:100vh;
-      display:flex;align-items:center;justify-content:center;
-      padding:24px;
+      display:flex; align-items:center; justify-content:center;
+      padding:20px;
+      font-size: var(--fs-base);
     }
     .app{
-      width:100%;max-width:1100px;
+      width:100%; max-width:1080px;
       background:linear-gradient(180deg,#ffffffee,#ffffff);
-      border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.15);
+      border-radius:24px; box-shadow: var(--shadow); overflow:hidden;
+      border:1px solid #ffffffaa;
+    }
+    /* Header / Banner */
+    header{
+      position:relative;
+      padding:0; background:#0b1020; color:#fff;
       overflow:hidden;
     }
-    header{display:flex;align-items:center;gap:16px;padding:20px 24px;background:#0f172a;color:#fff}
-    .logo{width:44px;height:44px;border-radius:12px;background:#fff1;display:grid;place-items:center;font-weight:700;border:1px solid #fff3}
-    .title h1{margin:0;font-size:20px;letter-spacing:.5px}
-    .title p{margin:2px 0 0;font-size:12px;color:#cbd5e1}
-    .diag{padding:8px 12px;background:#fffbeb;color:#92400e;border-top:1px solid #fde68a;font-size:12px}
-    nav{display:flex;gap:8px;padding:12px;background:#f1f5f9;flex-wrap:wrap}
+    .banner{
+      display:flex; align-items:center; gap:18px;
+      padding:18px 22px;
+      background: radial-gradient(1200px 400px at -10% -60%, #5b21b6 0%, transparent 60%),
+                  radial-gradient(1200px 400px at 120% 160%, #0284c7 0%, transparent 60%),
+                  #0b1020;
+      border-bottom: 1px solid #ffffff20;
+    }
+    .logo{
+      width:56px; height:56px; border-radius:14px; overflow:hidden; flex:0 0 auto;
+      display:grid; place-items:center; background:#ffffff10; border:1px solid #ffffff25;
+    }
+    .logo img{width:100%; height:100%; object-fit:cover}
+    .title h1{margin:0; font-size: var(--fs-xl); letter-spacing:.2px}
+    .title p{margin:4px 0 0; font-size: var(--fs-sm); color:#cbd5e1}
+
+    /* Nav */
+    nav{
+      display:flex; gap:10px; padding:12px 16px; background:#f1f5f9; flex-wrap:wrap; align-items:center
+    }
     .tab{
-      padding:10px 14px;border-radius:999px;background:#fff;border:1px solid #e2e8f0;cursor:pointer;
-      font-weight:600;color:#334155;transition:.2s
+      padding:12px 16px;
+      border-radius:999px; background:#fff; border:1px solid var(--border);
+      cursor:pointer; font-weight:700; color:#334155; transition:.25s ease;
+      font-size: var(--fs-base);
     }
-    .tab.active{background:var(--accent);color:#fff;border-color:transparent}
+    .tab:hover{transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,.06)}
+    .tab.active{
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#fff; border-color:transparent; box-shadow: 0 10px 24px rgba(124,58,237,.30)
+    }
+
     main{padding:20px}
-    .card{background:var(--card);border:1px solid #e5e7eb;border-radius:16px;padding:16px;margin-bottom:16px}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-    @media (max-width:900px){.grid{grid-template-columns:repeat(6,1fr)}}
-    @media (max-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
-    .col-12{grid-column:span 12}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}
-    label{font-size:12px;color:#475569;font-weight:700;letter-spacing:.3px}
-    input[type="text"],input[type="email"],select,textarea{
-      width:100%;padding:12px;border-radius:12px;border:1px solid #cbd5e1;font-size:14px;background:#fff
+    .card{
+      background:var(--surface); border:1px solid var(--border);
+      border-radius: var(--radius); padding:18px; margin-bottom:16px
     }
-    textarea{min-height:90px}
-    .btn{padding:12px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:700;font-size:14px;background:var(--accent);color:#fff;box-shadow:0 6px 14px rgba(124,58,237,.25)}
-    .btn.secondary{background:#0ea5e9}.btn.ghost{background:#fff;color:#334155;border:1px solid #e2e8f0}
-    .muted{color:var(--muted);font-size:12px}
-    .row{display:flex;gap:8px;flex-wrap:wrap}
-    .chip{background:#f1f5f9;border:1px dashed #cbd5e1;padding:8px 10px;border-radius:999px;font-size:12px}
-    .success{color:var(--ok);font-weight:700}.error{color:var(--err);font-weight:700}
-    footer{padding:14px 20px;background:#f8fafc;font-size:12px;color:#475569}
-    .hidden{display:none}.split{display:flex;gap:12px;align-items:center;justify-content:space-between}
-    .hr{height:1px;background:#e2e8f0;margin:12px 0}
+    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:14px}
+    .col-12{grid-column: span 12}
+    .col-8{grid-column: span 8}
+    .col-6{grid-column: span 6}
+    .col-4{grid-column: span 4}
+    .col-3{grid-column: span 3}
+    @media (max-width: 900px){ .grid{grid-template-columns: repeat(6, 1fr)} .col-8{grid-column: span 6} }
+    @media (max-width: 600px){ .grid{grid-template-columns: repeat(2, 1fr)} .col-6,.col-4,.col-3{grid-column: span 2} }
+
+    label{
+      font-size: var(--fs-sm); color:#475569; font-weight:800; letter-spacing:.3px;
+      display:block; margin-bottom:6px;
+    }
+    input[type="text"], input[type="email"], select, textarea{
+      width:100%; padding:14px 14px;
+      border-radius:14px; border:1px solid #cbd5e1; font-size: var(--fs-base);
+      background:#fff; transition: .2s ease; outline: none;
+    }
+    textarea{min-height:110px}
+    input:focus, select:focus, textarea:focus{
+      border-color:#7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,.15)
+    }
+
+    .muted{color:var(--muted); font-size: var(--fs-sm)}
+    .row{display:flex; gap:10px; flex-wrap:wrap}
+    .hr{height:1px; background:#e2e8f0; margin:16px 0}
+    .hidden{display:none}
+
+    /* Buttons */
+    .btn{
+      padding:13px 18px; border-radius:14px; border:0; cursor:pointer; font-weight:800; font-size: var(--fs-base);
+      background: linear-gradient(135deg,var(--accent),var(--accent-2)); color:#fff;
+      box-shadow: 0 10px 24px rgba(124,58,237,.28); transition:.25s ease;
+    }
+    .btn:hover{transform: translateY(-1px)}
+    .btn:disabled{opacity:.6; cursor:not-allowed; transform:none; box-shadow:none}
+    .btn.secondary{background: linear-gradient(135deg,#0284c7,#06b6d4)}
+    .btn.ghost{background:#fff; color:#334155; border:1px solid var(--border); box-shadow:none}
+
+    /* Toast */
+    #toast{display:flex; align-items:center; gap:10px}
+    .success{color:var(--ok); font-weight:800}
+    .error{color:var(--err); font-weight:800}
+
+    /* Inline chips */
+    .chip{background:#f1f5f9; border:1px dashed #cbd5e1; padding:8px 10px; border-radius:999px; font-size: var(--fs-sm)}
+
+    /* Footer */
+    footer{padding:18px 20px; background:#f8fafc; font-size: var(--fs-sm); color:#475569; text-align:center}
+
+    /* Fine-tuning for mobile sizing */
+    /* Redstart to span more columns, Session smaller */
+    #hd-redstart, #cn-redstart, #tt-redstart { font-size: var(--fs-base) }
+    #hd-session,  #cn-session,  #tt-session  { font-size: var(--fs-base) }
+
+    /* Spinner */
+    .spinner{
+      width:16px; height:16px; border:3px solid #fff; border-top-color: transparent;
+      border-radius:50%; display:inline-block; animation: spin .8s linear infinite; vertical-align:-3px; margin-right:8px
+    }
+    @keyframes spin { to { transform: rotate(360deg) } }
   </style>
 </head>
 <body>
   <div class="app">
+    <!-- Banner -->
     <header>
-      <div class="logo">⭐</div>
-      <div class="title">
-        <h1>THÔNG TIN SAO ĐỎ</h1>
-        <p>Nhập liệu nhanh • Lưu ảnh Drive • Ghi Google Sheets</p>
+      <div class="banner">
+        <div class="logo">
+          <img src="https://github.com/duongcanhquan/image/blob/main/logo%20vietmy.webp?raw=1" alt="Logo trường">
+        </div>
+        <div class="title">
+          <h1>THÔNG TIN SAO ĐỎ</h1>
+          <p>Hệ thống ghi nhận báo cáo vi phạm</p>
+        </div>
       </div>
     </header>
-
-    <!-- Thanh chẩn đoán API -->
-    <div id="diag" class="diag">Đang kiểm tra API…</div>
 
     <!-- Tabs -->
     <nav>
@@ -86,11 +173,11 @@
       <!-- TAB 1: Hoạt động sao đỏ -->
       <section id="tab-hoatdong" class="card">
         <div class="grid">
-          <div class="col-6">
+          <div class="col-8">
             <label>Người khai báo (Redstart) *</label>
             <input id="hd-redstart" type="text" placeholder="Nhập tên của bạn" required />
           </div>
-          <div class="col-6">
+          <div class="col-4">
             <label>Ca học *</label>
             <select id="hd-session"><option>Ca sáng</option><option>Ca chiều</option></select>
           </div>
@@ -100,11 +187,12 @@
           <div class="col-12">
             <label>Ảnh vi phạm (tối đa 3, tùy chọn)</label>
             <input id="hd-photos" type="file" multiple accept="image/*" capture="environment" />
-            <p class="muted">Bạn có thể tải từ máy hoặc chụp trực tiếp. Không bắt buộc.</p>
           </div>
-          <div class="col-12 split">
-            <div class="row"><button class="btn" id="hd-submit">Gửi</button><button class="btn ghost" id="hd-reset">Làm mới</button></div>
-            <div class="muted">Khi gửi, hệ thống sẽ lưu ảnh vào Drive và ghi link vào Sheet.</div>
+          <div class="col-12">
+            <div class="row">
+              <button class="btn" id="hd-submit"><span id="hd-spin" class="spinner hidden"></span>Gửi</button>
+              <button class="btn ghost" id="hd-reset">Làm mới</button>
+            </div>
           </div>
         </div>
       </section>
@@ -112,66 +200,71 @@
       <!-- TAB 2: Vi phạm cá nhân -->
       <section id="tab-canhan" class="card hidden">
         <div class="grid">
-          <div class="col-6"><label>Người khai báo (Redstart) *</label><input id="cn-redstart" type="text" required /></div>
-          <div class="col-6"><label>Ca học *</label><select id="cn-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
+          <div class="col-8"><label>Người khai báo (Redstart) *</label><input id="cn-redstart" type="text" required /></div>
+          <div class="col-4"><label>Ca học *</label><select id="cn-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
           <div class="col-12">
             <label>Người phụ trách (Responsive) *</label>
             <select id="cn-responsive"></select>
-            <p class="muted">Danh sách lấy từ sheet <b>thongtinthayco</b>. Nếu trống sẽ dùng danh sách mặc định.</p>
           </div>
         </div>
+
         <div class="hr"></div>
-        <div class="row"><button class="btn secondary" id="cn-add">+ Thêm cá nhân</button><span class="muted">Bạn có thể thêm nhiều cá nhân và gửi một lần.</span></div>
-        <div id="cn-list"></div>
+
+        <div class="row">
+          <button class="btn secondary" id="cn-add">+ Thêm cá nhân</button>
+          <span class="muted">Bạn có thể thêm nhiều cá nhân và gửi một lần.</span>
+        </div>
+
+        <div id="cn-list" style="margin-top:12px"></div>
+
         <div class="hr"></div>
-        <div class="split">
-          <div class="row"><button class="btn" id="cn-submit">Gửi tất cả</button><button class="btn ghost" id="cn-reset">Làm mới</button></div>
-          <div class="muted">Ảnh & biên bản sẽ lưu vào Drive; link ghi vào Sheet.</div>
+        <div class="row">
+          <button class="btn" id="cn-submit"><span id="cn-spin" class="spinner hidden"></span>Gửi tất cả</button>
+          <button class="btn ghost" id="cn-reset">Làm mới</button>
         </div>
       </section>
 
       <!-- TAB 3: Vi phạm tập thể -->
       <section id="tab-tapthe" class="card hidden">
         <div class="grid">
-          <div class="col-6"><label>Người khai báo (Redstart) *</label><input id="tt-redstart" type="text" required /></div>
-          <div class="col-6"><label>Ca học *</label><select id="tt-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
+          <div class="col-8"><label>Người khai báo (Redstart) *</label><input id="tt-redstart" type="text" required /></div>
+          <div class="col-4"><label>Ca học *</label><select id="tt-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
           <div class="col-12"><label>Người phụ trách (Responsive) *</label><select id="tt-responsive"></select></div>
         </div>
+
         <div class="hr"></div>
-        <div class="row"><button class="btn secondary" id="tt-add">+ Thêm báo lỗi tập thể</button><span class="muted">Bạn có thể thêm nhiều dòng và gửi một lần.</span></div>
-        <div id="tt-list"></div>
+
+        <div class="row">
+          <button class="btn secondary" id="tt-add">+ Thêm báo lỗi tập thể</button>
+          <span class="muted">Bạn có thể thêm nhiều dòng và gửi một lần.</span>
+        </div>
+
+        <div id="tt-list" style="margin-top:12px"></div>
+
         <div class="hr"></div>
-        <div class="split">
-          <div class="row"><button class="btn" id="tt-submit">Gửi tất cả</button><button class="btn ghost" id="tt-reset">Làm mới</button></div>
-          <div class="muted">Ảnh & biên bản sẽ lưu vào Drive; link ghi vào Sheet.</div>
+        <div class="row">
+          <button class="btn" id="tt-submit"><span id="tt-spin" class="spinner hidden"></span>Gửi tất cả</button>
+          <button class="btn ghost" id="tt-reset">Làm mới</button>
         </div>
       </section>
     </main>
 
-    <footer>© SAO ĐỎ • Giao diện hiện đại, tương thích desktop / tablet / mobile. Thời gian lưu theo Asia/Bangkok.</footer>
+    <footer>@dichvusinhvien All Rights reserved</footer>
   </div>
 
   <script>
-    /* ======== THAY GIÁ TRỊ NÀY BẰNG URL /exec CỦA BẠN ======== */
+    /* ========= THAY GIÁ TRỊ NÀY BẰNG URL /exec CỦA BẠN ========= */
     const API_URL = 'https://script.google.com/macros/s/AKfycbzK-Nya_PjYVWA0QKJYPB_K-aAQy-IL1wj6oITHh8s5RULIETHgisxRdhfYjGhjbB3Qvw/exec';
 
-    /* ==== DOM helpers & UI ==== */
+    /* ==== DOM helpers ==== */
     const $  = (sel, root=document) => root.querySelector(sel);
     const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
-    const toast = $('#toast'); const diag = $('#diag');
+    const toast = $('#toast');
 
     function showToast(html, ok=true){
       toast.classList.remove('hidden');
       toast.innerHTML = `<span class="${ok?'success':'error'}">${ok?'✔':''}${ok?' Thành công':' Lỗi'}</span> • ${html}`;
-      setTimeout(()=>toast.classList.add('hidden'), 6000);
-    }
-    function setDiag(msg, type='warn'){
-      const color = type==='ok'?'#065f46':type==='err'?'#991b1b':'#92400e';
-      const bg = type==='ok'?'#ecfdf5':type==='err'?'#fef2f2':'#fffbeb';
-      const bd = type==='ok'?'#a7f3d0':type==='err'?'#fecaca':'#fde68a';
-      diag.style.background = bg; diag.style.color = color; diag.style.borderTop = '1px solid '+bd;
-      diag.textContent = msg;
-      console.log('[DIAG]', msg);
+      setTimeout(()=>toast.classList.add('hidden'), 5000);
     }
 
     /* ==== Tabs ==== */
@@ -185,14 +278,13 @@
       });
     });
 
-    /* ==== File -> base64 ==== */
+    /* ==== Files -> base64 ==== */
     async function filesToPayload(fileList, limit=3){
       const files = [...(fileList || [])].slice(0, limit);
       const readers = files.map(file => new Promise((resolve,reject)=>{
         const fr = new FileReader();
         fr.onload  = () => resolve({ name:file.name, type:file.type, data:fr.result.split(',')[1] });
-        fr.onerror = reject;
-        fr.readAsDataURL(file);
+        fr.onerror = reject; fr.readAsDataURL(file);
       }));
       return Promise.all(readers);
     }
@@ -215,7 +307,60 @@
       return res.json();
     }
 
-    /* ==== Vi phạm cá nhân / tập thể: templates ==== */
+    /* ==== Dropdown người phụ trách (ẩn chẩn đoán, chỉ toast nếu lỗi) ==== */
+    (async function boot(){
+      try{
+        const r = await apiGet({ action:'responsive' });
+        const list = (r && r.success && r.data) ? r.data : [];
+        const options = (list || []).map(n=>`<option>${n}</option>`).join('');
+        $('#cn-responsive').innerHTML = options;
+        $('#tt-responsive').innerHTML = options;
+      }catch(e){
+        showToast('Không nạp được danh sách người phụ trách: ' + e.message, false);
+        console.error(e);
+      }
+    })();
+
+    /* ========= CHỐNG GỬI TRÙNG: helper ========= */
+    function setLoading(btn, spinEl, isLoading){
+      if(!btn) return;
+      btn.disabled = !!isLoading;
+      if(spinEl){
+        if(isLoading) spinEl.classList.remove('hidden');
+        else spinEl.classList.add('hidden');
+      }
+      btn.style.pointerEvents = isLoading ? 'none' : 'auto';
+    }
+
+    /* ==================== TAB 1: HOẠT ĐỘNG SAO ĐỎ ==================== */
+    $('#hd-submit').addEventListener('click', async ()=>{
+      const btn  = $('#hd-submit'); const spin = $('#hd-spin');
+      setLoading(btn, spin, true);
+      const data = {
+        Redstart: $('#hd-redstart').value.trim(),
+        Name:     $('#hd-name').value.trim(),
+        Class:    $('#hd-class').value.trim(),
+        Problems: $('#hd-problems').value.trim(),
+        Session:  $('#hd-session').value,
+        files:    await filesToPayload($('#hd-photos').files, 3)
+      };
+      if(!data.Redstart || !data.Name || !data.Class || !data.Problems){
+        showToast('Vui lòng điền đủ Redstart, Name, Class, Problems.', false);
+        setLoading(btn, spin, false); return;
+      }
+      try{
+        const r = await apiPost('saveHoatDongSaodo', data);
+        if(r.success){ showToast('Đã ghi vào sheet Hoatdongsaodo.'); $('#hd-reset').click(); }
+        else{ showToast(r.error || 'Không thể lưu.', false); }
+      }catch(e){ showToast('API lỗi: ' + e.message, false); }
+      setLoading(btn, spin, false);
+    });
+    $('#hd-reset').addEventListener('click', ()=>{
+      ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$('#'+id).value='');
+      $('#hd-photos').value=''; $('#hd-session').selectedIndex=0;
+    });
+
+    /* ==================== TAB 2: VI PHẠM CÁ NHÂN ==================== */
     const cnList = $('#cn-list'); let cnCount = 0;
     function cnItemTemplate(i){ return `
       <div class="card" data-cn="${i}">
@@ -235,6 +380,38 @@
     }
     $('#cn-add').addEventListener('click', addCnItem); addCnItem();
 
+    $('#cn-submit').addEventListener('click', async ()=>{
+      const btn = $('#cn-submit'); const spin = $('#cn-spin');
+      setLoading(btn, spin, true);
+
+      const Redstart = $('#cn-redstart').value.trim();
+      const Session  = $('#cn-session').value;
+      const Responsive = $('#cn-responsive').value;
+      if(!Redstart){ showToast('Vui lòng nhập Redstart.', false); setLoading(btn, spin, false); return; }
+      const cards = $$('[data-cn]', cnList); if(cards.length===0){ showToast('Chưa có dòng nào.', false); setLoading(btn, spin, false); return; }
+
+      const entries = [];
+      for (const card of cards){
+        const name = $('.cn-name', card).value.trim();
+        const cls  = $('.cn-class', card).value.trim();
+        const prob = $('.cn-problems', card).value.trim();
+        if(!name || !cls || !prob){ showToast('Mỗi dòng cần đủ Name, Class, Problems.', false); setLoading(btn, spin, false); return; }
+        const files = await filesToPayload($('.cn-photos', card).files, 3);
+        const doc   = await filesToPayload($('.cn-doc', card).files, 1);
+        entries.push({ Name:name, Class:cls, Problems:prob, Session, Responsive, files, doc });
+      }
+      try{
+        const r = await apiPost('saveViphamCanhan', { Redstart, entries });
+        if(r.success){ showToast(`Đã ghi ${entries.length} dòng vào sheet Viphamcanhan.`); $('#cn-reset').click(); }
+        else{ showToast(r.error || 'Không thể lưu.', false); }
+      }catch(e){ showToast('API lỗi: ' + e.message, false); }
+      setLoading(btn, spin, false);
+    });
+    $('#cn-reset').addEventListener('click', ()=>{
+      $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0; cnList.innerHTML=''; cnCount=0; addCnItem();
+    });
+
+    /* ==================== TAB 3: VI PHẠM TẬP THỂ ==================== */
     const ttList = $('#tt-list'); let ttCount = 0;
     function ttItemTemplate(i){ return `
       <div class="card" data-tt="${i}">
@@ -254,92 +431,22 @@
     }
     $('#tt-add').addEventListener('click', addTtItem); addTtItem();
 
-    /* ==== Boot: kiểm tra API & nạp dropdown ==== */
-    (async function boot(){
-      try{
-        if(!API_URL || API_URL.includes('DEPLOYMENT_ID')){
-          setDiag('API_URL chưa cấu hình. Hãy thay bằng URL Web App (/exec) trong phần script.', 'err');
-          return;
-        }
-        const r = await apiGet({ action:'responsive' });
-        const list = (r && r.success && r.data) ? r.data : [];
-        const options = (list || []).map(n=>`<option>${n}</option>`).join('');
-        $('#cn-responsive').innerHTML = options;
-        $('#tt-responsive').innerHTML = options;
-        setDiag('API OK • Dropdown người phụ trách đã nạp.', 'ok');
-      }catch(e){
-        setDiag('Không gọi được API: ' + e.message + '. Kiểm tra API_URL, quyền Web App (Anyone) và ID Sheet.', 'err');
-        console.error(e);
-      }
-    })();
-
-    /* ==== Gửi dữ liệu ==== */
-    // Hoạt động sao đỏ
-    $('#hd-submit').addEventListener('click', async ()=>{
-      const data = {
-        Redstart: $('#hd-redstart').value.trim(),
-        Name:     $('#hd-name').value.trim(),
-        Class:    $('#hd-class').value.trim(),
-        Problems: $('#hd-problems').value.trim(),
-        Session:  $('#hd-session').value,
-        files:    await filesToPayload($('#hd-photos').files, 3)
-      };
-      if(!data.Redstart || !data.Name || !data.Class || !data.Problems){
-        showToast('Vui lòng điền đủ Redstart, Name, Class, Problems.', false); return;
-      }
-      try{
-        const r = await apiPost('saveHoatDongSaodo', data);
-        if(r.success){ showToast('Đã ghi vào sheet Hoatdongsaodo.'); $('#hd-reset').click(); }
-        else{ showToast(r.error || 'Không thể lưu.', false); }
-      }catch(e){ showToast('API lỗi: ' + e.message, false); }
-    });
-    $('#hd-reset').addEventListener('click', ()=>{
-      ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$('#'+id).value='');
-      $('#hd-photos').value=''; $('#hd-session').selectedIndex=0;
-    });
-
-    // Vi phạm cá nhân
-    $('#cn-submit').addEventListener('click', async ()=>{
-      const Redstart = $('#cn-redstart').value.trim();
-      const Session  = $('#cn-session').value;
-      const Responsive = $('#cn-responsive').value;
-      if(!Redstart){ showToast('Vui lòng nhập Redstart.', false); return; }
-      const cards = $$('[data-cn]', cnList); if(cards.length===0){ showToast('Chưa có dòng nào.', false); return; }
-
-      const entries = [];
-      for (const card of cards){
-        const name = $('.cn-name', card).value.trim();
-        const cls  = $('.cn-class', card).value.trim();
-        const prob = $('.cn-problems', card).value.trim();
-        if(!name || !cls || !prob){ showToast('Mỗi dòng cần đủ Name, Class, Problems.', false); return; }
-        const files = await filesToPayload($('.cn-photos', card).files, 3);
-        const doc   = await filesToPayload($('.cn-doc', card).files, 1);
-        entries.push({ Name:name, Class:cls, Problems:prob, Session, Responsive, files, doc });
-      }
-      try{
-        const r = await apiPost('saveViphamCanhan', { Redstart, entries });
-        if(r.success){ showToast(`Đã ghi ${entries.length} dòng vào sheet Viphamcanhan.`); $('#cn-reset').click(); }
-        else{ showToast(r.error || 'Không thể lưu.', false); }
-      }catch(e){ showToast('API lỗi: ' + e.message, false); }
-    });
-    $('#cn-reset').addEventListener('click', ()=>{
-      $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0; cnList.innerHTML=''; cnCount=0; addCnItem();
-    });
-
-    // Vi phạm tập thể
     $('#tt-submit').addEventListener('click', async ()=>{
+      const btn = $('#tt-submit'); const spin = $('#tt-spin');
+      setLoading(btn, spin, true);
+
       const Redstart = $('#tt-redstart').value.trim();
       const Session  = $('#tt-session').value;
       const Responsive = $('#tt-responsive').value;
-      if(!Redstart){ showToast('Vui lòng nhập Redstart.', false); return; }
-      const cards = $$('[data-tt]', ttList); if(cards.length===0){ showToast('Chưa có dòng nào.', false); return; }
+      if(!Redstart){ showToast('Vui lòng nhập Redstart.', false); setLoading(btn, spin, false); return; }
+      const cards = $$('[data-tt]', ttList); if(cards.length===0){ showToast('Chưa có dòng nào.', false); setLoading(btn, spin, false); return; }
 
       const entries = [];
       for (const card of cards){
         const cls  = $('.tt-class', card).value.trim();
         const room = $('.tt-room', card).value.trim();
         const prob = $('.tt-problems', card).value.trim();
-        if(!cls || !prob){ showToast('Mỗi dòng cần đủ Class và Problems.', false); return; }
+        if(!cls || !prob){ showToast('Mỗi dòng cần đủ Class và Problems.', false); setLoading(btn, spin, false); return; }
         const files = await filesToPayload($('.tt-photos', card).files, 3);
         const doc   = await filesToPayload($('.tt-doc', card).files, 1);
         entries.push({ Class:cls, Room:room, Problems:prob, Session, Responsive, files, doc });
@@ -349,6 +456,7 @@
         if(r.success){ showToast(`Đã ghi ${entries.length} dòng vào sheet Baoloitapthe.`); $('#tt-reset').click(); }
         else{ showToast(r.error || 'Không thể lưu.', false); }
       }catch(e){ showToast('API lỗi: ' + e.message, false); }
+      setLoading(btn, spin, false);
     });
     $('#tt-reset').addEventListener('click', ()=>{
       $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0; ttList.innerHTML=''; ttCount=0; addTtItem();
