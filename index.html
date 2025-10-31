@@ -101,11 +101,11 @@
       <!-- TAB 1 -->
       <section id="tab-hoatdong" class="card">
         <div class="grid">
-          <div><label>Người khai báo (Redstart) *</label><input id="hd-redstart" type="text" placeholder="Nhập tên của bạn" required /></div>
+          <div><label>Người khai báo *</label><input id="hd-redstart" type="text" placeholder="Nhập tên của bạn" required /></div>
           <div><label>Ca học *</label><select id="hd-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
           <div><label>Người vi phạm (Name) *</label><input id="hd-name" type="text" required /></div>
           <div><label>Lớp (Class) *</label><input id="hd-class" type="text" required /></div>
-          <div style="grid-column:1/-1"><label>Vấn đề vi phạm (Problems) *</label><textarea id="hd-problems" required></textarea></div>
+          <div style="grid-column:1/-1"><label>Vấn đề vi phạm *</label><textarea id="hd-problems" required></textarea></div>
 
           <div style="grid-column:1/-1" class="fieldset">
             <h4>Ảnh vi phạm (tối đa 3 – tùy chọn)</h4>
@@ -122,9 +122,9 @@
       <!-- TAB 2 -->
       <section id="tab-canhan" class="card hidden">
         <div class="grid">
-          <div><label>Người khai báo (Redstart) *</label><input id="cn-redstart" type="text" required /></div>
+          <div><label>Người khai báo *</label><input id="cn-redstart" type="text" required /></div>
           <div><label>Ca học *</label><select id="cn-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
-          <div style="grid-column:1/-1"><label>Người phụ trách (Responsive) *</label><select id="cn-responsive"></select></div>
+          <div style="grid-column:1/-1"><label>Người phụ trách *</label><select id="cn-responsive"></select></div>
         </div>
 
         <div class="hr"></div>
@@ -144,9 +144,9 @@
       <!-- TAB 3 -->
       <section id="tab-tapthe" class="card hidden">
         <div class="grid">
-          <div><label>Người khai báo (Redstart) *</label><input id="tt-redstart" type="text" required /></div>
+          <div><label>Người khai báo *</label><input id="tt-redstart" type="text" required /></div>
           <div><label>Ca học *</label><select id="tt-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
-          <div style="grid-column:1/-1"><label>Người phụ trách (Responsive) *</label><select id="tt-responsive"></select></div>
+          <div style="grid-column:1/-1"><label>Người phụ trách *</label><select id="tt-responsive"></select></div>
         </div>
 
         <div class="hr"></div>
@@ -266,9 +266,9 @@
       return `
       <div class="card" data-cn="${i}">
         <div class="grid">
-          <div><label>Người vi phạm (Name) *</label><input type="text" class="cn-name" required /></div>
+          <div><label>Người vi phạm *</label><input type="text" class="cn-name" required /></div>
           <div><label>Lớp (Class) *</label><input type="text" class="cn-class" required /></div>
-          <div style="grid-column:1/-1"><label>Vấn đề vi phạm (Problems) *</label><textarea class="cn-problems" required></textarea></div>
+          <div style="grid-column:1/-1"><label>Vấn đề vi phạm*</label><textarea class="cn-problems" required></textarea></div>
 
           <div style="grid-column:1/-1" class="fieldset">
             <h4>Ảnh vi phạm (tối đa 3)</h4>
@@ -307,17 +307,17 @@
       const Redstart = $('#cn-redstart').value.trim();
       const Session  = $('#cn-session').value;
       const Responsive = $('#cn-responsive').value;
-      if(!Redstart){ alert('Vui lòng nhập Redstart.'); busy.cn=false; $('#cn-submit').disabled=false; return; }
+      if(!Redstart){ alert('Vui lòng nhập thông tin.'); busy.cn=false; $('#cn-submit').disabled=false; return; }
 
       const cards = $$('[data-cn]', cnList);
-      if(cards.length===0){ alert('Chưa có dòng nào.'); busy.cn=false; $('#cn-submit').disabled=false; return; }
+      if(cards.length===0){ alert('Chưa có thông tin đưa vào.'); busy.cn=false; $('#cn-submit').disabled=false; return; }
 
       const entries=[];
       for (const card of cards){
         const name = $('.cn-name', card).value.trim();
         const cls  = $('.cn-class', card).value.trim();
         const prob = $('.cn-problems', card).value.trim();
-        if(!name || !cls || !prob){ alert('Mỗi dòng cần đủ Name, Class, Problems.'); busy.cn=false; $('#cn-submit').disabled=false; return; }
+        if(!name || !cls || !prob){ alert('Cần đảm bảo đủ thông tin trước khi gửi'); busy.cn=false; $('#cn-submit').disabled=false; return; }
         const files = await filesToPayload($('.cn-photos', card).files, 3);
         const doc   = await filesToPayload($('.cn-doc', card).files, 1);
         entries.push({ Name:name, Class:cls, Problems:prob, Session, Responsive, files, doc });
@@ -329,7 +329,7 @@
           $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
           cnList.innerHTML=''; cnCount=0; addCnItem();
           showConfirm();
-        } else { alert(r.error || 'Không thể lưu.'); }
+        } else { alert(r.error || 'Không thể lưu, hãy thử lại.'); }
       }catch(e){ alert('API lỗi: '+e.message); }
 
       busy.cn=false; $('#cn-submit').disabled=false;
@@ -382,17 +382,17 @@
       const Redstart = $('#tt-redstart').value.trim();
       const Session  = $('#tt-session').value;
       const Responsive = $('#tt-responsive').value;
-      if(!Redstart){ alert('Vui lòng nhập Redstart.'); busy.tt=false; $('#tt-submit').disabled=false; return; }
+      if(!Redstart){ alert('Vui lòng nhập thông tin.'); busy.tt=false; $('#tt-submit').disabled=false; return; }
 
       const cards = $$('[data-tt]', ttList);
-      if(cards.length===0){ alert('Chưa có dòng nào.'); busy.tt=false; $('#tt-submit').disabled=false; return; }
+      if(cards.length===0){ alert('Chưa có dữ liệu đưa vào'); busy.tt=false; $('#tt-submit').disabled=false; return; }
 
       const entries=[];
       for (const card of cards){
         const cls  = $('.tt-class', card).value.trim();
         const room = $('.tt-room', card).value.trim();
         const prob = $('.tt-problems', card).value.trim();
-        if(!cls || !prob){ alert('Mỗi dòng cần đủ Class và Problems.'); busy.tt=false; $('#tt-submit').disabled=false; return; }
+        if(!cls || !prob){ alert('Cần cung cấp đủ thông tin'); busy.tt=false; $('#tt-submit').disabled=false; return; }
         const files = await filesToPayload($('.tt-photos', card).files, 3);
         const doc   = await filesToPayload($('.tt-doc', card).files, 1);
         entries.push({ Class:cls, Room:room, Problems:prob, Session, Responsive, files, doc });
@@ -404,7 +404,7 @@
           $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0;
           ttList.innerHTML=''; ttCount=0; addTtItem();
           showConfirm();
-        } else { alert(r.error || 'Không thể lưu.'); }
+        } else { alert(r.error || 'Không thể lưu, vui lòng thử lại.'); }
       }catch(e){ alert('API lỗi: '+e.message); }
 
       busy.tt=false; $('#tt-submit').disabled=false;
