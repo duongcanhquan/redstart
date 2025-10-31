@@ -7,74 +7,56 @@
   <style>
     :root{
       --bg: linear-gradient(135deg,#0ea5e9,#9333ea);
-      --card: #ffffff;
-      --ink: #0f172a;
-      --muted:#64748b;
-      --ok:#16a34a;--err:#dc2626;
-      --accent:#7c3aed;
+      --card: #ffffff; --ink:#0f172a; --muted:#64748b;
+      --ok:#16a34a; --err:#dc2626; --accent:#7c3aed; --warn:#b45309;
     }
     *{box-sizing:border-box}
     body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue";
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans","Helvetica Neue";
       color:var(--ink);
-      background: var(--bg);
+      background:var(--bg);
       min-height:100vh;
-      display:flex; align-items:center; justify-content:center; padding:24px;
+      display:flex;align-items:center;justify-content:center;
+      padding:24px;
     }
     .app{
-      width:100%; max-width:1100px;
-      background: linear-gradient(180deg,#ffffffee,#ffffff);
-      border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,.15);
+      width:100%;max-width:1100px;
+      background:linear-gradient(180deg,#ffffffee,#ffffff);
+      border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.15);
       overflow:hidden;
     }
-    header{
-      display:flex; align-items:center; gap:16px;
-      padding:20px 24px; background:#0f172a; color:#fff;
-    }
-    .logo{
-      width:44px; height:44px; border-radius:12px; background:#fff1; display:grid; place-items:center; font-weight:700;
-      border:1px solid #fff3;
-    }
-    .title h1{margin:0; font-size:20px; letter-spacing:.5px}
-    .title p{margin:2px 0 0; font-size:12px; color:#cbd5e1}
-    nav{display:flex; gap:8px; padding:12px; background:#f1f5f9; flex-wrap:wrap}
+    header{display:flex;align-items:center;gap:16px;padding:20px 24px;background:#0f172a;color:#fff}
+    .logo{width:44px;height:44px;border-radius:12px;background:#fff1;display:grid;place-items:center;font-weight:700;border:1px solid #fff3}
+    .title h1{margin:0;font-size:20px;letter-spacing:.5px}
+    .title p{margin:2px 0 0;font-size:12px;color:#cbd5e1}
+    .diag{padding:8px 12px;background:#fffbeb;color:#92400e;border-top:1px solid #fde68a;font-size:12px}
+    nav{display:flex;gap:8px;padding:12px;background:#f1f5f9;flex-wrap:wrap}
     .tab{
-      padding:10px 14px; border-radius:999px; background:#fff; border:1px solid #e2e8f0; cursor:pointer;
-      font-weight:600; color:#334155; transition:.2s;
+      padding:10px 14px;border-radius:999px;background:#fff;border:1px solid #e2e8f0;cursor:pointer;
+      font-weight:600;color:#334155;transition:.2s
     }
-    .tab.active{background:var(--accent); color:#fff; border-color:transparent}
+    .tab.active{background:var(--accent);color:#fff;border-color:transparent}
     main{padding:20px}
-    .card{background:var(--card); border:1px solid #e5e7eb; border-radius:16px; padding:16px; margin-bottom:16px}
-    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:12px}
-    @media (max-width: 900px){ .grid{grid-template-columns: repeat(6, 1fr)} }
-    @media (max-width: 600px){ .grid{grid-template-columns: repeat(2, 1fr)} }
-    .col-12{grid-column: span 12}
-    .col-6{grid-column: span 6}
-    .col-4{grid-column: span 4}
-    .col-3{grid-column: span 3}
-    label{font-size:12px; color:#475569; font-weight:700; letter-spacing:.3px}
-    input[type="text"], input[type="email"], select, textarea{
-      width:100%; padding:12px 12px; border-radius:12px; border:1px solid #cbd5e1; font-size:14px;
-      background:#fff;
+    .card{background:var(--card);border:1px solid #e5e7eb;border-radius:16px;padding:16px;margin-bottom:16px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    @media (max-width:900px){.grid{grid-template-columns:repeat(6,1fr)}}
+    @media (max-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
+    .col-12{grid-column:span 12}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}
+    label{font-size:12px;color:#475569;font-weight:700;letter-spacing:.3px}
+    input[type="text"],input[type="email"],select,textarea{
+      width:100%;padding:12px;border-radius:12px;border:1px solid #cbd5e1;font-size:14px;background:#fff
     }
     textarea{min-height:90px}
-    .pill{display:inline-flex; gap:8px; align-items:center}
-    .btn{
-      padding:12px 16px; border-radius:12px; border:0; cursor:pointer; font-weight:700; font-size:14px;
-      background:var(--accent); color:#fff; box-shadow: 0 6px 14px rgba(124,58,237,.25);
-    }
-    .btn.secondary{background:#0ea5e9}
-    .btn.ghost{background:#fff; color:#334155; border:1px solid #e2e8f0}
-    .muted{color:var(--muted); font-size:12px}
-    .row{display:flex; gap:8px; flex-wrap:wrap}
-    .files{display:flex; gap:8px; flex-wrap:wrap}
-    .chip{background:#f1f5f9; border:1px dashed #cbd5e1; padding:8px 10px; border-radius:999px; font-size:12px}
-    .success{color:var(--ok); font-weight:700}
-    .error{color:var(--err); font-weight:700}
-    footer{padding:14px 20px; background:#f8fafc; font-size:12px; color:#475569}
-    .hidden{display:none}
-    .split{display:flex; gap:12px; align-items:center; justify-content:space-between}
-    .hr{height:1px; background:#e2e8f0; margin:12px 0}
+    .btn{padding:12px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:700;font-size:14px;background:var(--accent);color:#fff;box-shadow:0 6px 14px rgba(124,58,237,.25)}
+    .btn.secondary{background:#0ea5e9}.btn.ghost{background:#fff;color:#334155;border:1px solid #e2e8f0}
+    .muted{color:var(--muted);font-size:12px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{background:#f1f5f9;border:1px dashed #cbd5e1;padding:8px 10px;border-radius:999px;font-size:12px}
+    .success{color:var(--ok);font-weight:700}.error{color:var(--err);font-weight:700}
+    footer{padding:14px 20px;background:#f8fafc;font-size:12px;color:#475569}
+    .hidden{display:none}.split{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .hr{height:1px;background:#e2e8f0;margin:12px 0}
   </style>
 </head>
 <body>
@@ -87,6 +69,10 @@
       </div>
     </header>
 
+    <!-- Thanh chẩn đoán API -->
+    <div id="diag" class="diag">Đang kiểm tra API…</div>
+
+    <!-- Tabs -->
     <nav>
       <button class="tab active" data-tab="hoatdong">Hoạt động sao đỏ</button>
       <button class="tab" data-tab="canhan">Vi phạm cá nhân</button>
@@ -94,10 +80,10 @@
     </nav>
 
     <main>
-      <!-- Phản hồi -->
+      <!-- Toast -->
       <div id="toast" class="card hidden"></div>
 
-      <!-- ====== TAB 1: Hoạt động sao đỏ ====== -->
+      <!-- TAB 1: Hoạt động sao đỏ -->
       <section id="tab-hoatdong" class="card">
         <div class="grid">
           <div class="col-6">
@@ -106,138 +92,89 @@
           </div>
           <div class="col-6">
             <label>Ca học *</label>
-            <select id="hd-session">
-              <option>Ca sáng</option>
-              <option>Ca chiều</option>
-            </select>
+            <select id="hd-session"><option>Ca sáng</option><option>Ca chiều</option></select>
           </div>
-
-          <div class="col-6">
-            <label>Người vi phạm (Name) *</label>
-            <input id="hd-name" type="text" required />
-          </div>
-          <div class="col-6">
-            <label>Lớp (Class) *</label>
-            <input id="hd-class" type="text" required />
-          </div>
-          <div class="col-12">
-            <label>Vấn đề vi phạm (Problems) *</label>
-            <textarea id="hd-problems" required></textarea>
-          </div>
-
+          <div class="col-6"><label>Người vi phạm (Name) *</label><input id="hd-name" type="text" required /></div>
+          <div class="col-6"><label>Lớp (Class) *</label><input id="hd-class" type="text" required /></div>
+          <div class="col-12"><label>Vấn đề vi phạm (Problems) *</label><textarea id="hd-problems" required></textarea></div>
           <div class="col-12">
             <label>Ảnh vi phạm (tối đa 3, tùy chọn)</label>
             <input id="hd-photos" type="file" multiple accept="image/*" capture="environment" />
             <p class="muted">Bạn có thể tải từ máy hoặc chụp trực tiếp. Không bắt buộc.</p>
           </div>
-
           <div class="col-12 split">
-            <div class="row">
-              <button class="btn" id="hd-submit">Gửi</button>
-              <button class="btn ghost" id="hd-reset">Làm mới</button>
-            </div>
+            <div class="row"><button class="btn" id="hd-submit">Gửi</button><button class="btn ghost" id="hd-reset">Làm mới</button></div>
             <div class="muted">Khi gửi, hệ thống sẽ lưu ảnh vào Drive và ghi link vào Sheet.</div>
           </div>
         </div>
       </section>
 
-      <!-- ====== TAB 2: Vi phạm cá nhân ====== -->
+      <!-- TAB 2: Vi phạm cá nhân -->
       <section id="tab-canhan" class="card hidden">
         <div class="grid">
-          <div class="col-6">
-            <label>Người khai báo (Redstart) *</label>
-            <input id="cn-redstart" type="text" required />
-          </div>
-          <div class="col-6">
-            <label>Ca học *</label>
-            <select id="cn-session">
-              <option>Ca sáng</option>
-              <option>Ca chiều</option>
-            </select>
-          </div>
-
+          <div class="col-6"><label>Người khai báo (Redstart) *</label><input id="cn-redstart" type="text" required /></div>
+          <div class="col-6"><label>Ca học *</label><select id="cn-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
           <div class="col-12">
             <label>Người phụ trách (Responsive) *</label>
             <select id="cn-responsive"></select>
-            <p class="muted">Danh sách lấy từ sheet <b>thongtinthayco</b> (cột Name). Nếu trống sẽ dùng danh sách mặc định.</p>
+            <p class="muted">Danh sách lấy từ sheet <b>thongtinthayco</b>. Nếu trống sẽ dùng danh sách mặc định.</p>
           </div>
         </div>
-
         <div class="hr"></div>
-
-        <div class="row">
-          <button class="btn secondary" id="cn-add">+ Thêm cá nhân</button>
-          <span class="muted">Bạn có thể thêm nhiều cá nhân và gửi một lần.</span>
-        </div>
-
+        <div class="row"><button class="btn secondary" id="cn-add">+ Thêm cá nhân</button><span class="muted">Bạn có thể thêm nhiều cá nhân và gửi một lần.</span></div>
         <div id="cn-list"></div>
-
         <div class="hr"></div>
         <div class="split">
-          <div class="row">
-            <button class="btn" id="cn-submit">Gửi tất cả</button>
-            <button class="btn ghost" id="cn-reset">Làm mới</button>
-          </div>
+          <div class="row"><button class="btn" id="cn-submit">Gửi tất cả</button><button class="btn ghost" id="cn-reset">Làm mới</button></div>
           <div class="muted">Ảnh & biên bản sẽ lưu vào Drive; link ghi vào Sheet.</div>
         </div>
       </section>
 
-      <!-- ====== TAB 3: Vi phạm tập thể ====== -->
+      <!-- TAB 3: Vi phạm tập thể -->
       <section id="tab-tapthe" class="card hidden">
         <div class="grid">
-          <div class="col-6">
-            <label>Người khai báo (Redstart) *</label>
-            <input id="tt-redstart" type="text" required />
-          </div>
-          <div class="col-6">
-            <label>Ca học *</label>
-            <select id="tt-session">
-              <option>Ca sáng</option>
-              <option>Ca chiều</option>
-            </select>
-          </div>
-
-          <div class="col-12">
-            <label>Người phụ trách (Responsive) *</label>
-            <select id="tt-responsive"></select>
-          </div>
+          <div class="col-6"><label>Người khai báo (Redstart) *</label><input id="tt-redstart" type="text" required /></div>
+          <div class="col-6"><label>Ca học *</label><select id="tt-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
+          <div class="col-12"><label>Người phụ trách (Responsive) *</label><select id="tt-responsive"></select></div>
         </div>
-
         <div class="hr"></div>
-
-        <div class="row">
-          <button class="btn secondary" id="tt-add">+ Thêm báo lỗi tập thể</button>
-          <span class="muted">Bạn có thể thêm nhiều dòng và gửi một lần.</span>
-        </div>
-
+        <div class="row"><button class="btn secondary" id="tt-add">+ Thêm báo lỗi tập thể</button><span class="muted">Bạn có thể thêm nhiều dòng và gửi một lần.</span></div>
         <div id="tt-list"></div>
-
         <div class="hr"></div>
         <div class="split">
-          <div class="row">
-            <button class="btn" id="tt-submit">Gửi tất cả</button>
-            <button class="btn ghost" id="tt-reset">Làm mới</button>
-          </div>
+          <div class="row"><button class="btn" id="tt-submit">Gửi tất cả</button><button class="btn ghost" id="tt-reset">Làm mới</button></div>
           <div class="muted">Ảnh & biên bản sẽ lưu vào Drive; link ghi vào Sheet.</div>
         </div>
       </section>
     </main>
 
-    <footer>
-      © SAO ĐỎ • Giao diện hiện đại, tương thích desktop / tablet / mobile. Thời gian lưu theo Asia/Bangkok.
-    </footer>
+    <footer>© SAO ĐỎ • Giao diện hiện đại, tương thích desktop / tablet / mobile. Thời gian lưu theo Asia/Bangkok.</footer>
   </div>
 
   <script>
-    // ====== CẦN ĐỔI: URL Web App của Apps Script (Deploy → Web app) ======
-    const API_URL = 'https://script.google.com/macros/s/AKfycbwE_gwyBdPODIv-lpsmhOwF8PUzRuXKH0-b-dMBJAGuVA68iqw-PYecZmt-M9zXY_HLsw/exec';
+    /* ======== THAY GIÁ TRỊ NÀY BẰNG URL /exec CỦA BẠN ======== */
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzK-Nya_PjYVWA0QKJYPB_K-aAQy-IL1wj6oITHh8s5RULIETHgisxRdhfYjGhjbB3Qvw/exec';
 
-    // ====== Helpers chọn DOM ======
-    const $ = (sel, root=document) => root.querySelector(sel);
+    /* ==== DOM helpers & UI ==== */
+    const $  = (sel, root=document) => root.querySelector(sel);
     const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
-    const toast = $('#toast');
+    const toast = $('#toast'); const diag = $('#diag');
 
-    // ---- Tabs ----
+    function showToast(html, ok=true){
+      toast.classList.remove('hidden');
+      toast.innerHTML = `<span class="${ok?'success':'error'}">${ok?'✔':''}${ok?' Thành công':' Lỗi'}</span> • ${html}`;
+      setTimeout(()=>toast.classList.add('hidden'), 6000);
+    }
+    function setDiag(msg, type='warn'){
+      const color = type==='ok'?'#065f46':type==='err'?'#991b1b':'#92400e';
+      const bg = type==='ok'?'#ecfdf5':type==='err'?'#fef2f2':'#fffbeb';
+      const bd = type==='ok'?'#a7f3d0':type==='err'?'#fecaca':'#fde68a';
+      diag.style.background = bg; diag.style.color = color; diag.style.borderTop = '1px solid '+bd;
+      diag.textContent = msg;
+      console.log('[DIAG]', msg);
+    }
+
+    /* ==== Tabs ==== */
     $$('.tab').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         $$('.tab').forEach(b=>b.classList.remove('active'));
@@ -248,159 +185,174 @@
       });
     });
 
-    // ---- Toast ----
-    function showToast(html, ok=true){
-      toast.classList.remove('hidden');
-      toast.innerHTML = `<span class="${ok?'success':'error'}">${ok?'✔':''}${ok?' Thành công':' Lỗi'}</span> • ${html}`;
-      setTimeout(()=>toast.classList.add('hidden'), 6000);
-    }
-
-    // ---- Files -> base64 ----
+    /* ==== File -> base64 ==== */
     async function filesToPayload(fileList, limit=3){
       const files = [...(fileList || [])].slice(0, limit);
       const readers = files.map(file => new Promise((resolve,reject)=>{
         const fr = new FileReader();
-        fr.onload = () => resolve({
-          name: file.name,
-          type: file.type,
-          data: fr.result.split(',')[1],
-        });
+        fr.onload  = () => resolve({ name:file.name, type:file.type, data:fr.result.split(',')[1] });
         fr.onerror = reject;
         fr.readAsDataURL(file);
       }));
       return Promise.all(readers);
     }
 
-    // ---- API helpers ----
-    async function apiGet(params={}) {
-      const qs = new URLSearchParams({...params});
-      const res = await fetch(`${API_URL}?${qs.toString()}`, {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' }
-      });
+    /* ==== API (GET = JSON, POST = FormData để tránh CORS) ==== */
+    async function apiGet(params={}){
+      if(!API_URL || API_URL.includes('DEPLOYMENT_ID')) throw new Error('API_URL chưa cấu hình.');
+      const qs  = new URLSearchParams(params).toString();
+      const res = await fetch(`${API_URL}?${qs}`, { method:'GET' });
+      if(!res.ok) throw new Error(`GET ${res.status}`);
       return res.json();
     }
-    async function apiPost(action, payload) {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept':'application/json' },
-        body: JSON.stringify({ action, payload })
-      });
+    async function apiPost(action, payload){
+      if(!API_URL || API_URL.includes('DEPLOYMENT_ID')) throw new Error('API_URL chưa cấu hình.');
+      const fd = new FormData();
+      fd.append('action', action);
+      fd.append('payload', JSON.stringify(payload));
+      const res = await fetch(API_URL, { method:'POST', body: fd });
+      if(!res.ok) throw new Error(`POST ${res.status}`);
       return res.json();
     }
 
-    // ---- Load responsive list from API ----
-    async function loadResponsiveOptions() {
+    /* ==== Vi phạm cá nhân / tập thể: templates ==== */
+    const cnList = $('#cn-list'); let cnCount = 0;
+    function cnItemTemplate(i){ return `
+      <div class="card" data-cn="${i}">
+        <div class="grid">
+          <div class="col-6"><label>Người vi phạm (Name) *</label><input type="text" class="cn-name" required /></div>
+          <div class="col-6"><label>Lớp (Class) *</label><input type="text" class="cn-class" required /></div>
+          <div class="col-12"><label>Vấn đề vi phạm (Problems) *</label><textarea class="cn-problems" required></textarea></div>
+          <div class="col-12"><label>Ảnh vi phạm (tối đa 3)</label><input type="file" class="cn-photos" multiple accept="image/*" capture="environment" /></div>
+          <div class="col-12"><label>Biên bản (1 file)</label><input type="file" class="cn-doc" accept="image/*,application/pdf" /></div>
+          <div class="col-12 row"><span class="chip">Dòng #${i+1}</span><button class="btn ghost cn-remove" type="button">Xóa dòng</button></div>
+        </div>
+      </div>`;}
+    function addCnItem(){
+      const i=cnCount++; const w=document.createElement('div');
+      w.innerHTML=cnItemTemplate(i); cnList.appendChild(w.firstElementChild);
+      $$('.cn-remove', cnList).forEach(b=>b.onclick=(e)=>e.currentTarget.closest('[data-cn]').remove());
+    }
+    $('#cn-add').addEventListener('click', addCnItem); addCnItem();
+
+    const ttList = $('#tt-list'); let ttCount = 0;
+    function ttItemTemplate(i){ return `
+      <div class="card" data-tt="${i}">
+        <div class="grid">
+          <div class="col-6"><label>Lớp (Class) *</label><input type="text" class="tt-class" required /></div>
+          <div class="col-6"><label>Phòng học (Room)</label><input type="text" class="tt-room" placeholder="VD: P201" /></div>
+          <div class="col-12"><label>Vấn đề vi phạm (Problems) *</label><textarea class="tt-problems" required></textarea></div>
+          <div class="col-12"><label>Ảnh vi phạm (tối đa 3)</label><input type="file" class="tt-photos" multiple accept="image/*" capture="environment" /></div>
+          <div class="col-12"><label>Biên bản (1 file)</label><input type="file" class="tt-doc" accept="image/*,application/pdf" /></div>
+          <div class="col-12 row"><span class="chip">Dòng #${i+1}</span><button class="btn ghost tt-remove" type="button">Xóa dòng</button></div>
+        </div>
+      </div>`;}
+    function addTtItem(){
+      const i=ttCount++; const w=document.createElement('div');
+      w.innerHTML=ttItemTemplate(i); ttList.appendChild(w.firstElementChild);
+      $$('.tt-remove', ttList).forEach(b=>b.onclick=(e)=>e.currentTarget.closest('[data-tt]').remove());
+    }
+    $('#tt-add').addEventListener('click', addTtItem); addTtItem();
+
+    /* ==== Boot: kiểm tra API & nạp dropdown ==== */
+    (async function boot(){
       try{
-        const r = await apiGet({ action: 'responsive' });
+        if(!API_URL || API_URL.includes('DEPLOYMENT_ID')){
+          setDiag('API_URL chưa cấu hình. Hãy thay bằng URL Web App (/exec) trong phần script.', 'err');
+          return;
+        }
+        const r = await apiGet({ action:'responsive' });
         const list = (r && r.success && r.data) ? r.data : [];
-        const options = (list || []).map(n => `<option>${n}</option>`).join('');
+        const options = (list || []).map(n=>`<option>${n}</option>`).join('');
         $('#cn-responsive').innerHTML = options;
         $('#tt-responsive').innerHTML = options;
-      }catch(e){ /* ignore */ }
-    }
-    loadResponsiveOptions();
+        setDiag('API OK • Dropdown người phụ trách đã nạp.', 'ok');
+      }catch(e){
+        setDiag('Không gọi được API: ' + e.message + '. Kiểm tra API_URL, quyền Web App (Anyone) và ID Sheet.', 'err');
+        console.error(e);
+      }
+    })();
 
-    /** ================= TAB 1: HOẠT ĐỘNG SAO ĐỎ ================= */
+    /* ==== Gửi dữ liệu ==== */
+    // Hoạt động sao đỏ
     $('#hd-submit').addEventListener('click', async ()=>{
       const data = {
         Redstart: $('#hd-redstart').value.trim(),
-        Name: $('#hd-name').value.trim(),
-        Class: $('#hd-class').value.trim(),
+        Name:     $('#hd-name').value.trim(),
+        Class:    $('#hd-class').value.trim(),
         Problems: $('#hd-problems').value.trim(),
-        Session: $('#hd-session').value,
-        files: await filesToPayload($('#hd-photos').files, 3),
+        Session:  $('#hd-session').value,
+        files:    await filesToPayload($('#hd-photos').files, 3)
       };
       if(!data.Redstart || !data.Name || !data.Class || !data.Problems){
         showToast('Vui lòng điền đủ Redstart, Name, Class, Problems.', false); return;
       }
       try{
         const r = await apiPost('saveHoatDongSaodo', data);
-        if(r.success){ showToast(`Đã ghi vào sheet Hoatdongsaodo.`); $('#hd-reset').click(); }
+        if(r.success){ showToast('Đã ghi vào sheet Hoatdongsaodo.'); $('#hd-reset').click(); }
         else{ showToast(r.error || 'Không thể lưu.', false); }
-      }catch(e){ showToast(String(e), false); }
+      }catch(e){ showToast('API lỗi: ' + e.message, false); }
     });
-
     $('#hd-reset').addEventListener('click', ()=>{
-      ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$( '#' + id ).value='');
-      $('#hd-photos').value = '';
-      $('#hd-session').selectedIndex = 0;
+      ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$('#'+id).value='');
+      $('#hd-photos').value=''; $('#hd-session').selectedIndex=0;
     });
 
-    /** ================= TAB 2: VI PHẠM CÁ NHÂN ================= */
-    const cnList = $('#cn-list');
-    let cnCount = 0;
-    function cnItemTemplate(idx){
-      return `
-        <div class="card" data-cn="${idx}">
-          <div class="grid">
-            <div class="col-6">
-              <label>Người vi phạm (Name) *</label>
-              <input type="text" class="cn-name" required />
-            </div>
-            <div class="col-6">
-              <label>Lớp (Class) *</label>
-              <input type="text" class="cn-class" required />
-            </div>
-            <div class="col-12">
-              <label>Vấn đề vi phạm (Problems) *</label>
-              <textarea class="cn-problems" required></textarea>
-            </div>
-            <div class="col-12">
-              <label>Ảnh vi phạm (tối đa 3, tùy chọn)</label>
-              <input type="file" class="cn-photos" multiple accept="image/*" capture="environment" />
-            </div>
-            <div class="col-12">
-              <label>Biên bản (1 file, tùy chọn)</label>
-              <input type="file" class="cn-doc" accept="image/*,application/pdf" />
-            </div>
-            <div class="col-12 row">
-              <span class="chip">Dòng #${idx+1}</span>
-              <button class="btn ghost cn-remove" type="button">Xóa dòng</button>
-            </div>
-          </div>
-        </div>`;
-    }
-    function addCnItem(){
-      const idx = cnCount++;
-      const wrapper = document.createElement('div');
-      wrapper.innerHTML = cnItemTemplate(idx);
-      cnList.appendChild(wrapper.firstElementChild);
-      $$('.cn-remove', cnList).forEach(btn=>{
-        btn.onclick = (e)=> e.currentTarget.closest('[data-cn]').remove();
-      });
-    }
-    $('#cn-add').addEventListener('click', addCnItem);
-    addCnItem();
-
+    // Vi phạm cá nhân
     $('#cn-submit').addEventListener('click', async ()=>{
       const Redstart = $('#cn-redstart').value.trim();
       const Session  = $('#cn-session').value;
       const Responsive = $('#cn-responsive').value;
       if(!Redstart){ showToast('Vui lòng nhập Redstart.', false); return; }
-
-      const cards = $$('[data-cn]', cnList);
-      if(cards.length === 0){ showToast('Chưa có dòng nào.', false); return; }
+      const cards = $$('[data-cn]', cnList); if(cards.length===0){ showToast('Chưa có dòng nào.', false); return; }
 
       const entries = [];
       for (const card of cards){
         const name = $('.cn-name', card).value.trim();
         const cls  = $('.cn-class', card).value.trim();
         const prob = $('.cn-problems', card).value.trim();
-        if(!name || !cls || !prob){
-          showToast('Mỗi dòng cần đủ Name, Class, Problems.', false); return;
-        }
+        if(!name || !cls || !prob){ showToast('Mỗi dòng cần đủ Name, Class, Problems.', false); return; }
         const files = await filesToPayload($('.cn-photos', card).files, 3);
         const doc   = await filesToPayload($('.cn-doc', card).files, 1);
-        entries.push({ Name: name, Class: cls, Problems: prob, Session, Responsive, files, doc });
+        entries.push({ Name:name, Class:cls, Problems:prob, Session, Responsive, files, doc });
       }
-
       try{
         const r = await apiPost('saveViphamCanhan', { Redstart, entries });
         if(r.success){ showToast(`Đã ghi ${entries.length} dòng vào sheet Viphamcanhan.`); $('#cn-reset').click(); }
         else{ showToast(r.error || 'Không thể lưu.', false); }
-      }catch(e){ showToast(String(e), false); }
+      }catch(e){ showToast('API lỗi: ' + e.message, false); }
+    });
+    $('#cn-reset').addEventListener('click', ()=>{
+      $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0; cnList.innerHTML=''; cnCount=0; addCnItem();
     });
 
-    $('#cn-reset').addEventListener('click', ()=>{
-      $('#
+    // Vi phạm tập thể
+    $('#tt-submit').addEventListener('click', async ()=>{
+      const Redstart = $('#tt-redstart').value.trim();
+      const Session  = $('#tt-session').value;
+      const Responsive = $('#tt-responsive').value;
+      if(!Redstart){ showToast('Vui lòng nhập Redstart.', false); return; }
+      const cards = $$('[data-tt]', ttList); if(cards.length===0){ showToast('Chưa có dòng nào.', false); return; }
+
+      const entries = [];
+      for (const card of cards){
+        const cls  = $('.tt-class', card).value.trim();
+        const room = $('.tt-room', card).value.trim();
+        const prob = $('.tt-problems', card).value.trim();
+        if(!cls || !prob){ showToast('Mỗi dòng cần đủ Class và Problems.', false); return; }
+        const files = await filesToPayload($('.tt-photos', card).files, 3);
+        const doc   = await filesToPayload($('.tt-doc', card).files, 1);
+        entries.push({ Class:cls, Room:room, Problems:prob, Session, Responsive, files, doc });
+      }
+      try{
+        const r = await apiPost('saveBaoloiTapthe', { Redstart, entries });
+        if(r.success){ showToast(`Đã ghi ${entries.length} dòng vào sheet Baoloitapthe.`); $('#tt-reset').click(); }
+        else{ showToast(r.error || 'Không thể lưu.', false); }
+      }catch(e){ showToast('API lỗi: ' + e.message, false); }
+    });
+    $('#tt-reset').addEventListener('click', ()=>{
+      $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0; ttList.innerHTML=''; ttCount=0; addTtItem();
+    });
+  </script>
+</body>
+</html>
