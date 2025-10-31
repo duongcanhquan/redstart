@@ -84,7 +84,7 @@
     @media (max-width: 768px){ .grid{grid-template-columns:1fr; gap:12px} }
 
     label{font-size:var(--fs-sm); color:#475569; font-weight:800; letter-spacing:.3px; display:block; margin-bottom:6px}
-    input[type="text"], select, textarea{
+    input[type="text"], input[type="number"], select, textarea{
       width:100%; padding:13px 12px; border-radius:12px; border:1px solid #cbd5e1;
       font-size:var(--fs-base); background:#fff; outline:none; transition:.15s
     }
@@ -130,6 +130,11 @@
     }
 
     footer{padding:14px; background:#f8fafc; border-top:1px solid #e2e8f0; text-align:center; color:#475569; font-size:var(--fs-sm)}
+
+    /* Modal mức phạt */
+    #fee-modal.hidden{display:none}
+    #fee-modal{position:fixed; inset:0; background:rgba(2,6,23,.6); display:grid; place-items:center; z-index:60;}
+    #fee-modal .panel{background:#fff; border-radius:16px; padding:16px; width:min(640px, 92vw); border:1px solid #e2e8f0;}
   </style>
 </head>
 <body>
@@ -153,6 +158,10 @@
         <button class="tab active" data-tab="hoatdong">Hoạt động sao đỏ</button>
         <button class="tab" data-tab="canhan">Vi phạm cá nhân</button>
         <button class="tab" data-tab="tapthe">Vi phạm tập thể</button>
+      </div>
+      <!-- Nút Mức phạt & Chuyển khoản -->
+      <div style="margin-top:8px; text-align:center;">
+        <button id="btn-fee-info" class="btn ghost" type="button">Mức phạt & Chuyển khoản</button>
       </div>
     </div>
 
@@ -196,6 +205,19 @@
         </div>
 
         <div class="hr"></div>
+
+        <!-- Mức phạt & Minh chứng (áp dụng cho cả batch) -->
+        <div class="grid" style="margin-top:8px">
+          <div>
+            <label>Mức nộp phạt (VNĐ)</label>
+            <input id="cn-fine-amount" type="number" min="0" placeholder="VD: 50000" />
+          </div>
+          <div class="fieldset" style="grid-column:1/-1">
+            <h4>Minh chứng nộp phạt (1 file)</h4>
+            <input id="cn-fine-proof" type="file" accept="image/*,application/pdf" />
+          </div>
+        </div>
+
         <div class="row"><button class="btn" id="cn-submit">Gửi tất cả</button></div>
         <div id="cn-status" class="status"></div>
       </section>
@@ -217,6 +239,19 @@
         </div>
 
         <div class="hr"></div>
+
+        <!-- Mức phạt & Minh chứng (áp dụng cho cả batch) -->
+        <div class="grid" style="margin-top:8px">
+          <div>
+            <label>Mức nộp phạt (VNĐ)</label>
+            <input id="tt-fine-amount" type="number" min="0" placeholder="VD: 200000" />
+          </div>
+          <div class="fieldset" style="grid-column:1/-1">
+            <h4>Minh chứng nộp phạt (1 file)</h4>
+            <input id="tt-fine-proof" type="file" accept="image/*,application/pdf" />
+          </div>
+        </div>
+
         <div class="row"><button class="btn" id="tt-submit">Gửi tất cả</button></div>
         <div id="tt-status" class="status"></div>
       </section>
@@ -230,9 +265,32 @@
   <!-- THÔNG BÁO -->
   <div id="notice"><span class="close" onclick="hideNotice()">✕</span><strong>THÔNG BÁO:</strong> <span id="notice-msg"></span></div>
 
+  <!-- Modal Mức phạt & Chuyển khoản -->
+  <div id="fee-modal" class="hidden">
+    <div class="panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <h3 style="margin:0">Mức phạt & Chuyển khoản</h3>
+        <button id="fee-close" class="btn ghost" type="button">Đóng</button>
+      </div>
+      <div class="hr"></div>
+      <div style="font-size:15px; color:#334155; line-height:1.6">
+        <p><strong>Mức phạt thông thường:</strong></p>
+        <ul style="margin-top:6px;">
+          <li>Vệ sinh lớp học: <strong>50.000 VNĐ</strong></li>
+          <li>Hút thuốc: <strong>200.000 VNĐ</strong></li>
+          <!-- Có thể bổ sung thêm tại đây -->
+        </ul>
+        <div class="hr"></div>
+        <p><strong>QR chuyển khoản:</strong></p>
+        <img src="https://raw.githubusercontent.com/duongcanhquan/image/refs/heads/main/vcb.png" alt="QR chuyển khoản"
+             style="width:100%; max-width:360px; display:block; margin:auto; border:1px solid #e2e8f0; border-radius:12px;">
+      </div>
+    </div>
+  </div>
+
   <script>
     /* ĐỔI CHUỖI NÀY THÀNH URL /exec THẬT CỦA BẠN */
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyfi5fDvDG8lwd0jlmicgX6Ifl6p7uh6tByrxI6hcB5Q5zjLFBbrouJddL8aHSC2DtjjA/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxKWG36Qrx9LEgvK0sd2IEw3CjDUZJ8fnkwvoFRGnJI7TscXvezMP4r7l7dMLvaoB7Czw/exec';
 
     const $  = (s, r=document)=>r.querySelector(s);
     const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
@@ -249,10 +307,15 @@
       });
     });
 
+    /* Nút "Mức phạt & Chuyển khoản" */
+    $('#btn-fee-info')?.addEventListener('click', ()=> $('#fee-modal').classList.remove('hidden'));
+    $('#fee-close')?.addEventListener('click', ()=> $('#fee-modal').classList.add('hidden'));
+    $('#fee-modal')?.addEventListener('click', (e)=>{ if(e.target===e.currentTarget) $('#fee-modal').classList.add('hidden'); });
+
     /* THÔNG BÁO */
     function showNotice(msg, ok=false){
       const box = $('#notice'), span = $('#notice-msg');
-      span.textContent = msg || 'Nội dung cần hoàn thiện.';
+      span.textContent = msg || 'Nội dung chưa hoàn thiện.';
       box.classList.toggle('ok', !!ok);
       box.style.display = 'block';
       setTimeout(()=>{ box.style.display='none'; }, 5000);
@@ -289,7 +352,7 @@
     /* API */
     async function apiPost(action, payload){
       if(!API_URL || API_URL.includes('DEPLOYMENT_ID')){
-        showNotice('API_URL chưa cấu hình. Vui lòng thay đường dẫn /exec.', false);
+        showNotice('THÔNG BÁO: API_URL chưa cấu hình. Vui lòng thay đường dẫn /exec.', false);
         throw new Error('API_URL chưa cấu hình.');
       }
       const fd=new FormData();
@@ -402,6 +465,7 @@
     $('#cn-reset').addEventListener('click', ()=>{
       $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
       cnList.innerHTML=''; cnCount=0; addCnItem();
+      $('#cn-fine-amount').value=''; $('#cn-fine-proof').value='';
       unlockForEditing('cn', $('#cn-submit'), $('#cn-status'));
       window.scrollBy({top:1});
     });
@@ -413,8 +477,10 @@
       const Redstart = $('#cn-redstart').value.trim();
       const Session  = $('#cn-session').value;
       const Responsive = $('#cn-responsive').value;
-      const cards = $$('[data-cn]', cnList);
+      const FineAmount = Number($('#cn-fine-amount').value || 0) || 0;
+      const fineProofFiles = await filesToPayload($('#cn-fine-proof').files, 1);
 
+      const cards = $$('[data-cn]', cnList);
       if(!Redstart || cards.length===0){
         showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
         busy.cn=false; $('#cn-submit').disabled=false; return;
@@ -435,10 +501,12 @@
       }
 
       try{
-        const r = await apiPost('saveViphamCanhan', { Redstart, entries });
+        const payload = { Redstart, entries, FineAmount, FineProof: fineProofFiles };
+        const r = await apiPost('saveViphamCanhan', payload);
         if(r.success){
           $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
           cnList.innerHTML=''; cnCount=0; addCnItem();
+          $('#cn-fine-amount').value=''; $('#cn-fine-proof').value='';
           showConfirm();
           lockAfterSuccess('cn', $('#cn-submit'), statusEl);
           showNotice('THÔNG BÁO: Hệ thống đã ghi nhận thông tin.', true);
@@ -492,6 +560,7 @@
     $('#tt-reset').addEventListener('click', ()=>{
       $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0;
       ttList.innerHTML=''; ttCount=0; addTtItem();
+      $('#tt-fine-amount').value=''; $('#tt-fine-proof').value='';
       unlockForEditing('tt', $('#tt-submit'), $('#tt-status'));
       window.scrollBy({top:1});
     });
@@ -503,6 +572,9 @@
       const Redstart = $('#tt-redstart').value.trim();
       const Session  = $('#tt-session').value;
       const Responsive = $('#tt-responsive').value;
+      const FineAmount = Number($('#tt-fine-amount').value || 0) || 0;
+      const fineProofFiles = await filesToPayload($('#tt-fine-proof').files, 1);
+
       const cards = $$('[data-tt]', ttList);
 
       if(!Redstart || cards.length===0){
@@ -525,19 +597,21 @@
       }
 
       try{
-        const r = await apiPost('saveBaoloiTapthe', { Redstart, entries });
+        const payload = { Redstart, entries, FineAmount, FineProof: fineProofFiles };
+        const r = await apiPost('saveBaoloiTapthe', payload);
         if(r.success){
           $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0;
           ttList.innerHTML=''; ttCount=0; addTtItem();
+          $('#tt-fine-amount').value=''; $('#tt-fine-proof').value='';
           showConfirm();
           lockAfterSuccess('tt', $('#tt-submit'), statusEl);
-          showNotice(' Hệ thống đã ghi nhận thông tin.', true);
+          showNotice('THÔNG BÁO: Hệ thống đã ghi nhận thông tin.', true);
         } else {
-          showNotice('Không thể lưu. Vui lòng thử lại.', false);
+          showNotice('THÔNG BÁO: Không thể lưu. Vui lòng thử lại.', false);
           busy.tt=false; $('#tt-submit').disabled=false;
         }
       }catch(e){
-        showNotice('Kết nối không thành công. Kiểm tra API.', false);
+        showNotice('THÔNG BÁO: Kết nối không thành công. Kiểm tra API.', false);
         busy.tt=false; $('#tt-submit').disabled=false;
       }
     });
