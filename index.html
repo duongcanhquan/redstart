@@ -1,687 +1,278 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>THÔNG TIN SAO ĐỎ</title>
 
-  <!-- Font Nunito (tròn, rõ ràng) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font Nunito (tròn, rõ ràng, hiện đại) -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg: linear-gradient(135deg,#0ea5e9,#7c3aed);
-      --surface:#ffffff; --ink:#0f172a; --muted:#637081; --border:#e5e7eb;
+      --surface:#fff; --ink:#0f172a; --muted:#637081; --border:#e5e7eb;
       --accent:#7c3aed; --accent2:#0ea5e9;
       --radius:16px; --shadow:0 18px 40px rgba(0,0,0,.12);
       --fs-base: clamp(16px, 2.4vw, 18px);
-      --fs-sm: clamp(13px, 2.0vw, 15px);
+      --fs-sm: clamp(13px, 2vw, 15px);
       --fs-lg: clamp(17px, 2.4vw, 20px);
       --fs-xl: clamp(22px, 3.2vw, 28px);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: "Nunito", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue";
-      color:var(--ink); background:var(--bg); font-size:var(--fs-base);
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-    }
-    .app{
-      width:100%; max-width:1080px; margin:12px auto;
-      background:linear-gradient(180deg,#ffffffee,#ffffff);
-      border-radius:24px; box-shadow:var(--shadow); border:1px solid #ffffffaa
-    }
-
-    /* Banner */
-    header{
-      position:sticky; top:0; z-index:50; color:#fff; border-bottom:1px solid #ffffff22;
-      background: linear-gradient(180deg,#0b1020,#121826);
-    }
-    .banner{
-      display:flex; align-items:center; gap:14px; padding:12px 16px; min-height:72px;
-      background:
-        radial-gradient(900px 260px at -10% -60%, rgba(88,28,135,.45) 0%, transparent 60%),
-        radial-gradient(900px 260px at 120% 160%, rgba(14,165,233,.35) 0%, transparent 60%);
-    }
-    .logo{
-      width:56px; height:56px; border-radius:14px; flex:0 0 auto; display:grid; place-items:center;
-      background:#fff; border:1px solid #e2e8f0; box-shadow:0 8px 20px rgba(0,0,0,.18); overflow:hidden
-    }
-    .logo img{width:100%; height:100%; object-fit:cover}
-    .title h1{margin:0; font-size:var(--fs-xl); letter-spacing:.2px; font-weight:800}
-    .title p{margin:2px 0 0; font-size:var(--fs-sm); color:#cbd5e1; font-weight:600}
-
-    /* Tabbar */
-    .tabbar-wrap{
-      position:sticky; top:72px; z-index:40; background:#f5f7fb;
-      padding:10px 12px; border-top:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;
-    }
-    .tabbar{
-      background:#fff; border:1px solid var(--border); border-radius:14px; padding:6px;
-      display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
-      box-shadow:0 8px 20px rgba(15,23,42,.06);
-    }
-    .tab{
-      padding:10px 12px; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0;
-      cursor:pointer; font-weight:800; color:#0f172a; transition:.15s; font-size:var(--fs-lg); text-align:center;
-      line-height:1.15;
-    }
-    .tab:hover{transform: translateY(-1px)}
-    .tab.active{
-      background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent;
-      box-shadow:0 6px 14px rgba(124,58,237,.22)
-    }
-    /* Mobile */
-    @media (max-width: 720px){
-      .tabbar{grid-template-columns:1fr; gap:6px; padding:6px}
-      .tab{font-size:16px; padding:9px 12px; border-radius:10px}
-      .title h1{font-size:22px}
-      .banner{min-height:64px}
-      .logo{width:50px;height:50px;border-radius:12px}
-      .tabbar-wrap{top:64px}
-    }
-
-    main{padding:14px 14px 22px}
-    .card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:14px; margin-bottom:12px}
-
-    /* Grid: desktop 2 cột, mobile 1 cột */
-    .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
-    @media (max-width: 768px){ .grid{grid-template-columns:1fr; gap:12px} }
-
-    label{font-size:var(--fs-sm); color:#475569; font-weight:800; letter-spacing:.2px; display:block; margin-bottom:6px}
-    input[type="text"], input[type="number"], select, textarea{
-      width:100%; padding:13px 12px; border-radius:12px; border:1px solid #cbd5e1;
-      font-size:var(--fs-base); background:#fff; outline:none; transition:.15s
-    }
-    textarea{min-height:112px}
-    input:focus, select:focus, textarea:focus{border-color:#7c3aed; box-shadow:0 0 0 3px rgba(124,58,237,.12)}
-
-    .row{display:flex; gap:10px; flex-wrap:wrap}
-    .muted{color:var(--muted); font-size:var(--fs-sm)}
-    .hidden{display:none}
-    .hr{height:1px; background:#e2e8f0; margin:14px 0}
-
-    /* Fieldset tách bạch */
-    .fieldset{border:1px dashed #d1d5db; border-radius:12px; padding:12px; background:#fcfcff}
-    .fieldset h4{margin:0 0 8px; font-size:18px; color:#0f172a; font-weight:800}
-
-    .btn{
-      padding:12px 14px; border-radius:12px; border:0; cursor:pointer; font-weight:800; font-size:var(--fs-base);
-      background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; transition:.12s; box-shadow:0 8px 18px rgba(124,58,237,.16)
-    }
-    .btn:hover{transform: translateY(-1px)}
-    .btn:disabled{opacity:.6; cursor:not-allowed; transform:none; box-shadow:none}
-    .btn.secondary{background:linear-gradient(135deg,#0284c7,#06b6d4)}
-    .btn.ghost{background:#fff; color:#334155; border:1px solid var(--border); box-shadow:none}
-
-    .status{margin-top:6px; font-size:var(--fs-sm)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:"Nunito",sans-serif;color:var(--ink);font-size:var(--fs-base);}
+    .app{max-width:1080px;margin:12px auto;background:#fff;border-radius:24px;box-shadow:var(--shadow);}
+    header{background:#0b1020;color:#fff;padding:12px 16px;border-radius:24px 24px 0 0;}
+    header h1{margin:0;font-size:var(--fs-xl);font-weight:800}
+    header p{margin:4px 0 0;font-size:var(--fs-sm);color:#cbd5e1;font-weight:600}
+    .tabbar-wrap{background:#f5f7fb;padding:10px;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;}
+    .tabbar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .tab{padding:10px 12px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;font-weight:800;cursor:pointer;}
+    .tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;}
+    @media(max-width:720px){.tabbar{grid-template-columns:1fr}}
+    main{padding:14px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    @media(max-width:768px){.grid{grid-template-columns:1fr}}
+    label{font-size:var(--fs-sm);font-weight:800;display:block;margin-bottom:6px;color:#475569}
+    input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:12px;font-family:inherit;font-size:var(--fs-base)}
+    textarea{min-height:100px}
+    input:focus,select:focus,textarea:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.12)}
+    .btn{padding:12px 14px;border:none;border-radius:12px;cursor:pointer;font-weight:800;}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;}
+    .btn.secondary{background:linear-gradient(135deg,#0284c7,#06b6d4);color:#fff;}
+    .btn.ghost{background:#fff;border:1px solid #e2e8f0;}
+    .fieldset{border:1px dashed #d1d5db;border-radius:12px;padding:12px;background:#fafafa}
+    .status{margin-top:6px;font-size:var(--fs-sm)}
     .status.ok{color:#065f46}
-
-    /* THÔNG BÁO nổi */
-    #notice{
-      position:fixed; left:50%; bottom:12px; transform:translateX(-50%);
-      max-width:1080px; width:calc(100% - 24px);
-      background:#fff; border:1px solid #fbbf24; border-left:6px solid #f59e0b;
-      color:#7c2d12; padding:10px 12px; border-radius:12px; box-shadow:0 14px 28px rgba(0,0,0,.12);
-      display:none; z-index:1000; font-size:15px
-    }
-    #notice.ok{border-color:#a7f3d0; border-left-color:#10b981; color:#065f46}
-    #notice strong{margin-right:6px}
-    #notice .close{float:right; cursor:pointer; color:#475569}
-
-    #confirm{
-      margin: 10px 0 0; padding:12px 14px; border-radius:12px; border:1px solid #bbf7d0;
-      background:#ecfdf5; color:#065f46; font-weight:700; display:none
-    }
-
-    footer{padding:14px; background:#f8fafc; border-top:1px solid #e2e8f0; text-align:center; color:#475569; font-size:var(--fs-sm)}
-
-    /* Modal mức phạt */
-    #fee-modal.hidden{display:none}
-    #fee-modal{position:fixed; inset:0; background:rgba(2,6,23,.6); display:grid; place-items:center; z-index:60;}
-    #fee-modal .panel{background:#fff; border-radius:16px; padding:16px; width:min(640px, 92vw); border:1px solid #e2e8f0;}
+    #notice{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);background:#fff;padding:10px;border:1px solid #fbbf24;border-left:6px solid #f59e0b;border-radius:12px;box-shadow:0 14px 28px rgba(0,0,0,.12);display:none;z-index:1000;}
+    #notice.ok{border-left-color:#10b981;border-color:#a7f3d0;color:#065f46;}
   </style>
 </head>
+
 <body>
-  <div class="app">
-    <!-- Banner -->
-    <header>
-      <div class="banner">
-        <div class="logo">
-          <img src="https://raw.githubusercontent.com/duongcanhquan/image/refs/heads/main/logo%20vietmy.webp" alt="Logo trường">
-        </div>
-        <div class="title">
-          <h1>THÔNG TIN SAO ĐỎ</h1>
-          <p>Hệ thống ghi nhận báo cáo vi phạm</p>
-        </div>
-      </div>
-    </header>
+<div class="app">
+  <header>
+    <h1>THÔNG TIN SAO ĐỎ</h1>
+    <p>Hệ thống ghi nhận báo cáo vi phạm</p>
+  </header>
 
-    <!-- Tabbar + Nút QR -->
-    <div class="tabbar-wrap">
-      <div class="tabbar">
-        <button class="tab active" data-tab="hoatdong">Hoạt động sao đỏ</button>
-        <button class="tab" data-tab="canhan">Vi phạm cá nhân</button>
-        <button class="tab" data-tab="tapthe">Vi phạm tập thể</button>
-        <button id="btn-fee-info" class="btn ghost" type="button">Mức phạt & Chuyển khoản</button>
-      </div>
-     </div>
-
-    <main>
-      <!-- TAB 1: Hoạt động sao đỏ – NHIỀU TRƯỜNG HỢP -->
-      <section id="tab-hoatdong" class="card">
-        <!-- Thông tin chung -->
-        <div class="grid">
-          <div><label>Người khai báo *</label><input id="hd-redstart" type="text" placeholder="Nhập tên của bạn" /></div>
-          <div><label>Ca học *</label><select id="hd-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
-        </div>
-
-        <div class="hr"></div>
-
-        <!-- Danh sách trường hợp -->
-        <div id="hd-list" style="margin-top:8px"></div>
-
-        <div class="row" style="margin-top:8px">
-          <button class="btn secondary" id="hd-add">+ Thêm trường hợp</button>
-          <button class="btn ghost" id="hd-reset">Làm mới</button>
-        </div>
-
-        <div class="hr"></div>
-        <div class="row"><button class="btn" id="hd-submit">Gửi tất cả</button></div>
-        <div id="hd-status" class="status"></div>
-      </section>
-
-      <!-- TAB 2 -->
-      <section id="tab-canhan" class="card hidden">
-        <div class="grid">
-          <div><label>Người khai báo *</label><input id="cn-redstart" type="text" /></div>
-          <div><label>Ca học *</label><select id="cn-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
-          <div style="grid-column:1/-1"><label>Người phụ trách *</label><select id="cn-responsive"></select></div>
-        </div>
-
-        <div class="hr"></div>
-        <div id="cn-list" style="margin-top:8px"></div>
-
-        <div class="row" style="margin-top:8px">
-          <button class="btn secondary" id="cn-add">+ Thêm cá nhân</button>
-          <button class="btn ghost" id="cn-reset">Làm mới</button>
-        </div>
-
-        <div class="hr"></div>
-        <div class="row"><button class="btn" id="cn-submit">Gửi tất cả</button></div>
-        <div id="cn-status" class="status"></div>
-      </section>
-
-      <!-- TAB 3 -->
-      <section id="tab-tapthe" class="card hidden">
-        <div class="grid">
-          <div><label>Người khai báo *</label><input id="tt-redstart" type="text" /></div>
-          <div><label>Ca học *</label><select id="tt-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
-          <div style="grid-column:1/-1"><label>Người phụ trách *</label><select id="tt-responsive"></select></div>
-        </div>
-
-        <div class="hr"></div>
-        <div id="tt-list" style="margin-top:8px"></div>
-
-        <div class="row" style="margin-top:8px">
-          <button class="btn secondary" id="tt-add">+ Thêm báo lỗi tập thể</button>
-          <button class="btn ghost" id="tt-reset">Làm mới</button>
-        </div>
-
-        <div class="hr"></div>
-        <div class="row"><button class="btn" id="tt-submit">Gửi tất cả</button></div>
-        <div id="tt-status" class="status"></div>
-      </section>
-
-      <div id="confirm">Cảm ơn bạn, hệ thống đã ghi nhận thông tin.</div>
-    </main>
-
-    <footer>@dichvusinhvien All Rights reserved</footer>
-  </div>
-
-  <!-- THÔNG BÁO -->
-  <div id="notice"><span class="close" onclick="hideNotice()">✕</span><strong>THÔNG BÁO:</strong> <span id="notice-msg"></span></div>
-
-  <!-- Modal Mức phạt & Chuyển khoản -->
-  <div id="fee-modal" class="hidden">
-    <div class="panel">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <h3 style="margin:0">Mức phạt & Chuyển khoản</h3>
-        <button id="fee-close" class="btn ghost" type="button">Đóng</button>
-      </div>
-      <div class="hr"></div>
-      <div style="font-size:15px; color:#334155; line-height:1.6">
-        <p><strong>Mức phạt thông thường:</strong></p>
-        <ul style="margin-top:6px;">
-          <li>Vệ sinh lớp học: <strong>50.000 VNĐ</strong></li>
-          <li>Hút thuốc: <strong>200.000 VNĐ</strong></li>
-        </ul>
-        <div class="hr"></div>
-        <p><strong>QR chuyển khoản:</strong></p>
-        <img src="https://raw.githubusercontent.com/duongcanhquan/image/refs/heads/main/vcb.png" alt="QR chuyển khoản"
-             style="width:100%; max-width:360px; display:block; margin:auto; border:1px solid #e2e8f0; border-radius:12px;">
-      </div>
+  <div class="tabbar-wrap">
+    <div class="tabbar">
+      <button class="tab active" data-tab="hoatdong">Hoạt động sao đỏ</button>
+      <button class="tab" data-tab="canhan">Vi phạm cá nhân</button>
+      <button class="tab" data-tab="tapthe">Vi phạm tập thể</button>
+      <button id="btn-fee-info" class="btn ghost">Mức phạt & Chuyển khoản</button>
     </div>
   </div>
 
-  <script>
-    /* ĐỔI CHUỖI NÀY THÀNH URL /exec THẬT CỦA BẠN */
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyWRKiYilceoOyMFVmU7pqAegCvCMHgMDXMK8CJQZ1A4EpmUK-oyrYP508STaajQNwvAg/exec';
+  <main>
+    <!-- TAB 1: Hoạt động sao đỏ -->
+    <section id="tab-hoatdong" class="card">
+      <div class="grid">
+        <div><label>Người khai báo *</label><input id="hd-redstart" type="text"></div>
+        <div><label>Ca học *</label><select id="hd-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
+      </div>
+      <div id="hd-list"></div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn secondary" id="hd-add">+ Thêm trường hợp</button>
+      </div>
+      <div style="margin-top:8px"><button class="btn primary" id="hd-submit">Gửi tất cả</button></div>
+      <div id="hd-status" class="status"></div>
+    </section>
 
-    const $  = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
+    <!-- TAB 2: Vi phạm cá nhân -->
+    <section id="tab-canhan" class="card hidden">
+      <div class="grid">
+        <div><label>Người khai báo *</label><input id="cn-redstart" type="text"></div>
+        <div><label>Ca học *</label><select id="cn-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
+        <div style="grid-column:1/-1"><label>Người phụ trách *</label><select id="cn-responsive"></select></div>
+      </div>
+      <div id="cn-list"></div>
+      <div class="row" style="margin-top:8px"><button class="btn secondary" id="cn-add">+ Thêm cá nhân</button></div>
+      <div style="margin-top:8px"><button class="btn primary" id="cn-submit">Gửi tất cả</button></div>
+      <div id="cn-status" class="status"></div>
+    </section>
 
-    /* Tabs */
-    $$('.tab').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        $$('.tab').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        const target = 'tab-' + btn.dataset.tab;
-        $$('main section').forEach(sec => sec.classList.add('hidden'));
-        $('#'+target).classList.remove('hidden');
-        setTimeout(()=>{ window.scrollBy({top:1}); }, 0);
-      });
-    });
+    <!-- TAB 3: Vi phạm tập thể -->
+    <section id="tab-tapthe" class="card hidden">
+      <div class="grid">
+        <div><label>Người khai báo *</label><input id="tt-redstart" type="text"></div>
+        <div><label>Ca học *</label><select id="tt-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
+        <div style="grid-column:1/-1"><label>Người phụ trách *</label><select id="tt-responsive"></select></div>
+      </div>
+      <div id="tt-list"></div>
+      <div class="row" style="margin-top:8px"><button class="btn secondary" id="tt-add">+ Thêm tập thể</button></div>
+      <div style="margin-top:8px"><button class="btn primary" id="tt-submit">Gửi tất cả</button></div>
+      <div id="tt-status" class="status"></div>
+    </section>
+  </main>
+</div>
 
-    /* Nút "Mức phạt & Chuyển khoản" */
-    $('#btn-fee-info')?.addEventListener('click', ()=> $('#fee-modal').classList.remove('hidden'));
-    $('#fee-close')?.addEventListener('click', ()=> $('#fee-modal').classList.add('hidden'));
-    $('#fee-modal')?.addEventListener('click', (e)=>{ if(e.target===e.currentTarget) $('#fee-modal').classList.add('hidden'); });
+<div id="notice"><span id="notice-msg"></span></div>
 
-    /* THÔNG BÁO */
-    function showNotice(msg, ok=false){
-      const box = $('#notice'), span = $('#notice-msg');
-      span.textContent = msg || 'Nội dung chưa hoàn thiện.';
-      box.classList.toggle('ok', !!ok);
-      box.style.display = 'block';
-      setTimeout(()=>{ box.style.display='none'; }, 5000);
-    }
-    function hideNotice(){ $('#notice').style.display='none'; }
+<!-- Modal mức phạt -->
+<div id="fee-modal" class="hidden">
+  <div style="background:#fff;padding:16px;border-radius:16px;max-width:600px;margin:50px auto">
+    <h3>Mức phạt & Chuyển khoản</h3>
+    <p><strong>Vệ sinh lớp học:</strong> 50.000 VNĐ</p>
+    <p><strong>Hút thuốc:</strong> 200.000 VNĐ</p>
+    <img src="https://raw.githubusercontent.com/duongcanhquan/image/refs/heads/main/vcb.png" style="width:100%;max-width:300px;border:1px solid #ccc;border-radius:8px">
+    <div style="text-align:right;margin-top:12px"><button class="btn ghost" id="fee-close">Đóng</button></div>
+  </div>
+</div>
 
-    /* Xác nhận cuối trang */
-    function showConfirm(){
-      const c = $('#confirm');
-      c.style.display = 'block';
-      c.scrollIntoView({behavior:'smooth', block:'end'});
-      setTimeout(()=>{ c.style.display='none'; }, 6000);
-    }
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbyOOfs0l5NZX5mwphOer68qZKAM3V2ZtFDqagYhkhV2g8BXrauOr0hLi1BwFf2eEHyCWQ/exec';
+const $=(s,el=document)=>el.querySelector(s),$$=(s,el=document)=>[...el.querySelectorAll(s)];
 
-    /* Người phụ trách (cố định) */
-    const RESPONSIVE_LIST = [
-      'Đinh Thị Phương Hà','Dung Nguyễn','Lê Thị Quỳnh Mai','Đinh Thị Hiền',
-      'Phùng Khánh Ly','Ngô Thị Nhã Uyên','Đinh Thị Hà','Trần Hồng Hạnh'
-    ];
-    $('#cn-responsive').innerHTML = RESPONSIVE_LIST.map(n=>`<option>${n}</option>`).join('');
-    $('#tt-responsive').innerHTML = RESPONSIVE_LIST.map(n=>`<option>${n}</option>`).join('');
+$$('.tab').forEach(btn=>{
+  btn.onclick=()=>{
+    $$('.tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    $$('main section').forEach(s=>s.classList.add('hidden'));
+    $('#tab-'+btn.dataset.tab).classList.remove('hidden');
+  }
+});
 
-    /* Files -> base64 */
-    async function filesToPayload(fileList, limit=3){
-      const files=[...(fileList||[])].slice(0,limit);
-      const jobs=files.map(file=>new Promise((res,rej)=>{
-        const fr=new FileReader();
-        fr.onload=()=>res({name:file.name,type:file.type,data:fr.result.split(',')[1]});
-        fr.onerror=rej; fr.readAsDataURL(file);
-      }));
-      return Promise.all(jobs);
-    }
+function showNotice(msg,ok=false){
+  const n=$('#notice'); $('#notice-msg').textContent=msg; n.classList.toggle('ok',ok); n.style.display='block';
+  setTimeout(()=>n.style.display='none',4000);
+}
 
-    /* API */
-    async function apiPost(action, payload){
-      if(!API_URL || API_URL.includes('DEPLOYMENT_ID')){
-        showNotice('THÔNG BÁO: API_URL chưa cấu hình. Vui lòng thay đường dẫn /exec.', false);
-        throw new Error('API_URL chưa cấu hình.');
-      }
-      const fd=new FormData();
-      fd.append('action', action);
-      fd.append('payload', JSON.stringify(payload));
-      const r = await fetch(API_URL, { method:'POST', body:fd });
-      if(!r.ok) throw new Error(`POST ${r.status}`);
-      return r.json();
-    }
+// Compress image for faster upload
+async function compressImage(file, maxW=1600, quality=0.8){
+  if(!file.type.startsWith('image/')) return file;
+  const img = await new Promise((res,rej)=>{
+    const fr=new FileReader();
+    fr.onload=()=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=fr.result};
+    fr.readAsDataURL(file);
+  });
+  const scale = Math.min(1, maxW/img.width);
+  const cv = document.createElement('canvas'); cv.width=img.width*scale; cv.height=img.height*scale;
+  cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+  const blob = await new Promise(r=>cv.toBlob(r,'image/jpeg',quality));
+  return new File([blob],file.name.replace(/\.\w+$/,'.jpg'),{type:'image/jpeg'});
+}
+async function filesToPayload(fileList,limit=3){
+  const files=[...(fileList||[])].slice(0,limit);
+  return Promise.all(files.map(async f=>{
+    const c=await compressImage(f);
+    const fr=new FileReader();
+    const data=await new Promise(r=>{fr.onload=()=>r(fr.result);fr.readAsDataURL(c)});
+    return {name:c.name,type:c.type,data:data.split(',')[1]};
+  }));
+}
+async function apiPost(action,payload){
+  const fd=new FormData();
+  fd.append('action',action);
+  fd.append('payload',JSON.stringify(payload));
+  const r=await fetch(API_URL,{method:'POST',body:fd});
+  return r.json();
+}
 
-    /* Khóa nút sau thành công (tránh gửi trùng) */
-    const busy = { hd:false, cn:false, tt:false };
-    function lockAfterSuccess(sectionKey, btnEl, statusEl){
-      busy[sectionKey] = true;
-      btnEl.disabled = true;
-      statusEl.className = 'status ok';
-      statusEl.textContent = 'THÔNG BÁO: Đã gửi thành công. Nút gửi đã khóa để tránh trùng lặp.';
-    }
-    function unlockForEditing(sectionKey, btnEl, statusEl){
-      busy[sectionKey] = false;
-      btnEl.disabled = false;
-      statusEl.textContent = '';
-      statusEl.className = 'status';
-    }
-    function attachChangeUnlock(sectionKey, containerSel, btnSel, statusSel){
-      const container = $(containerSel);
-      const btn = $(btnSel);
-      const status = $(statusSel);
-      container.addEventListener('input', ()=>{ if (btn.disabled) unlockForEditing(sectionKey, btn, status); });
-    }
+/* ============== HOẠT ĐỘNG SAO ĐỎ ============== */
+const hdList=$('#hd-list');let hdCount=0;
+function hdItem(i){return`
+<div class="card" data-hd="${i}">
+  <div class="grid">
+    <div><label>Người vi phạm *</label><input type="text" class="hd-name"></div>
+    <div><label>Lớp *</label><input type="text" class="hd-class"></div>
+    <div style="grid-column:1/-1"><label>Mô tả vi phạm *</label><textarea class="hd-problems"></textarea></div>
+    <div style="grid-column:1/-1" class="fieldset"><h4>Ảnh vi phạm (tối đa 3)</h4><input type="file" class="hd-photos" multiple accept="image/*"></div>
+    <div style="grid-column:1/-1;text-align:right"><button class="btn ghost hd-remove" type="button">Xóa dòng</button></div>
+  </div>
+</div>`;}
+function addHdItem(){const i=hdCount++;const div=document.createElement('div');div.innerHTML=hdItem(i);const el=div.firstElementChild;hdList.appendChild(el);$('.hd-remove',el).onclick=()=>el.remove();}
+for(let i=0;i<3;i++) addHdItem();
+$('#hd-add').onclick=addHdItem;
+$('#hd-submit').onclick=async()=>{
+  const Redstart=$('#hd-redstart').value.trim();const Session=$('#hd-session').value;
+  const items=$$('[data-hd]',hdList);if(!Redstart||!items.length)return showNotice('Vui lòng nhập đủ thông tin.');
+  let ok=0;
+  for(const c of items){
+    const Name=$('.hd-name',c).value.trim(),Class=$('.hd-class',c).value.trim(),Problems=$('.hd-problems',c).value.trim();
+    if(!Name||!Class||!Problems)return showNotice('Thiếu dữ liệu trong một dòng.');
+    const files=await filesToPayload($('.hd-photos',c).files,3);
+    const r=await apiPost('saveHoatDongSaodo',{Name,Class,Problems,Session,Redstart,files});
+    if(r.success)ok++;
+  }
+  showNotice(ok>0?'Đã gửi '+ok+' dòng.':'Không thể gửi.',ok>0);
+};
 
-    /* =========================
-       TAB 1: Hoạt động sao đỏ
-       ========================= */
-    const hdList = $('#hd-list'); let hdCount = 0;
-    function hdItemTemplate(i){
-      return `
-      <div class="card" data-hd="\${i}">
-        <div class="grid">
-          <div><label>Người vi phạm *</label><input type="text" class="hd-name" /></div>
-          <div><label>Lớp *</label><input type="text" class="hd-class" /></div>
-          <div style="grid-column:1/-1"><label>Mô tả vi phạm *</label><textarea class="hd-problems"></textarea></div>
+/* NGƯỜI PHỤ TRÁCH */
+const RESPONSIVE_LIST=['Đinh Thị Phương Hà','Dung Nguyễn','Lê Thị Quỳnh Mai','Đinh Thị Hiền','Phùng Khánh Ly','Ngô Thị Nhã Uyên','Đinh Thị Hà','Trần Hồng Hạnh'];
+$('#cn-responsive').innerHTML=RESPONSIVE_LIST.map(n=>`<option>${n}</option>`).join('');
+$('#tt-responsive').innerHTML=RESPONSIVE_LIST.map(n=>`<option>${n}</option>`).join('');
 
-          <div style="grid-column:1/-1" class="fieldset">
-            <h4>Ảnh vi phạm (tối đa 3)</h4>
-            <input type="file" class="hd-photos" multiple accept="image/*" />
-          </div>
+/* ============== VI PHẠM CÁ NHÂN ============== */
+const cnList=$('#cn-list');let cnCount=0;
+function cnItem(i){return`
+<div class="card" data-cn="${i}">
+  <div class="grid">
+    <div><label>Người vi phạm *</label><input class="cn-name"></div>
+    <div><label>Lớp *</label><input class="cn-class"></div>
+    <div style="grid-column:1/-1"><label>Mô tả *</label><textarea class="cn-problems"></textarea></div>
+    <div style="grid-column:1/-1" class="fieldset"><h4>Ảnh vi phạm</h4><input type="file" class="cn-photos" multiple accept="image/*"></div>
+    <div class="fieldset" style="grid-column:1/-1"><h4>Biên bản</h4><input type="file" class="cn-doc" accept="image/*,application/pdf"></div>
+    <div><label>Mức phạt (VNĐ)</label><input type="number" class="cn-fine"></div>
+    <div class="fieldset" style="grid-column:1/-1"><h4>Minh chứng nộp phạt</h4><input type="file" class="cn-proof" accept="image/*,application/pdf"></div>
+    <div style="grid-column:1/-1;text-align:right"><button class="btn ghost cn-remove">Xóa dòng</button></div>
+  </div>
+</div>`;}
+function addCnItem(){const i=cnCount++;const div=document.createElement('div');div.innerHTML=cnItem(i);const el=div.firstElementChild;cnList.appendChild(el);$('.cn-remove',el).onclick=()=>el.remove();}
+addCnItem();
+$('#cn-add').onclick=addCnItem;
+$('#cn-submit').onclick=async()=>{
+  const Redstart=$('#cn-redstart').value.trim(),Session=$('#cn-session').value,Responsive=$('#cn-responsive').value;
+  const items=$$('[data-cn]',cnList);if(!Redstart||!items.length)return showNotice('Vui lòng nhập đủ thông tin.');
+  const entries=[];
+  for(const c of items){
+    const Name=$('.cn-name',c).value.trim(),Class=$('.cn-class',c).value.trim(),Problems=$('.cn-problems',c).value.trim();
+    if(!Name||!Class||!Problems)return showNotice('Thiếu dữ liệu.');
+    const files=await filesToPayload($('.cn-photos',c).files,3);
+    const doc=await filesToPayload($('.cn-doc',c).files,1);
+    const FineAmount=Number($('.cn-fine',c).value||0);
+    const FineProof=await filesToPayload($('.cn-proof',c).files,1);
+    entries.push({Name,Class,Problems,Session,Responsive,files,doc,FineAmount,FineProof});
+  }
+  const r=await apiPost('saveViphamCanhan',{Redstart,entries});
+  showNotice(r.success?'Đã gửi thành công.':'Không thể gửi.',r.success);
+};
 
-          <div style="grid-column:1/-1" class="row">
-            <button class="btn ghost hd-remove" type="button">Xóa dòng</button>
-          </div>
-        </div>
-      </div>`;
-    }
-    function addHdItem(){
-      const i=hdCount++; const wrap=document.createElement('div'); wrap.innerHTML=hdItemTemplate(i);
-      const el=wrap.firstElementChild; hdList.appendChild(el);
-      $$('.hd-remove', el).forEach(btn=>{ btn.onclick=(e)=> e.currentTarget.closest('[data-hd]').remove(); });
-      setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'start'}); },0);
-    }
-    $('#hd-add').addEventListener('click', addHdItem);
-    addHdItem(); // mặc định có 1 dòng
-
-    attachChangeUnlock('hd', '#tab-hoatdong', '#hd-submit', '#hd-status');
-
-    $('#hd-reset').addEventListener('click', ()=>{
-      $('#hd-redstart').value=''; $('#hd-session').selectedIndex=0;
-      hdList.innerHTML=''; hdCount=0; addHdItem();
-      unlockForEditing('hd', $('#hd-submit'), $('#hd-status'));
-      window.scrollBy({top:1});
-    });
-
-    // Gửi tất cả: gọi API từng dòng (không cần sửa Apps Script)
-    $('#hd-submit').addEventListener('click', async ()=>{
-      if(busy.hd) return; busy.hd=true; $('#hd-submit').disabled=true;
-      const statusEl = $('#hd-status');
-
-      const Redstart = $('#hd-redstart').value.trim();
-      const Session  = $('#hd-session').value;
-      const cards = $$('[data-hd]', hdList);
-
-      if(!Redstart || cards.length===0){
-        showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
-        busy.hd=false; $('#hd-submit').disabled=false; return;
-      }
-
-      // chuẩn bị dữ liệu từng dòng
-      const entries = [];
-      for (const card of cards){
-        const name = $('.hd-name', card).value.trim();
-        const cls  = $('.hd-class', card).value.trim();
-        const prob = $('.hd-problems', card).value.trim();
-        if(!name || !cls || !prob){
-          showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
-          busy.hd=false; $('#hd-submit').disabled=false; return;
-        }
-        const files = await filesToPayload($('.hd-photos', card).files, 3);
-        entries.push({ Name:name, Class:cls, Problems:prob, Session, Redstart, files });
-      }
-
-      // gửi tuần tự từng entry
-      let ok = 0, fail = 0;
-      for (const e of entries){
-        try{
-          const r = await apiPost('saveHoatDongSaodo', e);
-          if (r && r.success) ok++; else fail++;
-        }catch(err){ fail++; }
-      }
-
-      if (ok > 0 && fail === 0){
-        // tất cả thành công
-        $('#hd-redstart').value=''; $('#hd-session').selectedIndex=0;
-        hdList.innerHTML=''; hdCount=0; addHdItem();
-        showConfirm();
-        lockAfterSuccess('hd', $('#hd-submit'), statusEl);
-        showNotice('THÔNG BÁO: Hệ thống đã ghi nhận thông tin.', true);
-      } else if (ok > 0 && fail > 0){
-        // một phần lỗi
-        showNotice(`THÔNG BÁO: Đã lưu ${ok}/${entries.length} dòng. Vui lòng kiểm tra kết nối/ảnh và thử lại các dòng lỗi.`, false);
-        busy.hd=false; $('#hd-submit').disabled=false;
-      } else {
-        // tất cả lỗi
-        showNotice('THÔNG BÁO: Không thể lưu. Vui lòng thử lại.', false);
-        busy.hd=false; $('#hd-submit').disabled=false;
-      }
-    });
-
-    /* =========================
-       TAB 2: Vi phạm cá nhân
-       ========================= */
-    const cnList = $('#cn-list'); let cnCount = 0;
-    function cnItemTemplate(i){
-      return `
-      <div class="card" data-cn="\${i}">
-        <div class="grid">
-          <div><label>Người vi phạm *</label><input type="text" class="cn-name" /></div>
-          <div><label>Lớp *</label><input type="text" class="cn-class" /></div>
-          <div style="grid-column:1/-1"><label>Mô tả vi phạm *</label><textarea class="cn-problems"></textarea></div>
-
-          <div style="grid-column:1/-1" class="fieldset">
-            <h4>Ảnh vi phạm (tối đa 3)</h4>
-            <input type="file" class="cn-photos" multiple accept="image/*" />
-          </div>
-
-          <div style="grid-column:1/-1" class="fieldset">
-            <h4>Biên bản (tối đa 1 file)</h4>
-            <input type="file" class="cn-doc" accept="image/*,application/pdf" />
-          </div>
-
-          <div class="grid" style="grid-column:1/-1">
-            <div>
-              <label>Mức nộp phạt (VNĐ)</label>
-              <input type="number" class="cn-fine-amount" min="0" placeholder="VD: 50000" />
-            </div>
-            <div class="fieldset" style="grid-column:1/-1">
-              <h4>Minh chứng nộp phạt (1 file)</h4>
-              <input type="file" class="cn-fine-proof" accept="image/*,application/pdf" />
-            </div>
-          </div>
-
-          <div style="grid-column:1/-1" class="row">
-            <button class="btn ghost cn-remove" type="button">Xóa dòng</button>
-          </div>
-        </div>
-      </div>`;
-    }
-    function addCnItem(){
-      const i=cnCount++; const wrap=document.createElement('div'); wrap.innerHTML=cnItemTemplate(i);
-      const el=wrap.firstElementChild; cnList.appendChild(el);
-      $$('.cn-remove', el).forEach(btn=>{ btn.onclick=(e)=> e.currentTarget.closest('[data-cn]').remove(); });
-      setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'start'}); },0);
-    }
-    $('#cn-add').addEventListener('click', addCnItem);
-    addCnItem();
-
-    attachChangeUnlock('cn', '#tab-canhan', '#cn-submit', '#cn-status');
-
-    $('#cn-reset').addEventListener('click', ()=>{
-      $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
-      cnList.innerHTML=''; cnCount=0; addCnItem();
-      unlockForEditing('cn', $('#cn-submit'), $('#cn-status'));
-      window.scrollBy({top:1});
-    });
-
-    $('#cn-submit').addEventListener('click', async ()=>{
-      if(busy.cn) return; busy.cn=true; $('#cn-submit').disabled=true;
-      const statusEl = $('#cn-status');
-
-      const Redstart = $('#cn-redstart').value.trim();
-      const Session  = $('#cn-session').value;
-      const Responsive = $('#cn-responsive').value;
-      const cards = $$('[data-cn]', cnList);
-
-      if(!Redstart || cards.length===0){
-        showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
-        busy.cn=false; $('#cn-submit').disabled=false; return;
-      }
-
-      const entries=[];
-      for (const card of cards){
-        const name = $('.cn-name', card).value.trim();
-        const cls  = $('.cn-class', card).value.trim();
-        const prob = $('.cn-problems', card).value.trim();
-        if(!name || !cls || !prob){
-          showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
-          busy.cn=false; $('#cn-submit').disabled=false; return;
-        }
-        const files = await filesToPayload($('.cn-photos', card).files, 3);
-        const doc   = await filesToPayload($('.cn-doc', card).files, 1);
-
-        const fineAmount = Number($('.cn-fine-amount', card)?.value || 0) || 0;
-        const fineProof  = await filesToPayload($('.cn-fine-proof',  card)?.files || [], 1);
-
-        entries.push({
-          Name: name, Class: cls, Problems: prob, Session, Responsive,
-          files, doc,
-          FineAmount: fineAmount,
-          FineProof:  fineProof
-        });
-      }
-
-      try{
-        const r = await apiPost('saveViphamCanhan', { Redstart, entries });
-        if(r.success){
-          $('#cn-redstart').value=''; $('#cn-session').selectedIndex=0;
-          cnList.innerHTML=''; cnCount=0; addCnItem();
-          showConfirm();
-          lockAfterSuccess('cn', $('#cn-submit'), statusEl);
-          showNotice('THÔNG BÁO: Hệ thống đã ghi nhận thông tin.', true);
-        } else {
-          showNotice('THÔNG BÁO: Không thể lưu. Vui lòng thử lại.', false);
-          busy.cn=false; $('#cn-submit').disabled=false;
-        }
-      }catch(e){
-        showNotice('THÔNG BÁO: Kết nối không thành công. Kiểm tra API.', false);
-        busy.cn=false; $('#cn-submit').disabled=false;
-      }
-    });
-
-    /* =========================
-       TAB 3: Vi phạm tập thể
-       ========================= */
-    const ttList = $('#tt-list'); let ttCount = 0;
-    function ttItemTemplate(i){
-      return `
-      <div class="card" data-tt="\${i}">
-        <div class="grid">
-          <div><label>Lớp *</label><input type="text" class="tt-class" /></div>
-          <div><label>Phòng học</label><input type="text" class="tt-room" placeholder="VD: P201" /></div>
-          <div style="grid-column:1/-1"><label>Mô tả vi phạm *</label><textarea class="tt-problems"></textarea></div>
-
-          <div style="grid-column:1/-1" class="fieldset">
-            <h4>Ảnh vi phạm (tối đa 3)</h4>
-            <input type="file" class="tt-photos" multiple accept="image/*" />
-          </div>
-
-          <div style="grid-column:1/-1" class="fieldset">
-            <h4>Biên bản (tối đa 1 file)</h4>
-            <input type="file" class="tt-doc" accept="image/*,application/pdf" />
-          </div>
-
-          <div class="grid" style="grid-column:1/-1">
-            <div>
-              <label>Mức nộp phạt (VNĐ)</label>
-              <input type="number" class="tt-fine-amount" min="0" placeholder="VD: 200000" />
-            </div>
-            <div class="fieldset" style="grid-column:1/-1">
-              <h4>Minh chứng nộp phạt (1 file)</h4>
-              <input type="file" class="tt-fine-proof" accept="image/*,application/pdf" />
-            </div>
-          </div>
-
-          <div style="grid-column:1/-1" class="row">
-            <button class="btn ghost tt-remove" type="button">Xóa dòng</button>
-          </div>
-        </div>
-      </div>`;
-    }
-    function addTtItem(){
-      const i=ttCount++; const wrap=document.createElement('div'); wrap.innerHTML=ttItemTemplate(i);
-      const el=wrap.firstElementChild; ttList.appendChild(el);
-      $$('.tt-remove', el).forEach(btn=>{ btn.onclick=(e)=> e.currentTarget.closest('[data-tt]').remove(); });
-      setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'start'}); },0);
-    }
-    $('#tt-add').addEventListener('click', addTtItem);
-    addTtItem();
-
-    attachChangeUnlock('tt', '#tab-tapthe', '#tt-submit', '#tt-status');
-
-    $('#tt-reset').addEventListener('click', ()=>{
-      $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0;
-      ttList.innerHTML=''; ttCount=0; addTtItem();
-      unlockForEditing('tt', $('#tt-submit'), $('#tt-status'));
-      window.scrollBy({top:1});
-    });
-
-    $('#tt-submit').addEventListener('click', async ()=>{
-      if(busy.tt) return; busy.tt=true; $('#tt-submit').disabled=true;
-      const statusEl = $('#tt-status');
-
-      const Redstart = $('#tt-redstart').value.trim();
-      const Session  = $('#tt-session').value;
-      const Responsive = $('#tt-responsive').value;
-      const cards = $$('[data-tt]', ttList);
-
-      if(!Redstart || cards.length===0){
-        showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
-        busy.tt=false; $('#tt-submit').disabled=false; return;
-      }
-
-      const entries=[];
-      for (const card of cards){
-        const cls  = $('.tt-class', card).value.trim();
-        const room = $('.tt-room', card).value.trim();
-        const prob = $('.tt-problems', card).value.trim();
-        if(!cls || !prob){
-          showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
-          busy.tt=false; $('#tt-submit').disabled=false; return;
-        }
-        const files = await filesToPayload($('.tt-photos', card).files, 3);
-        const doc   = await filesToPayload($('.tt-doc', card).files, 1);
-
-        const fineAmount = Number($('.tt-fine-amount', card)?.value || 0) || 0;
-        const fineProof  = await filesToPayload($('.tt-fine-proof',  card)?.files || [], 1);
-
-        entries.push({
-          Class: cls, Room: room, Problems: prob, Session, Responsive,
-          files, doc,
-          FineAmount: fineAmount,
-          FineProof:  fineProof
-        });
-      }
-
-      try{
-        const r = await apiPost('saveBaoloiTapthe', { Redstart, entries });
-        if(r.success){
-          $('#tt-redstart').value=''; $('#tt-session').selectedIndex=0;
-          ttList.innerHTML=''; ttCount=0; addTtItem();
-          showConfirm();
-          lockAfterSuccess('tt', $('#tt-submit'), statusEl);
-          showNotice('THÔNG BÁO: Hệ thống đã ghi nhận thông tin.', true);
-        } else {
-          showNotice('THÔNG BÁO: Không thể lưu. Vui lòng thử lại.', false);
-          busy.tt=false; $('#tt-submit').disabled=false;
-        }
-      }catch(e){
-        showNotice('THÔNG BÁO: Kết nối không thành công. Kiểm tra API.', false);
-        busy.tt=false; $('#tt-submit').disabled=false;
-      }
-    });
-  </script>
+/* ============== VI PHẠM TẬP THỂ ============== */
+const ttList=$('#tt-list');let ttCount=0;
+function ttItem(i){return`
+<div class="card" data-tt="${i}">
+  <div class="grid">
+    <div><label>Lớp *</label><input class="tt-class"></div>
+    <div><label>Phòng học</label><input class="tt-room"></div>
+    <div style="grid-column:1/-1"><label>Mô tả *</label><textarea class="tt-problems"></textarea></div>
+    <div style="grid-column:1/-1" class="fieldset"><h4>Ảnh vi phạm</h4><input type="file" class="tt-photos" multiple accept="image/*"></div>
+    <div class="fieldset" style="grid-column:1/-1"><h4>Biên bản</h4><input type="file" class="tt-doc" accept="image/*,application/pdf"></div>
+    <div><label>Mức phạt (VNĐ)</label><input type="number" class="tt-fine"></div>
+    <div class="fieldset" style="grid-column:1/-1"><h4>Minh chứng nộp phạt</h4><input type="file" class="tt-proof" accept="image/*,application/pdf"></div>
+    <div style="grid-column:1/-1;text-align:right"><button class="btn ghost tt-remove">Xóa dòng</button></div>
+  </div>
+</div>`;}
+function addTtItem(){const i=ttCount++;const div=document.createElement('div');div.innerHTML=ttItem(i);const el=div.firstElementChild;ttList.appendChild(el);$('.tt-remove',el).onclick=()=>el.remove();}
+addTtItem();
+$('#tt-add').onclick=addTtItem;
+$('#tt-submit').onclick=async()=>{
+  const Redstart=$('#tt-redstart').value.trim(),Session=$('#tt-session').value,Responsive=$('#tt-responsive').value;
+  const items=$$('[data-tt]',ttList);if(!Redstart||!items.length)return showNotice('Vui lòng nhập đủ thông tin.');
+  const entries=[];
+  for(const c of items){
+    const Class=$('.tt-class',c).value.trim(),Room=$('.tt-room',c).value.trim(),Problems=$('.tt-problems',c).value.trim();
+    if(!Class||!Problems)return showNotice('Thiếu dữ liệu.');
+    const files=await filesToPayload($('.tt-photos',c).files,3);
+    const doc=await filesToPayload($('.tt-doc',c).files,1);
+    const FineAmount=Number($('.tt-fine',c).value||0);
+    const FineProof=await filesToPayload($('.tt-proof',c).files,1);
+    entries.push({Class,Room,Problems,Session,Responsive,files,doc,FineAmount,FineProof});
+  }
+  const r=await apiPost('saveBaoloiTapthe',{Redstart,entries});
+  showNotice(r.success?'Đã gửi thành công.':'Không thể gửi.',r.success);
+};
+</script>
 </body>
 </html>
