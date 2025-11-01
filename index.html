@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -173,26 +173,27 @@
     </div>
 
     <main>
-      <!-- TAB 1 -->
+      <!-- TAB 1: Hoạt động sao đỏ – NHIỀU TRƯỜNG HỢP -->
       <section id="tab-hoatdong" class="card">
+        <!-- Thông tin chung -->
         <div class="grid">
           <div><label>Người khai báo *</label><input id="hd-redstart" type="text" placeholder="Nhập tên của bạn" /></div>
           <div><label>Ca học *</label><select id="hd-session"><option>Ca sáng</option><option>Ca chiều</option></select></div>
-          <div><label>Người vi phạm *</label><input id="hd-name" type="text" /></div>
-          <div><label>Lớp *</label><input id="hd-class" type="text" /></div>
-          <div style="grid-column:1/-1"><label>Mô tả vi phạm *</label><textarea id="hd-problems"></textarea></div>
-
-          <div style="grid-column:1/-1" class="fieldset">
-            <h4>Ảnh vi phạm (tối đa 3 – tùy chọn)</h4>
-            <input id="hd-photos" type="file" multiple accept="image/*" />
-          </div>
-
-          <div style="grid-column:1/-1" class="row">
-            <button class="btn" id="hd-submit">Gửi</button>
-            <button class="btn ghost" id="hd-reset">Làm mới</button>
-          </div>
-          <div id="hd-status" class="status"></div>
         </div>
+
+        <div class="hr"></div>
+
+        <!-- Danh sách trường hợp -->
+        <div id="hd-list" style="margin-top:8px"></div>
+
+        <div class="row" style="margin-top:8px">
+          <button class="btn secondary" id="hd-add">+ Thêm trường hợp</button>
+          <button class="btn ghost" id="hd-reset">Làm mới</button>
+        </div>
+
+        <div class="hr"></div>
+        <div class="row"><button class="btn" id="hd-submit">Gửi tất cả</button></div>
+        <div id="hd-status" class="status"></div>
       </section>
 
       <!-- TAB 2 -->
@@ -212,7 +213,6 @@
         </div>
 
         <div class="hr"></div>
-
         <div class="row"><button class="btn" id="cn-submit">Gửi tất cả</button></div>
         <div id="cn-status" class="status"></div>
       </section>
@@ -234,7 +234,6 @@
         </div>
 
         <div class="hr"></div>
-
         <div class="row"><button class="btn" id="tt-submit">Gửi tất cả</button></div>
         <div id="tt-status" class="status"></div>
       </section>
@@ -366,48 +365,105 @@
       container.addEventListener('input', ()=>{ if (btn.disabled) unlockForEditing(sectionKey, btn, status); });
     }
 
-    /* TAB 1 */
+    /* =========================
+       TAB 1: Hoạt động sao đỏ
+       ========================= */
+    const hdList = $('#hd-list'); let hdCount = 0;
+    function hdItemTemplate(i){
+      return `
+      <div class="card" data-hd="\${i}">
+        <div class="grid">
+          <div><label>Người vi phạm *</label><input type="text" class="hd-name" /></div>
+          <div><label>Lớp *</label><input type="text" class="hd-class" /></div>
+          <div style="grid-column:1/-1"><label>Mô tả vi phạm *</label><textarea class="hd-problems"></textarea></div>
+
+          <div style="grid-column:1/-1" class="fieldset">
+            <h4>Ảnh vi phạm (tối đa 3)</h4>
+            <input type="file" class="hd-photos" multiple accept="image/*" />
+          </div>
+
+          <div style="grid-column:1/-1" class="row">
+            <button class="btn ghost hd-remove" type="button">Xóa dòng</button>
+          </div>
+        </div>
+      </div>`;
+    }
+    function addHdItem(){
+      const i=hdCount++; const wrap=document.createElement('div'); wrap.innerHTML=hdItemTemplate(i);
+      const el=wrap.firstElementChild; hdList.appendChild(el);
+      $$('.hd-remove', el).forEach(btn=>{ btn.onclick=(e)=> e.currentTarget.closest('[data-hd]').remove(); });
+      setTimeout(()=>{ el.scrollIntoView({behavior:'smooth', block:'start'}); },0);
+    }
+    $('#hd-add').addEventListener('click', addHdItem);
+    addHdItem(); // mặc định có 1 dòng
+
     attachChangeUnlock('hd', '#tab-hoatdong', '#hd-submit', '#hd-status');
+
+    $('#hd-reset').addEventListener('click', ()=>{
+      $('#hd-redstart').value=''; $('#hd-session').selectedIndex=0;
+      hdList.innerHTML=''; hdCount=0; addHdItem();
+      unlockForEditing('hd', $('#hd-submit'), $('#hd-status'));
+      window.scrollBy({top:1});
+    });
+
+    // Gửi tất cả: gọi API từng dòng (không cần sửa Apps Script)
     $('#hd-submit').addEventListener('click', async ()=>{
-      if(busy.hd) return; busy.hd = true; $('#hd-submit').disabled = true;
+      if(busy.hd) return; busy.hd=true; $('#hd-submit').disabled=true;
       const statusEl = $('#hd-status');
 
-      const data = {
-        Redstart: $('#hd-redstart').value.trim(),
-        Name:     $('#hd-name').value.trim(),
-        Class:    $('#hd-class').value.trim(),
-        Problems: $('#hd-problems').value.trim(),
-        Session:  $('#hd-session').value,
-        files:    await filesToPayload($('#hd-photos').files, 3)
-      };
-      if(!data.Redstart || !data.Name || !data.Class || !data.Problems){
+      const Redstart = $('#hd-redstart').value.trim();
+      const Session  = $('#hd-session').value;
+      const cards = $$('[data-hd]', hdList);
+
+      if(!Redstart || cards.length===0){
         showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
         busy.hd=false; $('#hd-submit').disabled=false; return;
       }
-      try{
-        const r = await apiPost('saveHoatDongSaodo', data);
-        if(r.success){
-          ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$('#'+id).value='');
-          $('#hd-photos').value=''; $('#hd-session').selectedIndex=0;
-          showConfirm();
-          lockAfterSuccess('hd', $('#hd-submit'), statusEl);
-          showNotice('THÔNG BÁO: Hệ thống đã ghi nhận thông tin.', true);
-        } else {
-          showNotice('THÔNG BÁO: Không thể lưu. Vui lòng thử lại.', false);
-          busy.hd=false; $('#hd-submit').disabled=false;
+
+      // chuẩn bị dữ liệu từng dòng
+      const entries = [];
+      for (const card of cards){
+        const name = $('.hd-name', card).value.trim();
+        const cls  = $('.hd-class', card).value.trim();
+        const prob = $('.hd-problems', card).value.trim();
+        if(!name || !cls || !prob){
+          showNotice('THÔNG BÁO: Nội dung chưa hoàn thiện. Vui lòng hoàn thiện.', false);
+          busy.hd=false; $('#hd-submit').disabled=false; return;
         }
-      }catch(e){
-        showNotice('THÔNG BÁO: Kết nối không thành công. Kiểm tra API.', false);
+        const files = await filesToPayload($('.hd-photos', card).files, 3);
+        entries.push({ Name:name, Class:cls, Problems:prob, Session, Redstart, files });
+      }
+
+      // gửi tuần tự từng entry
+      let ok = 0, fail = 0;
+      for (const e of entries){
+        try{
+          const r = await apiPost('saveHoatDongSaodo', e);
+          if (r && r.success) ok++; else fail++;
+        }catch(err){ fail++; }
+      }
+
+      if (ok > 0 && fail === 0){
+        // tất cả thành công
+        $('#hd-redstart').value=''; $('#hd-session').selectedIndex=0;
+        hdList.innerHTML=''; hdCount=0; addHdItem();
+        showConfirm();
+        lockAfterSuccess('hd', $('#hd-submit'), statusEl);
+        showNotice('THÔNG BÁO: Hệ thống đã ghi nhận thông tin.', true);
+      } else if (ok > 0 && fail > 0){
+        // một phần lỗi
+        showNotice(`THÔNG BÁO: Đã lưu ${ok}/${entries.length} dòng. Vui lòng kiểm tra kết nối/ảnh và thử lại các dòng lỗi.`, false);
+        busy.hd=false; $('#hd-submit').disabled=false;
+      } else {
+        // tất cả lỗi
+        showNotice('THÔNG BÁO: Không thể lưu. Vui lòng thử lại.', false);
         busy.hd=false; $('#hd-submit').disabled=false;
       }
     });
-    $('#hd-reset').addEventListener('click', ()=>{
-      ['hd-redstart','hd-name','hd-class','hd-problems'].forEach(id=>$('#'+id).value='');
-      $('#hd-photos').value=''; $('#hd-session').selectedIndex=0;
-      unlockForEditing('hd', $('#hd-submit'), $('#hd-status'));
-    });
 
-    /* TAB 2: Vi phạm cá nhân */
+    /* =========================
+       TAB 2: Vi phạm cá nhân
+       ========================= */
     const cnList = $('#cn-list'); let cnCount = 0;
     function cnItemTemplate(i){
       return `
@@ -427,7 +483,6 @@
             <input type="file" class="cn-doc" accept="image/*,application/pdf" />
           </div>
 
-          <!-- Mức phạt & Minh chứng (THEO DÒNG) -->
           <div class="grid" style="grid-column:1/-1">
             <div>
               <label>Mức nộp phạt (VNĐ)</label>
@@ -518,7 +573,9 @@
       }
     });
 
-    /* TAB 3: Vi phạm tập thể */
+    /* =========================
+       TAB 3: Vi phạm tập thể
+       ========================= */
     const ttList = $('#tt-list'); let ttCount = 0;
     function ttItemTemplate(i){
       return `
@@ -538,7 +595,6 @@
             <input type="file" class="tt-doc" accept="image/*,application/pdf" />
           </div>
 
-          <!-- Mức phạt & Minh chứng (THEO DÒNG) -->
           <div class="grid" style="grid-column:1/-1">
             <div>
               <label>Mức nộp phạt (VNĐ)</label>
